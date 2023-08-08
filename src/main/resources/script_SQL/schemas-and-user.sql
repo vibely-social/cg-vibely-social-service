@@ -15,10 +15,10 @@ CREATE TABLE IF NOT EXISTS user
 
 CREATE TABLE IF NOT EXISTS user_detail
 (
-    id bigint PRIMARY KEY AUTO_INCREMENT,
-    user_id bigint,
+    id           bigint PRIMARY KEY AUTO_INCREMENT,
+    user_id      bigint,
     phone_number varchar(12),
-    city varchar(255),
+    city         varchar(255),
     relationship varchar(255)
 );
 
@@ -46,10 +46,10 @@ CREATE TABLE IF NOT EXISTS friend
 
 CREATE TABLE IF NOT EXISTS friend_request
 (
-    id                bigint PRIMARY KEY AUTO_INCREMENT,
-    user_id           bigint,
+    id        bigint PRIMARY KEY AUTO_INCREMENT,
+    user_id   bigint,
     friend_id bigint,
-    status            varchar(50) CHECK ( status = 'pending' OR status = 'accepted' OR status = 'canceled'),
+    status    varchar(50) CHECK ( status = 'pending' OR status = 'accepted' OR status = 'canceled'),
     FOREIGN KEY (user_id) REFERENCES user (id)
 );
 
@@ -61,3 +61,9 @@ CREATE TABLE IF NOT EXISTS following
     followed_user_id bigint,
     FOREIGN KEY (user_id) REFERENCES user (id)
 );
+
+DROP TABLE user_detail;
+ALTER TABLE user
+    ADD COLUMN (phone_number varchar(12),
+                city varchar(255),
+                relationship varchar(255));
