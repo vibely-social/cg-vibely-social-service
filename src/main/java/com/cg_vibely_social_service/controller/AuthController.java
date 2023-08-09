@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/auth")
 public class AuthController {
     @Autowired
     private UserService userService;
@@ -32,20 +32,30 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @PostMapping("/authentication")
+    @PostMapping("/login")
     public ResponseEntity<ResponseLoginDto> authentication(@RequestBody RequestLoginDto requestLoginDto) {
+        ResponseLoginDto failLoginResponse = ResponseLoginDto.builder()
+                .message("Invalid credential")
+                .status(false)
+                .build();
+
         try {
             User user = (User) userService.loadUserByUsername(requestLoginDto.getEmail());
 
             if (checkPassword(user, requestLoginDto.getPassword())) {
                 String token = jwtUtil.generateToken(user);
-                ResponseLoginDto responseLoginDto = new ResponseLoginDto(user.getEmail(), token);
+                ResponseLoginDto responseLoginDto = ResponseLoginDto.builder()
+                        .message("Login successfully")
+                        .status(true)
+                        .email(user.getEmail())
+                        .accessToken(token)
+                        .build();
                 return ResponseEntity.ok(responseLoginDto);
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(failLoginResponse);
             }
         } catch (UsernameNotFoundException exception) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(failLoginResponse);
         }
 
     }

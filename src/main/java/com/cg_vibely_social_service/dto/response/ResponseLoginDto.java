@@ -12,6 +12,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ResponseLoginDto {
+    private String message;
+    private boolean status;
     private String email;
     private String accessToken;
 }

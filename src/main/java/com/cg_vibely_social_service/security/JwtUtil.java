@@ -4,16 +4,21 @@ import com.cg_vibely_social_service.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 import java.util.Date;
 import java.util.function.Function;
 
 @Component
 public class JwtUtil {
     @Value("${app.jwtSecret}")
-    private String secretKey;
+    private  String jwtKey;
 
     @Value("${app.jwtExpirationInMs}")
     private Integer expiration;
@@ -25,12 +30,12 @@ public class JwtUtil {
                 .setSubject(user.getUsername())
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + expiration))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(getSecretKey(jwtKey), SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder().setSigningKey(getSecretKey(jwtKey)).build().parseClaimsJws(token).getBody();
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -49,5 +54,10 @@ public class JwtUtil {
     public boolean isTokenExpired(String token) {
         Date expiration = extractExpiration(token);
         return expiration.before(new Date());
+    }
+
+    private SecretKey getSecretKey(String jwtKey) {
+        byte[] decodedKey = Base64.getDecoder().decode(jwtKey);
+        return new SecretKeySpec(decodedKey, 0, decodedKey.length, "hmacsha256");
     }
 }
