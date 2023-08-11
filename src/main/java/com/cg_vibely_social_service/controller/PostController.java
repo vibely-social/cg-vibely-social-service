@@ -1,4 +1,5 @@
 package com.cg_vibely_social_service.controller;
+import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
 import com.cg_vibely_social_service.entity.Post;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
@@ -21,9 +22,9 @@ public class PostController {
         Post post = postServiceImpl.submitPostToDB(body);
         return new ResponseEntity<>(post, HttpStatus.CREATED);
     }
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> showAllPost(@PathVariable("userId") Long userId){
-    List<PostResponseDto> postResponseDtos = postServiceImpl.findByUserId(userId);
+    @GetMapping
+    public ResponseEntity<?> showAllPost(@RequestBody User user){
+    List<PostResponseDto> postResponseDtos = postServiceImpl.findByUser(user);
     return new ResponseEntity<>(postResponseDtos, HttpStatus.OK);
 }
 
@@ -38,5 +39,4 @@ public class PostController {
         PostRequestDto postDtoResponse = postServiceImpl.updateByPostId(postRequestDto);
         return new ResponseEntity<>(postDtoResponse, HttpStatus.OK);
     }
-
 }

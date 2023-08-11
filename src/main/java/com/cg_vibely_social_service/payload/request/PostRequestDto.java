@@ -5,8 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 @Getter
@@ -24,6 +26,6 @@ public class PostRequestDto {
 
     private String textContent;
 
-    private LocalDateTime dateTime;
+    private List<MultipartFile> files;
 
 }

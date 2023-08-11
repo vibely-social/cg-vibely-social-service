@@ -1,12 +1,14 @@
 package com.cg_vibely_social_service.service;
 
+import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
 import com.cg_vibely_social_service.entity.Post;
+import com.cg_vibely_social_service.payload.response.PostResponseDto;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 
 public interface PostService {
-    List<PostRequestDto> findByUserId(Long userId);
+    List<PostResponseDto> findByUser(User user);
 
     Post save(Post post);
 

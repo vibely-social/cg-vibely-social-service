@@ -5,7 +5,6 @@ import com.cg_vibely_social_service.payload.response.LoginResponseDto;
 import com.cg_vibely_social_service.configuration.security.JwtUtil;
 import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;

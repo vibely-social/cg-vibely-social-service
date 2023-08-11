@@ -1,9 +1,9 @@
 package com.cg_vibely_social_service.converter.impl;
 
-import com.vibely_social.converter.Converter;
+import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.entity.Post;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
-import com.vibely_social.repository.UserRepository;
+import com.cg_vibely_social_service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +33,7 @@ public class PostRequestDtoConverter implements Converter<PostRequestDto, Post> 
     }
 
     @Override
-    public List<PostRequestDto> revert(List<Post> targets) {
+    public List<PostRequestDto> revert(List<Post> posts) {
         return null;
     }
 }

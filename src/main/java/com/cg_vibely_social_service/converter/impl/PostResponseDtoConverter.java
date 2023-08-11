@@ -1,6 +1,6 @@
 package com.cg_vibely_social_service.converter.impl;
 
-import com.vibely_social.converter.Converter;
+import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.entity.Post;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
 import lombok.RequiredArgsConstructor;

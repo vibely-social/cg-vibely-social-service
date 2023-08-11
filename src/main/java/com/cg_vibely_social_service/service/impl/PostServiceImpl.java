@@ -1,34 +1,49 @@
 package com.cg_vibely_social_service.service.impl;
-import com.vibely_social.converter.PostConvert;
-import com.cg_vibely_social_service.converter.impl.PostRequestDtoConverter;
-import com.cg_vibely_social_service.converter.impl.PostResponseDtoConverter;
-import com.vibely_social.entity.User;
+import com.cg_vibely_social_service.converter.Converter;
+import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
 import com.cg_vibely_social_service.entity.Post;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
 import com.cg_vibely_social_service.repository.PostRepository;
+import com.cg_vibely_social_service.repository.UserRepository;
 import com.cg_vibely_social_service.service.PostService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
+    private final UserRepository userRepository;
 
     private final PostRepository postRepository;
 
-    private final PostRequestDtoConverter postRequestDtoConverter;
+    private final Converter<PostRequestDto,Post> postRequestDtoConverter;
+    private final Converter<PostResponseDto,Post> postResponseDtoConverter;
 
-    private final PostResponseDtoConverter postResponseDtoConverter;
 
     @Override
-    public List<PostResponseDto> findByUserId(Long userId) {
-        User user = user
-        List<Post> posts = postRepository.findByUserId(userId);
+    public List<PostResponseDto> findByUser(User user) {
+        List<Post> posts = postRepository.findByUser(user);
         List<PostResponseDto> postDtoResponses = postResponseDtoConverter.revert(posts);
         return postDtoResponses;
+    }
+    public Post submitPostToDB(PostRequestDto postRequestDto){
+        Post post = postRequestDtoConverter.convert(postRequestDto);
+        return postRepository.save(post);
+    }
+    @Override
+    public void deleteByPostId(Long postId) {
+        postRepository.deleteById(postId);
+    }
+
+    @Override
+    public PostRequestDto updateByPostId(PostRequestDto postRequestDto) {
+        Post post = postRequestDtoConverter.convert(postRequestDto);
+        postRepository.save(post);
+        return postRequestDto;
     }
 
     @Override
@@ -41,25 +56,7 @@ public class PostServiceImpl implements PostService {
         return null;
     }
 
-    public Post submitPostToDB(PostRequestDto postRequestDto){
-        Post post = postRequestDtoConverter.convert(postRequestDto);
-        return postRepository.save(post);
-    }
 
-    @Override
-    public void deleteByPostId(Long postId) {
-        postRepository.deleteById(postId);
-    }
 
-    @Override
-    public PostRequestDto updateByPostId(PostRequestDto postRequestDto) {
-        Post post = Post.builder()
-                .id(postRequestDto.getId())
-                .privacy(postRequestDto.getPrivacy())
-                .textContent(postRequestDto.getTextContent())
-                .createdAt(postRequestDto.getDateTime())
-                .build();
-        postRepository.save(post);
-        return postConvert.entityToDto(post);
-    }
+
  }
