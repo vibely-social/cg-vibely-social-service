@@ -1,4 +1,4 @@
-package com.cg_vibely_social_service.security;
+package com.cg_vibely_social_service.configuration.security;
 
 import com.cg_vibely_social_service.entity.User;
 import io.jsonwebtoken.Claims;
@@ -20,7 +20,10 @@ public class JwtUtil {
     private String jwtKey;
 
     @Value("${app.jwtExpirationInMs}")
-    private Integer expiration;
+    private Integer tokenLife;
+
+    @Value("${app.jwtRefreshTokenLife}")
+    private Integer refreshTokenLife;
 
     public String generateToken(User user) {
         Date now = new Date();
@@ -28,7 +31,18 @@ public class JwtUtil {
         return Jwts.builder()
                 .setSubject(user.getUsername())
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + expiration))
+                .setExpiration(new Date(now.getTime() + tokenLife))
+                .signWith(getSecretKey(jwtKey), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String generateRefreshToken(User user) {
+        Date now = new Date();
+
+        return Jwts.builder()
+                .setSubject(user.getUsername())
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + refreshTokenLife))
                 .signWith(getSecretKey(jwtKey), SignatureAlgorithm.HS256)
                 .compact();
     }

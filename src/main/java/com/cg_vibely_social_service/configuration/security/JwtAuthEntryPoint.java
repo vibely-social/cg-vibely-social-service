@@ -1,4 +1,4 @@
-package com.cg_vibely_social_service.security;
+package com.cg_vibely_social_service.configuration.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +13,14 @@ import java.io.IOException;
 public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+        String errorMessage = "Access denied";
+
+        if (authException.getMessage().contains("JWT expired")) {
+            errorMessage = "Access token expired";
+        }
+
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"error\": \"Access denied\"}");
     }
 }

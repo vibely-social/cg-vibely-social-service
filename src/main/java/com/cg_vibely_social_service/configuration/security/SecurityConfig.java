@@ -1,16 +1,12 @@
-package com.cg_vibely_social_service.configuration;
+package com.cg_vibely_social_service.configuration.security;
 
-import com.cg_vibely_social_service.security.JwtFilter;
-import io.jsonwebtoken.ExpiredJwtException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -22,12 +18,11 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
-    @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
 
-    @Autowired
-    private JwtFilter jwtFilter;
+    private final JwtFilter jwtFilter;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -48,17 +43,22 @@ public class SecurityConfig {
                 .permitAll();
 
         http.authorizeHttpRequests()
+                .requestMatchers(HttpMethod.POST, "/api/users")
+                .permitAll();
+
+        http.authorizeHttpRequests()
                 .requestMatchers("/api/auth/login")
                 .permitAll();
 
         http.authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/api/users")
+                .requestMatchers("/api/auth/refreshtoken")
                 .permitAll();
+
 
         //Testing random request
         http.authorizeHttpRequests()
                 .requestMatchers("/api/auth/random")
-                .authenticated();
+                .permitAll();
 
         //This is for testing filter by role
         http.authorizeHttpRequests()

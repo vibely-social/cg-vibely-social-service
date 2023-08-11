@@ -52,8 +52,7 @@ public class User implements UserDetails {
     private String lastName;
 
     @Column(name = "gender", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+    private String gender;
 
     @Column(name = "day_of_birth", nullable = false)
     private Date dayOfBirth;

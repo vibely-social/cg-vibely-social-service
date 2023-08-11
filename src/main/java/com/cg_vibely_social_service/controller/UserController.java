@@ -1,30 +1,55 @@
 package com.cg_vibely_social_service.controller;
 
-import com.cg_vibely_social_service.dto.request.RequestRegisterDto;
-import com.cg_vibely_social_service.dto.response.ResponseRegisterDto;
+import com.cg_vibely_social_service.converter.Converter;
+import com.cg_vibely_social_service.entity.User;
+import com.cg_vibely_social_service.payload.request.RegisterRequestDto;
 import com.cg_vibely_social_service.service.UserService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.NoSuchElementException;
+
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final Converter<RegisterRequestDto, User> converter;
 
     @PostMapping("")
-    public ResponseEntity<ResponseRegisterDto> register(@RequestBody RequestRegisterDto requestRegisterDto) {
-        ResponseRegisterDto responseRegisterDto = userService.register(requestRegisterDto);
+    public ResponseEntity<?> register(@Valid @RequestBody
+                                      RegisterRequestDto registerRequestDto,
+                                      BindingResult bindingResult) {
 
-        if (responseRegisterDto.isStatus()) {
-            return ResponseEntity.ok(responseRegisterDto);
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseRegisterDto);
+            try {
+                userService.save(converter.convert(registerRequestDto));
+            } catch (Exception exception) {
+                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity(HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<?> checkEmail(@PathVariable("email") String email) {
+        if (userService.checkValidEmail(email)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.cg_vibely_social_service.dto.response;
+package com.cg_vibely_social_service.payload.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class ResponseRegisterDto {
-    private String message;
-    private boolean status;
+public class LoginRequestDto {
     private String email;
+    private String password;
 }
