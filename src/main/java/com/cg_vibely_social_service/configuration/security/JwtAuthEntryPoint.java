@@ -13,7 +13,9 @@ import java.io.IOException;
 public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        String errorMessage = "Access denied";
+//        String errorMessage = "Access denied!!!";
+        String errorMessage = authException.getMessage();
+        authException.printStackTrace();
 
         if (authException.getMessage().contains("JWT expired")) {
             errorMessage = "Access token expired";
@@ -21,6 +23,6 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
 
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setContentType("application/json");
-        response.getWriter().write("{\"error\": \"Access denied\"}");
+        response.getWriter().write("{\"error\": \"" + errorMessage + "\"}");
     }
 }
