@@ -1,9 +1,6 @@
 ###Read me first
 # installation sequence:
-1. schemas-and-users
-2. post-like-comment
-3. chat-and-notification
-Final: insert-data
+just run
 
 Note:
 1. Do not edit existing code, only use `ALTER TABLE`
