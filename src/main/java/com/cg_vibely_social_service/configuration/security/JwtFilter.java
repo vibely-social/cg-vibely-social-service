@@ -26,9 +26,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-
             String authorizeHeader = request.getHeader("Authorization");
-
             String email = null;
             String jwtToken = null;
 
@@ -45,7 +43,9 @@ public class JwtFilter extends OncePerRequestFilter {
 
                             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                            request.getSession().setAttribute("currentUser", user);
                         } else {
+                            request.getSession().setAttribute("currentUser", null);
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                             response.getWriter().write("Unauthorized: Authentication failed");
                         }
