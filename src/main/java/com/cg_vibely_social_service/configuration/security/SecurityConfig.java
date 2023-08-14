@@ -47,23 +47,26 @@ public class SecurityConfig {
                 .permitAll();
 
         http.authorizeHttpRequests()
+                .requestMatchers(HttpMethod.POST, "/api/posts")
+                .permitAll();
+
+        http.authorizeHttpRequests()
                 .requestMatchers("/api/auth/login")
                 .permitAll();
 
         http.authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/api/users")
+                .requestMatchers("/api/auth/refreshtoken")
                 .permitAll();
 
 
         //Testing random request
         http.authorizeHttpRequests()
-                .requestMatchers("/api/auth/random")
+                .requestMatchers("/api/random")
                 .permitAll();
-
 
         //This is for testing filter by role
         http.authorizeHttpRequests()
-                .requestMatchers("/api/auth/admin")
+                .requestMatchers("/api/admin")
                 .hasRole("ADMIN");
 
         http.exceptionHandling()
@@ -77,16 +80,6 @@ public class SecurityConfig {
                 .csrf()
                 .ignoringRequestMatchers("/api/**");
 
-        //add function to use api
-        http.authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/api/posts")
-                .permitAll();
-        http.authorizeHttpRequests()
-                .requestMatchers(HttpMethod.GET, "/api/**")
-                .permitAll();
-        http.authorizeHttpRequests()
-                .requestMatchers(HttpMethod.PUT, "/api/**")
-                .permitAll();
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

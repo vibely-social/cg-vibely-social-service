@@ -22,6 +22,6 @@ public class PostResponseDto {
 
     private String textContent;
 
-    private LocalDateTime dateTime;
+    private LocalDateTime createdAt;
 
 }

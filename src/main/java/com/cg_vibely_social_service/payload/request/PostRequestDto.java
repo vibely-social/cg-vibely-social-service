@@ -1,13 +1,12 @@
 package com.cg_vibely_social_service.payload.request;
 import com.cg_vibely_social_service.utils.PrivacyName;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -15,7 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PostRequestDto {
 
     private Long id;
@@ -26,6 +25,6 @@ public class PostRequestDto {
 
     private String textContent;
 
-    private List<MultipartFile> files;
+    private LocalDateTime createdAt;
 
 }

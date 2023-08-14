@@ -71,8 +71,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user",cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Post> posts;
 
-    @OneToMany(mappedBy = "media",cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private List<Media> medias;
+//    @OneToMany(mappedBy = "media",cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+//    private List<Media> medias;
 
     @Override
     public String getUsername() {

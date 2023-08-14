@@ -7,6 +7,7 @@ import com.cg_vibely_social_service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -16,10 +17,10 @@ public class PostRequestDtoConverter implements Converter<PostRequestDto, Post> 
     @Override
     public Post convert(PostRequestDto source) {
         return Post.builder()
-                .createdAt(source.getDateTime())
+                .createdAt(LocalDateTime.now())
                 .privacy(source.getPrivacy())
                 .textContent(source.getTextContent())
-                .user(userRepository.findById(source.getUserId()).orElse(null))
+                .user(userRepository.findById(source.getUserId()).orElseThrow())
                 .build();
     }
     @Override
