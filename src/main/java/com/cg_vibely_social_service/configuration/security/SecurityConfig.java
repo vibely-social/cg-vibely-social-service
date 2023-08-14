@@ -37,10 +37,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
         //permit all for easy testing, will disable in production
         http.authorizeHttpRequests()
                 .requestMatchers("/api/**")
                 .permitAll();
+
+        http.authorizeHttpRequests()
+                .requestMatchers("/ws/**")
+                .hasRole("USER");
 
         http.authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/api/users")
@@ -81,7 +87,6 @@ public class SecurityConfig {
                 .ignoringRequestMatchers("/api/**");
 
 
-        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
