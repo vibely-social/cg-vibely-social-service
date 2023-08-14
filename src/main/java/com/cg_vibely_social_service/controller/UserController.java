@@ -25,7 +25,6 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final Converter<RegisterRequestDto, User> converter;
 
     @PostMapping("")
     public ResponseEntity<?> register(@Valid @RequestBody
@@ -36,7 +35,7 @@ public class UserController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         } else {
             try {
-                userService.save(converter.convert(registerRequestDto));
+                userService.save(registerRequestDto);
             } catch (Exception exception) {
                 return new ResponseEntity(HttpStatus.BAD_REQUEST);
             }

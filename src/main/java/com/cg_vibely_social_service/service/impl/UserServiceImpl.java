@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,12 +30,12 @@ public class UserServiceImpl implements UserService {
 
     private final Regex regex;
 
-    private final Converter<RegisterRequestDto, User> registerConverter;
+    private final Converter<RegisterRequestDto, User> converter;
 
 
     @Override
-    public void save(User user) {
-        userRepository.save(user);
+    public void save(RegisterRequestDto registerRequestDto) {
+        userRepository.save(converter.convert(registerRequestDto));
     }
 
     @Override
@@ -75,6 +76,7 @@ public class UserServiceImpl implements UserService {
                 LoginResponseDto loginResponseDto = LoginResponseDto.builder()
                         .message("Login successfully")
                         .status(true)
+                        .id(user.getId())
                         .email(user.getEmail())
                         .accessToken(token)
                         .refreshToken(refreshToken)
@@ -131,5 +133,8 @@ public class UserServiceImpl implements UserService {
         return BCrypt.checkpw(password, user.getPassword());
     }
 
-
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
 }

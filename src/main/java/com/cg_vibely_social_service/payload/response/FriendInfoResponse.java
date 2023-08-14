@@ -11,11 +11,9 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class LoginResponseDto {
-    private Long id;
-    private String message;
-    private boolean status;
+public class FriendInfoResponse {
     private String email;
-    private String accessToken;
-    private String refreshToken;
+    private final String avatar = "https://sm.ign.com/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.jpg";
+    private final Integer mutualFriends = 10;
+    private final String username = "test";
 }
