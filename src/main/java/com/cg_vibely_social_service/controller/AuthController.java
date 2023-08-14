@@ -1,11 +1,10 @@
 package com.cg_vibely_social_service.controller;
 
-import com.cg_vibely_social_service.payload.request.LoginRequestDto;
-import com.cg_vibely_social_service.payload.response.LoginResponseDto;
+import com.cg_vibely_social_service.payload.request.UserLoginRequestDto;
+import com.cg_vibely_social_service.payload.response.UserLoginResponseDto;
 import com.cg_vibely_social_service.configuration.security.JwtUtil;
 import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,24 +24,24 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/auth/login")
-    public ResponseEntity<LoginResponseDto> authentication(@RequestBody LoginRequestDto loginRequestDto) {
-        LoginResponseDto loginResponseDto = userService.authenticate(loginRequestDto);
+    public ResponseEntity<UserLoginResponseDto> authentication(@RequestBody UserLoginRequestDto userLoginRequestDto) {
+        UserLoginResponseDto userLoginResponseDto = userService.authenticate(userLoginRequestDto);
 
-        if (loginResponseDto.isStatus()) {
-            return ResponseEntity.ok(loginResponseDto);
+        if (userLoginResponseDto.isStatus()) {
+            return ResponseEntity.ok(userLoginResponseDto);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(loginResponseDto);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(userLoginResponseDto);
         }
     }
 
     @GetMapping("/auth/refreshtoken")
-    public ResponseEntity<LoginResponseDto> refreshToken(@RequestHeader("Authorization") String refreshToken) {
-        LoginResponseDto loginResponseDto = userService.refreshToken(refreshToken);
+    public ResponseEntity<UserLoginResponseDto> refreshToken(@RequestHeader("Authorization") String refreshToken) {
+        UserLoginResponseDto userLoginResponseDto = userService.refreshToken(refreshToken);
 
-        if (loginResponseDto.isStatus()) {
-            return ResponseEntity.ok(loginResponseDto);
+        if (userLoginResponseDto.isStatus()) {
+            return ResponseEntity.ok(userLoginResponseDto);
         } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(loginResponseDto);
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(userLoginResponseDto);
         }
     }
 

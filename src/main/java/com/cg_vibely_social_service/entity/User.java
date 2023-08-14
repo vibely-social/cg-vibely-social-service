@@ -19,6 +19,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;

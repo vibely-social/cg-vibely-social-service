@@ -2,7 +2,7 @@ package com.cg_vibely_social_service.converter.impl;
 
 
 import com.cg_vibely_social_service.converter.Converter;
-import com.cg_vibely_social_service.payload.request.RegisterRequestDto;
+import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
 import com.cg_vibely_social_service.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,11 +15,11 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class UserRequestDtoConverter  implements Converter<RegisterRequestDto, User> {
+public class UserRequestDtoConverter  implements Converter<UserRegisterRequestDto, User> {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public User convert(RegisterRequestDto source) {
+    public User convert(UserRegisterRequestDto source) {
         try {
             Date birthday = new SimpleDateFormat("dd/MM/yyyy").parse(source.getDayOfBirth());
 
@@ -39,17 +39,17 @@ public class UserRequestDtoConverter  implements Converter<RegisterRequestDto, U
     }
 
     @Override
-    public RegisterRequestDto revert(User target) {
+    public UserRegisterRequestDto revert(User target) {
         return null;
     }
 
     @Override
-    public List<User> convert(List<RegisterRequestDto> sources) {
+    public List<User> convert(List<UserRegisterRequestDto> sources) {
         return null;
     }
 
     @Override
-    public List<RegisterRequestDto> revert(List<User> targets) {
+    public List<UserRegisterRequestDto> revert(List<User> targets) {
         return null;
     }
 }

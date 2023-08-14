@@ -2,9 +2,9 @@ package com.cg_vibely_social_service.service.impl;
 
 import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.converter.impl.UserRequestDtoConverter;
-import com.cg_vibely_social_service.payload.request.LoginRequestDto;
-import com.cg_vibely_social_service.payload.request.RegisterRequestDto;
-import com.cg_vibely_social_service.payload.response.LoginResponseDto;
+import com.cg_vibely_social_service.payload.request.UserLoginRequestDto;
+import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
+import com.cg_vibely_social_service.payload.response.UserLoginResponseDto;
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.repository.UserRepository;
 import com.cg_vibely_social_service.configuration.security.JwtUtil;
@@ -30,12 +30,12 @@ public class UserServiceImpl implements UserService {
 
     private final Regex regex;
 
-    private final Converter<RegisterRequestDto, User> converter;
+    private final Converter<UserRegisterRequestDto, User> converter;
 
 
     @Override
-    public void save(RegisterRequestDto registerRequestDto) {
-        userRepository.save(converter.convert(registerRequestDto));
+    public void save(UserRegisterRequestDto userRegisterRequestDto) {
+        userRepository.save(converter.convert(userRegisterRequestDto));
     }
 
     @Override
@@ -62,18 +62,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LoginResponseDto authenticate(LoginRequestDto loginRequestDto) {
-        LoginResponseDto failLoginResponse = LoginResponseDto.builder()
+    public UserLoginResponseDto authenticate(UserLoginRequestDto userLoginRequestDto) {
+        UserLoginResponseDto failLoginResponse = UserLoginResponseDto.builder()
                 .message("Invalid credential")
                 .status(false)
                 .build();
         try {
-            User user = (User) loadUserByUsername(loginRequestDto.getEmail());
+            User user = (User) loadUserByUsername(userLoginRequestDto.getEmail());
 
-            if (checkPassword(user, loginRequestDto.getPassword())) {
+            if (checkPassword(user, userLoginRequestDto.getPassword())) {
                 String token = jwtUtil.generateToken(user);
                 String refreshToken = jwtUtil.generateRefreshToken(user);
-                LoginResponseDto loginResponseDto = LoginResponseDto.builder()
+                UserLoginResponseDto userLoginResponseDto = UserLoginResponseDto.builder()
                         .message("Login successfully")
                         .status(true)
                         .id(user.getId())
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
                         .accessToken(token)
                         .refreshToken(refreshToken)
                         .build();
-                return loginResponseDto;
+                return userLoginResponseDto;
             }
         } catch (UsernameNotFoundException exception) {
             return failLoginResponse;
@@ -91,8 +91,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LoginResponseDto refreshToken(String token) {
-        LoginResponseDto failLoginResponse = LoginResponseDto.builder()
+    public UserLoginResponseDto refreshToken(String token) {
+        UserLoginResponseDto failLoginResponse = UserLoginResponseDto.builder()
                 .message("Illegal token")
                 .status(false)
                 .build();
@@ -105,13 +105,13 @@ public class UserServiceImpl implements UserService {
 
             if (email != null && jwtUtil.isTokenValid(refreshToken)) {
                 String newToken = jwtUtil.generateRefreshToken(user);
-                LoginResponseDto loginResponseDto = LoginResponseDto.builder()
+                UserLoginResponseDto userLoginResponseDto = UserLoginResponseDto.builder()
                         .message("Login successfully")
                         .status(true)
                         .email(user.getEmail())
                         .accessToken(newToken)
                         .build();
-                return loginResponseDto;
+                return userLoginResponseDto;
             }
         }
 
