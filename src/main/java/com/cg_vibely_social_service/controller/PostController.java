@@ -2,30 +2,40 @@ package com.cg_vibely_social_service.controller;
 
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
-import com.cg_vibely_social_service.entity.Post;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
 import com.cg_vibely_social_service.service.PostService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
+@RequiredArgsConstructor
 public class PostController {
 
-//    @Autowired
     private final PostService postService;
-
-    public PostController(PostService postService) {
-        this.postService = postService;
-    }
+    private final HttpServletRequest request;
 
     @PostMapping
-    public ResponseEntity<?> submitPost(@RequestBody PostRequestDto body){
-        Post post = postService.submitPostToDB(body);
-        return new ResponseEntity<>("success", HttpStatus.CREATED);
+    public ResponseEntity<?> submitPost(@Valid @RequestBody PostRequestDto postRequestDto, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else {
+            try {
+                User user = (User) request.getSession().getAttribute("currentUser");
+                postRequestDto.setUserId(user.getId());
+                postService.save(postRequestDto);
+                return new ResponseEntity<>("success", HttpStatus.CREATED);
+            }catch (Exception exception){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
     }
     @GetMapping
     public ResponseEntity<?> showAllPost(){
@@ -35,14 +45,23 @@ public class PostController {
 
     @DeleteMapping("/{postId}")
     public ResponseEntity<?> deleteParticularPost(@PathVariable("postId") Long postId){
-    postService.deleteByPostId(postId);
+    postService.deleteById(postId);
     return new ResponseEntity<>(HttpStatus.OK);
 }
 
     @PutMapping
-    public ResponseEntity<?> updateParticularPost(@RequestBody PostRequestDto postRequestDto){
-        PostResponseDto postDtoResponse = postService.updateByPostId(postRequestDto);
-        return new ResponseEntity<>(postDtoResponse, HttpStatus.OK);
+    public ResponseEntity<?> updateParticularPost(@Valid @RequestBody PostRequestDto postRequestDto, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else {
+            try {
+                User user = (User) request.getSession().getAttribute("currentUser");
+                postRequestDto.setUserId(user.getId());
+                postService.update(postRequestDto);
+                return new ResponseEntity<>("success", HttpStatus.CREATED);
+            }catch (Exception exception){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
     }
-
 }

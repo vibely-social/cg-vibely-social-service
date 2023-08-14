@@ -23,5 +23,6 @@ public class PostResponseDto {
     private String textContent;
 
     private LocalDateTime createdAt;
+    private Boolean edited;
 
 }

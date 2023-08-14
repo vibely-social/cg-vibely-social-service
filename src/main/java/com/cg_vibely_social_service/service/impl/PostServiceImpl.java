@@ -17,42 +17,41 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
-    private final Converter<PostResponseDto,Post> postResponseDtoConverter;
-    private final Converter<PostRequestDto,Post> postRequestDtoConverter;
-
+    private final Converter<PostResponseDto, Post> postResponseDtoConverter;
+    private final Converter<PostRequestDto, Post> postRequestDtoConverter;
 
 
     @Override
     public List<PostResponseDto> findByUser(User user) {
         List<Post> posts = postRepository.findByUser(user);
-        List<PostResponseDto> postResponseDtos = postResponseDtoConverter.revert(posts);
-        return postResponseDtos;
+        return postResponseDtoConverter.revert(posts);
     }
 
     @Override
     public List<PostResponseDto> findAll() {
         List<Post> posts = postRepository.findAll();
-        List<PostResponseDto> postResponseDtos = postResponseDtoConverter.revert(posts);
-        return postResponseDtos;
+        return postResponseDtoConverter.revert(posts);
     }
 
     @Override
-    public Post submitPostToDB(PostRequestDto postRequestDto) {
+    public void save(PostRequestDto postRequestDto) {
         Post post = postRequestDtoConverter.convert(postRequestDto);
-        return postRepository.save(post);
+        postRepository.save(post);
     }
 
     @Override
-    public void deleteByPostId(Long postId) {
+    public void deleteById(Long postId) {
         postRepository.deleteById(postId);
     }
 
     @Override
-    public PostResponseDto updateByPostId(PostRequestDto postRequestDto) {
-        Post post = postRepository.findById(postRequestDto.getId()).get();
+    public PostResponseDto update(PostRequestDto postRequestDto) {
+        Post post = postRepository.findById(postRequestDto.getId()).orElseThrow();
         post.setPrivacy(postRequestDto.getPrivacy());
         post.setTextContent(postRequestDto.getTextContent());
         post.setCreatedAt(LocalDateTime.now());
+        post.setEdited(true);
+        postRepository.save(post);
         return postResponseDtoConverter.revert(post);
     }
 }

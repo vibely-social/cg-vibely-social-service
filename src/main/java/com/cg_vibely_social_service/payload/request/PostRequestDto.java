@@ -1,13 +1,14 @@
 package com.cg_vibely_social_service.payload.request;
+
 import com.cg_vibely_social_service.utils.PrivacyName;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 
 @Component
 @Getter
@@ -18,13 +19,11 @@ import java.util.List;
 public class PostRequestDto {
 
     private Long id;
-
     private Long userId;
-
+    @NotNull
     private PrivacyName privacy;
-
+    @NotBlank
     private String textContent;
-
-    private LocalDateTime createdAt;
+    private Boolean edited;
 
 }
