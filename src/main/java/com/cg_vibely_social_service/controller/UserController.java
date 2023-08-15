@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -27,20 +28,23 @@ public class UserController {
     private final UserService userService;
     private final Converter<RegisterRequestDto, User> converter;
 
-    @PostMapping("")
+    @PostMapping()
     public ResponseEntity<?> register(@Valid @RequestBody
                                       RegisterRequestDto registerRequestDto,
                                       BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
             try {
                 userService.save(converter.convert(registerRequestDto));
             } catch (Exception exception) {
-                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+//                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+                return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
             }
-            return new ResponseEntity(HttpStatus.OK);
+            return  ResponseEntity.status(HttpStatus.OK).body("Ok");
+
+//            return new ResponseEntity(HttpStatus.OK);
         }
     }
 

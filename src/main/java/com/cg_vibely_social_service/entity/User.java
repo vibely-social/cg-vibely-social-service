@@ -61,6 +61,14 @@ public class User implements UserDetails {
                 inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    @ManyToMany(targetEntity = Friend.class)
+    @JoinTable(name = "friend",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "id"))
+    private List<Friend> friendList;
+
+
+
     //Methods from UserDetails
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

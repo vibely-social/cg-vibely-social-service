@@ -17,4 +17,5 @@ public interface UserService extends UserDetailsService {
     LoginResponseDto refreshToken(String token);
 
     boolean checkValidEmail(String email);
+
 }

@@ -2,6 +2,7 @@ package com.cg_vibely_social_service.service.impl;
 
 import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.converter.impl.UserRequestDtoConverter;
+import com.cg_vibely_social_service.entity.Friend;
 import com.cg_vibely_social_service.payload.request.LoginRequestDto;
 import com.cg_vibely_social_service.payload.request.RegisterRequestDto;
 import com.cg_vibely_social_service.payload.response.LoginResponseDto;
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -83,7 +85,6 @@ public class UserServiceImpl implements UserService {
         } catch (UsernameNotFoundException exception) {
             return failLoginResponse;
         }
-
         return failLoginResponse;
     }
 
@@ -111,20 +112,18 @@ public class UserServiceImpl implements UserService {
                 return loginResponseDto;
             }
         }
-
-
         return failLoginResponse;
     }
 
     @Override
     public boolean checkValidEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
-
         if (user.isEmpty()) {
             return true;
         }
         return false;
     }
+
 
     private boolean checkPassword(User user, String password) {
         return BCrypt.checkpw(password, user.getPassword());
