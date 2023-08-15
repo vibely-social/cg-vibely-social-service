@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
     private final UserService userService;
-    private final JwtUtil jwtUtil;
-    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/auth/login")
     public ResponseEntity<LoginResponseDto> authentication(@RequestBody LoginRequestDto loginRequestDto) {

@@ -68,7 +68,6 @@ public class UserServiceImpl implements UserService {
                 .build();
         try {
             User user = (User) loadUserByUsername(loginRequestDto.getEmail());
-
             if (checkPassword(user, loginRequestDto.getPassword())) {
                 String token = jwtUtil.generateToken(user);
                 String refreshToken = jwtUtil.generateRefreshToken(user);

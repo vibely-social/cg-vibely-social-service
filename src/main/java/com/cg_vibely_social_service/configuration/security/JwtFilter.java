@@ -20,19 +20,16 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
-
     private final UserService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String authorizeHeader = request.getHeader("Authorization");
-            String email = null;
-            String jwtToken = null;
 
             if (authorizeHeader != null && authorizeHeader.startsWith("Bearer ")) {
-                jwtToken = authorizeHeader.substring(7);
-                email = jwtUtil.extractEmail(jwtToken);
+                String jwtToken = authorizeHeader.substring(7);
+                String email = jwtUtil.extractEmail(jwtToken);
 
                 if (email != null) {
                     User user = (User) userService.loadUserByUsername(email);
@@ -56,7 +53,6 @@ public class JwtFilter extends OncePerRequestFilter {
             response.getWriter().write("{\"error\": \"Token expired\"}");
             return;
         }
-
         filterChain.doFilter(request, response);
     }
 
