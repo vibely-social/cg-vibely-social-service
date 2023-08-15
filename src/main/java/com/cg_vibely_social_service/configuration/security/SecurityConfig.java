@@ -22,7 +22,6 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final AuthenticationEntryPoint authenticationEntryPoint;
-
     private final JwtFilter jwtFilter;
 
     @Bean

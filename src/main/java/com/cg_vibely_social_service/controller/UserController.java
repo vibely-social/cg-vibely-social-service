@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -27,7 +28,7 @@ public class UserController {
     private final UserService userService;
     private final Converter<RegisterRequestDto, User> converter;
 
-    @PostMapping("")
+    @PostMapping()
     public ResponseEntity<?> register(@Valid @RequestBody
                                       RegisterRequestDto registerRequestDto,
                                       BindingResult bindingResult) {
