@@ -58,7 +58,6 @@ public class UserServiceImpl implements UserService {
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("Invalid username");
         }
-
         return user.get();
     }
 

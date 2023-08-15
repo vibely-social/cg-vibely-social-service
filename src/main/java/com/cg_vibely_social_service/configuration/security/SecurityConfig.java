@@ -53,7 +53,11 @@ public class SecurityConfig {
                 .permitAll();
 
         http.authorizeHttpRequests()
-                .requestMatchers("/api/auth/login/")
+                .requestMatchers(HttpMethod.POST, "/api/posts")
+                .permitAll();
+
+        http.authorizeHttpRequests()
+                .requestMatchers("/api/auth/login")
                 .permitAll();
 
         http.authorizeHttpRequests()
@@ -63,12 +67,12 @@ public class SecurityConfig {
 
         //Testing random request
         http.authorizeHttpRequests()
-                .requestMatchers("/api/auth/random")
+                .requestMatchers("/api/random")
                 .permitAll();
 
         //This is for testing filter by role
         http.authorizeHttpRequests()
-                .requestMatchers("/api/auth/admin")
+                .requestMatchers("/api/admin")
                 .hasRole("ADMIN");
 
         http.exceptionHandling()
