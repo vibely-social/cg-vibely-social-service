@@ -4,6 +4,8 @@ import com.cg_vibely_social_service.payload.request.LoginRequestDto;
 import com.cg_vibely_social_service.payload.response.LoginResponseDto;
 import com.cg_vibely_social_service.configuration.security.JwtUtil;
 import com.cg_vibely_social_service.service.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +26,17 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/auth/login")
-    public ResponseEntity<LoginResponseDto> authentication(@RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<LoginResponseDto> authentication(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
         LoginResponseDto loginResponseDto = userService.authenticate(loginRequestDto);
 
         if (loginResponseDto.isStatus()) {
+            String token = jwtUtil.generateToken(userService.findByEmail(loginRequestDto.getEmail()));
+            Cookie tokenCookie = new Cookie("__vibely",token);
+                tokenCookie.setPath("/");
+                tokenCookie.setHttpOnly(true);
+                tokenCookie.setSecure(true);
+                tokenCookie.setMaxAge(60 * 60);
+                response.addCookie(tokenCookie);
             return ResponseEntity.ok(loginResponseDto);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(loginResponseDto);

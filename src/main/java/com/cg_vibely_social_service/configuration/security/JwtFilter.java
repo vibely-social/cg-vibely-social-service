@@ -5,6 +5,7 @@ import com.cg_vibely_social_service.service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -29,26 +31,50 @@ public class JwtFilter extends OncePerRequestFilter {
             String authorizeHeader = request.getHeader("Authorization");
             String email = null;
             String jwtToken = null;
+            String token = null;
 
-            if (authorizeHeader != null && authorizeHeader.startsWith("Bearer ")) {
-                jwtToken = authorizeHeader.substring(7);
-                email = jwtUtil.extractEmail(jwtToken);
+            Cookie[] cookies = request.getCookies();
+            if(cookies!=null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("__vibely")) {
+                        token = cookie.getValue();
+                    }
+                }
+            }
 
-                if (email != null) {
-                    User user = (User) userService.loadUserByUsername(email);
-                    if (user != null) {
-                        if (jwtUtil.isTokenValid(jwtToken)) {
-                            UsernamePasswordAuthenticationToken authenticationToken =
-                                    new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            if ((authorizeHeader == null && token == null)
+                    || Objects.equals(token, "null")
+                    || Objects.equals(token, "undefined")) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+            if (token != null) {
+                jwtToken = token;
+            }
+            else {
+                if (authorizeHeader.startsWith("Bearer")) {
+                    jwtToken = authorizeHeader.substring(7);
+                } else {
+                    filterChain.doFilter(request, response);
+                    return;
+                }
+            }
 
-                            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                            request.getSession().setAttribute("currentUser", user);
-                        } else {
-                            request.getSession().setAttribute("currentUser", null);
-                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                            response.getWriter().write("Unauthorized: Authentication failed");
-                        }
+            email = jwtUtil.extractEmail(jwtToken);
+            if (email != null) {
+                User user = (User) userService.loadUserByUsername(email);
+                if (user != null) {
+                    if (jwtUtil.isTokenValid(jwtToken)) {
+                        UsernamePasswordAuthenticationToken authenticationToken =
+                                new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+
+                        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                        request.getSession().setAttribute("currentUser", user);
+                    } else {
+                        request.getSession().setAttribute("currentUser", null);
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        response.getWriter().write("Unauthorized: Authentication failed");
                     }
                 }
             }
@@ -58,10 +84,7 @@ public class JwtFilter extends OncePerRequestFilter {
             response.getWriter().write("{\"error\": \"Token expired\"}");
             return;
         }
-
         filterChain.doFilter(request, response);
     }
-
-
 }
 

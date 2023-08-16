@@ -5,6 +5,8 @@ import com.cg_vibely_social_service.payload.response.LoginResponseDto;
 import com.cg_vibely_social_service.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.Optional;
+
 public interface UserService extends UserDetailsService {
     void save(User user);
 
@@ -18,4 +20,5 @@ public interface UserService extends UserDetailsService {
 
     boolean checkValidEmail(String email);
 
+    User findByEmail(String email);
 }

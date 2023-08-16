@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Getter
 @Setter
@@ -25,5 +27,7 @@ public class PostRequestDto {
     @NotBlank
     private String textContent;
     private Boolean edited;
+
+    private List<Long> users;
 
 }

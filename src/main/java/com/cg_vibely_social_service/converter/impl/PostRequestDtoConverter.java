@@ -17,6 +17,7 @@ public class PostRequestDtoConverter implements Converter<PostRequestDto, Post> 
     @Override
     public Post convert(PostRequestDto source) {
         return Post.builder()
+                .usersTag(source.getUsers().toString())
                 .createdAt(LocalDateTime.now())
                 .privacy(source.getPrivacy())
                 .textContent(source.getTextContent())
