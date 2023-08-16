@@ -32,16 +32,20 @@ import java.util.Map;
 public class WebSocketChannelInterceptor implements ChannelInterceptor {
     private final JwtUtil jwtUtil;
     private final UserService userService;
-    private final HttpServletRequest request;
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
+
         StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-        if (StompCommand.CONNECT.equals(accessor.getCommand())) {
+
+        if (accessor!= null && StompCommand.CONNECT.equals(accessor.getCommand())) {
+
             Object rawHeaders = message.getHeaders().get(SimpMessageHeaderAccessor.NATIVE_HEADERS);
 
             if (rawHeaders instanceof Map) {
-                Object name = ((Map) rawHeaders).get("email");
+
+                Object name = ((Map<?,?>) rawHeaders).get("email");
+
                 if (name instanceof ArrayList) {
                     accessor.setUser(new UserPrincipal(((ArrayList<String>) name).get(0)));
                 }

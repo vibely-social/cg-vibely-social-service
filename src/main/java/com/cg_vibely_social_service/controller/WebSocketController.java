@@ -20,7 +20,6 @@ public class WebSocketController {
     public void handleMessage(
             Message<ChatMessage> message,
             SimpMessageHeaderAccessor headerAccessor) {
-        String sessionId = headerAccessor.getSessionId();
         Principal user = headerAccessor.getUser();
         String from = user.getName();
         ChatMessage chatMessage = message.getPayload();
@@ -28,6 +27,8 @@ public class WebSocketController {
         String sendTo = chatMessage.getSendTo();
         System.out.println(from + ": " + message.getPayload().getContent());
         simpMessagingTemplate.convertAndSendToUser(from, "/queue/messages", chatMessage);
-        simpMessagingTemplate.convertAndSendToUser(sendTo, "/queue/messages", chatMessage);
+        if (!from.equals(sendTo)) {
+            simpMessagingTemplate.convertAndSendToUser(sendTo, "/queue/messages", chatMessage);
+        }
     }
 }

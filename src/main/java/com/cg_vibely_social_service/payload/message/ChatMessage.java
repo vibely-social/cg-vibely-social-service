@@ -17,5 +17,6 @@ public class ChatMessage {
     private String content;
     private String sendTo;
     private String from;
+    private String name;
     private LocalDateTime time = LocalDateTime.now();
 }
