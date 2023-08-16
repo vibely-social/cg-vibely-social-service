@@ -86,8 +86,6 @@ public class SecurityConfig {
                 .csrf()
                 .ignoringRequestMatchers("/api/**");
 
-
-
         return http.build();
     }
 

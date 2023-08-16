@@ -1,14 +1,12 @@
 package com.cg_vibely_social_service.service.impl;
 
-import com.cg_vibely_social_service.converter.Converter;
-import com.cg_vibely_social_service.converter.impl.UserRequestDtoConverter;
-import com.cg_vibely_social_service.entity.Friend;
-import com.cg_vibely_social_service.payload.request.LoginRequestDto;
-import com.cg_vibely_social_service.payload.request.RegisterRequestDto;
-import com.cg_vibely_social_service.payload.response.LoginResponseDto;
-import com.cg_vibely_social_service.entity.User;
-import com.cg_vibely_social_service.repository.UserRepository;
 import com.cg_vibely_social_service.configuration.security.JwtUtil;
+import com.cg_vibely_social_service.converter.Converter;
+import com.cg_vibely_social_service.entity.User;
+import com.cg_vibely_social_service.payload.request.UserLoginRequestDto;
+import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
+import com.cg_vibely_social_service.payload.response.UserLoginResponseDto;
+import com.cg_vibely_social_service.repository.UserRepository;
 import com.cg_vibely_social_service.service.UserService;
 import com.cg_vibely_social_service.utils.Regex;
 import lombok.RequiredArgsConstructor;
@@ -23,20 +21,18 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserRequestDtoConverter userRequestDtoConverter;
-
     private final UserRepository userRepository;
 
     private final JwtUtil jwtUtil;
 
     private final Regex regex;
 
-    private final Converter<RegisterRequestDto, User> registerConverter;
+    private final Converter<UserRegisterRequestDto, User> converter;
 
 
     @Override
-    public void save(User user) {
-        userRepository.save(user);
+    public void save(UserRegisterRequestDto userRegisterRequestDto) {
+        userRepository.save(converter.convert(userRegisterRequestDto));
     }
 
     @Override
@@ -62,25 +58,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LoginResponseDto authenticate(LoginRequestDto loginRequestDto) {
-        LoginResponseDto failLoginResponse = LoginResponseDto.builder()
+    public UserLoginResponseDto authenticate(UserLoginRequestDto userLoginRequestDto) {
+        UserLoginResponseDto failLoginResponse = UserLoginResponseDto.builder()
                 .message("Invalid credential")
                 .status(false)
                 .build();
         try {
-            User user = (User) loadUserByUsername(loginRequestDto.getEmail());
+            User user = (User) loadUserByUsername(userLoginRequestDto.getEmail());
 
-            if (checkPassword(user, loginRequestDto.getPassword())) {
+            if (checkPassword(user, userLoginRequestDto.getPassword())) {
                 String token = jwtUtil.generateToken(user);
                 String refreshToken = jwtUtil.generateRefreshToken(user);
-                LoginResponseDto loginResponseDto = LoginResponseDto.builder()
+                return UserLoginResponseDto.builder()
                         .message("Login successfully")
                         .status(true)
+                        .id(user.getId())
                         .email(user.getEmail())
                         .accessToken(token)
                         .refreshToken(refreshToken)
                         .build();
-                return loginResponseDto;
             }
         } catch (UsernameNotFoundException exception) {
             return failLoginResponse;
@@ -89,45 +85,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LoginResponseDto refreshToken(String token) {
-        LoginResponseDto failLoginResponse = LoginResponseDto.builder()
-                .message("Illegal token")
-                .status(false)
-                .build();
-
-        if (token.startsWith("Bearer ")) {
-            String refreshToken = token.substring(7);
-            String email = jwtUtil.extractEmail(refreshToken);
-
+    public String refreshToken(String bearerToken) {
+        if (jwtUtil.isTokenValid(bearerToken)) {
+            String email = jwtUtil.extractEmail(bearerToken);
             User user = (User) loadUserByUsername(email);
-
-            if (email != null && jwtUtil.isTokenValid(refreshToken)) {
-                String newToken = jwtUtil.generateRefreshToken(user);
-                LoginResponseDto loginResponseDto = LoginResponseDto.builder()
-                        .message("Login successfully")
-                        .status(true)
-                        .email(user.getEmail())
-                        .accessToken(newToken)
-                        .build();
-                return loginResponseDto;
+            if (user != null) {
+                return jwtUtil.generateRefreshToken(user);
             }
         }
-        return failLoginResponse;
+        return "error";
     }
 
     @Override
     public boolean checkValidEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
-        if (user.isEmpty()) {
-            return true;
-        }
-        return false;
+        return user.isEmpty();
     }
-
 
     private boolean checkPassword(User user, String password) {
         return BCrypt.checkpw(password, user.getPassword());
     }
-
 
 }
