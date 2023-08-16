@@ -24,7 +24,7 @@ import java.util.Map;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("")
+    @PostMapping()
     public ResponseEntity<?> register(@Valid @RequestBody
                                       UserRegisterRequestDto userRegisterRequestDto,
                                       BindingResult bindingResult) {
@@ -40,9 +40,12 @@ public class UserController {
             try {
                 userService.save(userRegisterRequestDto);
             } catch (Exception exception) {
-                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+//                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+                return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
             }
-            return new ResponseEntity(HttpStatus.OK);
+            return  ResponseEntity.status(HttpStatus.OK).body("Ok");
+
+//            return new ResponseEntity(HttpStatus.OK);
         }
     }
 

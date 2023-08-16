@@ -22,4 +22,5 @@ public interface UserService extends UserDetailsService {
     String refreshToken(String bearerToken);
 
     boolean checkValidEmail(String email);
+
 }

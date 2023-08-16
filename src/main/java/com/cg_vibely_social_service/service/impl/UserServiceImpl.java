@@ -1,13 +1,12 @@
 package com.cg_vibely_social_service.service.impl;
 
+import com.cg_vibely_social_service.configuration.security.JwtUtil;
 import com.cg_vibely_social_service.converter.Converter;
-import com.cg_vibely_social_service.converter.impl.UserRequestDtoConverter;
+import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.UserLoginRequestDto;
 import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
 import com.cg_vibely_social_service.payload.response.UserLoginResponseDto;
-import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.repository.UserRepository;
-import com.cg_vibely_social_service.configuration.security.JwtUtil;
 import com.cg_vibely_social_service.service.UserService;
 import com.cg_vibely_social_service.utils.Regex;
 import lombok.RequiredArgsConstructor;
@@ -70,7 +69,7 @@ public class UserServiceImpl implements UserService {
             if (checkPassword(user, userLoginRequestDto.getPassword())) {
                 String token = jwtUtil.generateToken(user);
                 String refreshToken = jwtUtil.generateRefreshToken(user);
-                UserLoginResponseDto userLoginResponseDto = UserLoginResponseDto.builder()
+                return UserLoginResponseDto.builder()
                         .message("Login successfully")
                         .status(true)
                         .id(user.getId())
@@ -78,12 +77,10 @@ public class UserServiceImpl implements UserService {
                         .accessToken(token)
                         .refreshToken(refreshToken)
                         .build();
-                return userLoginResponseDto;
             }
         } catch (UsernameNotFoundException exception) {
             return failLoginResponse;
         }
-
         return failLoginResponse;
     }
 
@@ -102,10 +99,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean checkValidEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
-        if (user.isEmpty()) {
-            return true;
-        }
-        return false;
+        return user.isEmpty();
     }
 
     @Override
