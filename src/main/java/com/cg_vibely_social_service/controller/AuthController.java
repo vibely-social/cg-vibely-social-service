@@ -5,7 +5,6 @@ import com.cg_vibely_social_service.payload.response.LoginResponseDto;
 import com.cg_vibely_social_service.configuration.security.JwtUtil;
 import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,10 +22,10 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/auth/login")
-    public ResponseEntity<LoginResponseDto> authentication(@RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<?> authentication(@RequestBody LoginRequestDto loginRequestDto) {
         LoginResponseDto loginResponseDto = userService.authenticate(loginRequestDto);
 
-        if (loginResponseDto.isStatus()) {
+        if (loginResponseDto.getStatus()) {
             return ResponseEntity.ok(loginResponseDto);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(loginResponseDto);
@@ -34,13 +33,13 @@ public class AuthController {
     }
 
     @GetMapping("/auth/refreshtoken")
-    public ResponseEntity<LoginResponseDto> refreshToken(@RequestHeader("Authorization") String refreshToken) {
+    public ResponseEntity<?> refreshToken(@RequestHeader("Authorization") String refreshToken) {
         LoginResponseDto loginResponseDto = userService.refreshToken(refreshToken);
 
-        if (loginResponseDto.isStatus()) {
-            return ResponseEntity.ok(loginResponseDto);
+        if (loginResponseDto.getStatus()) {
+            return ResponseEntity.ok(loginResponseDto.getAccessToken());
         } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(loginResponseDto);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
 

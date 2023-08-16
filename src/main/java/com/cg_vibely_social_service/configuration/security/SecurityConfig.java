@@ -1,18 +1,13 @@
 package com.cg_vibely_social_service.configuration.security;
 
-import com.cg_vibely_social_service.configuration.StompWebSocketHandler;
-import com.cg_vibely_social_service.repository.UserRepository;
-import com.cg_vibely_social_service.service.impl.UserServiceImpl;
 import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,8 +15,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 
@@ -59,11 +52,15 @@ public class SecurityConfig {
                 .permitAll();
 
         http.authorizeHttpRequests()
-                .requestMatchers("/ws")
+                .requestMatchers("/ws/**")
                 .permitAll();
 
         http.authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/api/users")
+                .permitAll();
+
+        http.authorizeHttpRequests()
+                .requestMatchers(HttpMethod.POST, "/api/posts")
                 .permitAll();
 
         http.authorizeHttpRequests()
@@ -77,12 +74,12 @@ public class SecurityConfig {
 
         //Testing random request
         http.authorizeHttpRequests()
-                .requestMatchers("/api/auth/random")
+                .requestMatchers("/api/random")
                 .permitAll();
 
         //This is for testing filter by role
         http.authorizeHttpRequests()
-                .requestMatchers("/api/auth/admin")
+                .requestMatchers("/api/admin")
                 .hasRole("ADMIN");
 
         http.exceptionHandling()

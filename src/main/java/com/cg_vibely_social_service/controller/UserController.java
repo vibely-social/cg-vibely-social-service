@@ -2,7 +2,6 @@ package com.cg_vibely_social_service.controller;
 
 import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.entity.User;
-import com.cg_vibely_social_service.payload.message.ChatMessage;
 import com.cg_vibely_social_service.payload.request.RegisterRequestDto;
 import com.cg_vibely_social_service.service.UserService;
 import jakarta.validation.Valid;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
@@ -28,11 +25,11 @@ public class UserController {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final Converter<RegisterRequestDto, User> converter;
 
+
     @PostMapping
     public ResponseEntity<?> register(@Valid @RequestBody
                                       RegisterRequestDto registerRequestDto,
                                       BindingResult bindingResult) {
-
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {

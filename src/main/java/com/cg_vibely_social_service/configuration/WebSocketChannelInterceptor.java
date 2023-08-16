@@ -42,7 +42,6 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
 
             if (rawHeaders instanceof Map) {
                 Object name = ((Map) rawHeaders).get("email");
-
                 if (name instanceof ArrayList) {
                     accessor.setUser(new UserPrincipal(((ArrayList<String>) name).get(0)));
                 }

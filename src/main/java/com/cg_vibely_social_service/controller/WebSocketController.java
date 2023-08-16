@@ -22,11 +22,12 @@ public class WebSocketController {
             SimpMessageHeaderAccessor headerAccessor) {
         String sessionId = headerAccessor.getSessionId();
         Principal user = headerAccessor.getUser();
-        System.out.println(user.getName());
-        System.out.println(message.getPayload().getUsername() + ": " + message.getPayload().getContent());
-//        simpMessagingTemplate.convertAndSend("/queue/messages", message.getPayload());
-        simpMessagingTemplate.convertAndSendToUser("Lennie", "/queue/messages", message.getPayload());
-        simpMessagingTemplate.convertAndSendToUser("Rachel", "/queue/messages", message.getPayload());
-//        simpMessagingTemplate.getMessageChannel().send(message);
+        String from = user.getName();
+        ChatMessage chatMessage = message.getPayload();
+        chatMessage.setFrom(from);
+        String sendTo = chatMessage.getSendTo();
+        System.out.println(from + ": " + message.getPayload().getContent());
+        simpMessagingTemplate.convertAndSendToUser(from, "/queue/messages", chatMessage);
+        simpMessagingTemplate.convertAndSendToUser(sendTo, "/queue/messages", chatMessage);
     }
 }

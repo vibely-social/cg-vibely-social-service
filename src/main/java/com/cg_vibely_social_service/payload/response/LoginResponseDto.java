@@ -12,9 +12,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LoginResponseDto {
+    private Long userId;
     private String message;
-    private boolean status;
     private String email;
+    private Boolean status;
     private String accessToken;
     private String refreshToken;
 }

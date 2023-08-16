@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 public class ChatMessage {
     private String content;
-    private String username;
+    private String sendTo;
+    private String from;
     private LocalDateTime time = LocalDateTime.now();
 }
