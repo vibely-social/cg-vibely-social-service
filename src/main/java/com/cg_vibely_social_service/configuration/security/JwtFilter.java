@@ -31,7 +31,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
             if (bearerToken != null) {
                 if (jwtUtil.isTokenValid(bearerToken)) {
-                    email = jwtUtil.extractEmail(bearerToken.substring(7));
+                    email = jwtUtil.extractEmail(bearerToken);
 
                     if (email != null) {
                         User user = (User) userService.loadUserByUsername(email);
@@ -47,7 +47,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 }
             }
         } catch (ExpiredJwtException exception) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403 Forbidden
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.setContentType("application/json");
             response.getWriter().write("{\"error\": \"Token expired\"}");
             return;

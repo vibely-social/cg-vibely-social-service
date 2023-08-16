@@ -15,8 +15,6 @@ public interface UserService extends UserDetailsService {
 
     User findById(Long id);
 
-    List<User> findAll();
-
     UserLoginResponseDto authenticate(UserLoginRequestDto userLoginRequestDto);
 
     String refreshToken(String bearerToken);

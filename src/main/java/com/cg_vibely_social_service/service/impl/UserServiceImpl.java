@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String refreshToken(String bearerToken) {
         if (jwtUtil.isTokenValid(bearerToken)) {
-            String email = jwtUtil.extractEmail(bearerToken.substring(7));
+            String email = jwtUtil.extractEmail(bearerToken);
             User user = (User) loadUserByUsername(email);
             if (user != null) {
                 return jwtUtil.generateRefreshToken(user);
@@ -100,11 +100,6 @@ public class UserServiceImpl implements UserService {
     public boolean checkValidEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
         return user.isEmpty();
-    }
-
-    @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
     }
 
     private boolean checkPassword(User user, String password) {

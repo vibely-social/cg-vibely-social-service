@@ -60,17 +60,24 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
 
-    public String extractEmail(String token) {
+    public String extractEmail(String bearerToken) {
+        String token = extractJwtFromBearToken(bearerToken);
         return extractClaim(token, Claims::getSubject);
     }
 
-    public Date extractExpiration(String token) {
+    public Date extractExpiration(String bearerToken) {
+        String token = extractJwtFromBearToken(bearerToken);
         return extractClaim(token, Claims::getExpiration);
     }
 
+    public String extractJwtFromBearToken(String bearerToken) {
+        return bearerToken.substring(7);
+    }
+
+
     public boolean isTokenValid(String bearerToken) {
         if (bearerToken.startsWith("Bearer ")) {
-            String token = bearerToken.substring(7);
+            String token = extractJwtFromBearToken(bearerToken);
             Date expiration = extractExpiration(token);
             return !expiration.before(new Date());
         }

@@ -42,9 +42,7 @@ public class SecurityConfig {
         //permit all for easy testing, will disable in production
         http.authorizeHttpRequests()
                 .requestMatchers("/api/**")
-                .permitAll()
-                .requestMatchers(HttpMethod.POST, "api")
-                .authenticated();
+                .permitAll();
 
         http.authorizeHttpRequests()
                 .requestMatchers("/ws/**")
@@ -87,8 +85,6 @@ public class SecurityConfig {
                 .and()
                 .csrf()
                 .ignoringRequestMatchers("/api/**");
-
-
 
         return http.build();
     }

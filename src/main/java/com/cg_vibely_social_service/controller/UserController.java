@@ -35,17 +35,14 @@ public class UserController {
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
                 fieldErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
             }
-            return ResponseEntity.badRequest().body(fieldErrors);
+            return new ResponseEntity<>(fieldErrors, HttpStatus.BAD_REQUEST);
         } else {
             try {
                 userService.save(userRegisterRequestDto);
             } catch (Exception exception) {
-//                return new ResponseEntity(HttpStatus.BAD_REQUEST);
-                return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error");
+                return new ResponseEntity(HttpStatus.BAD_REQUEST);
             }
-            return  ResponseEntity.status(HttpStatus.OK).body("Ok");
-
-//            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity(HttpStatus.OK);
         }
     }
 

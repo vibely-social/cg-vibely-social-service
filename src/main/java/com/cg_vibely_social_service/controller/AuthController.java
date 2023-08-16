@@ -28,9 +28,9 @@ public class AuthController {
         UserLoginResponseDto userLoginResponseDto = userService.authenticate(userLoginRequestDto);
 
         if (userLoginResponseDto.isStatus()) {
-            return ResponseEntity.ok(userLoginResponseDto);
+            return new ResponseEntity<>(userLoginResponseDto, HttpStatus.OK);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(userLoginResponseDto);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -39,9 +39,9 @@ public class AuthController {
         String refreshToken = userService.refreshToken(bearerToken);
 
         if (refreshToken.equals("error")) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(refreshToken);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } else {
-            return ResponseEntity.ok(refreshToken);
+            return new ResponseEntity<>(refreshToken, HttpStatus.OK);
         }
     }
 
