@@ -22,8 +22,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserRequestDtoConverter userRequestDtoConverter;
-
     private final UserRepository userRepository;
 
     private final JwtUtil jwtUtil;
@@ -90,50 +88,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserLoginResponseDto refreshToken(String token) {
-        UserLoginResponseDto failLoginResponse = UserLoginResponseDto.builder()
-                .message("Illegal token")
-                .status(false)
-                .build();
-
-        if (token.startsWith("Bearer ")) {
-            String refreshToken = token.substring(7);
-            String email = jwtUtil.extractEmail(refreshToken);
-
+    public String refreshToken(String bearerToken) {
+        if (jwtUtil.isTokenValid(bearerToken)) {
+            String email = jwtUtil.extractEmail(bearerToken.substring(7));
             User user = (User) loadUserByUsername(email);
-
-            if (email != null && jwtUtil.isTokenValid(refreshToken)) {
-                String newToken = jwtUtil.generateRefreshToken(user);
-                UserLoginResponseDto userLoginResponseDto = UserLoginResponseDto.builder()
-                        .message("Login successfully")
-                        .status(true)
-                        .email(user.getEmail())
-                        .accessToken(newToken)
-                        .build();
-                return userLoginResponseDto;
+            if (user != null) {
+                return jwtUtil.generateRefreshToken(user);
             }
         }
-
-
-        return failLoginResponse;
+        return "error";
     }
 
     @Override
     public boolean checkValidEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
-
         if (user.isEmpty()) {
             return true;
         }
         return false;
     }
 
-    private boolean checkPassword(User user, String password) {
-        return BCrypt.checkpw(password, user.getPassword());
-    }
-
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
     }
+
+    private boolean checkPassword(User user, String password) {
+        return BCrypt.checkpw(password, user.getPassword());
+    }
+
 }

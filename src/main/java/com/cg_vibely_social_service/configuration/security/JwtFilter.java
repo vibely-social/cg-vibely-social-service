@@ -26,28 +26,22 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            String authorizeHeader = request.getHeader("Authorization");
+            String bearerToken = request.getHeader("Authorization");
             String email = null;
-            String jwtToken = null;
 
-            if (authorizeHeader != null && authorizeHeader.startsWith("Bearer ")) {
-                jwtToken = authorizeHeader.substring(7);
-                email = jwtUtil.extractEmail(jwtToken);
+            if (bearerToken != null) {
+                if (jwtUtil.isTokenValid(bearerToken)) {
+                    email = jwtUtil.extractEmail(bearerToken.substring(7));
 
-                if (email != null) {
-                    User user = (User) userService.loadUserByUsername(email);
-                    if (user != null) {
-                        if (jwtUtil.isTokenValid(jwtToken)) {
+                    if (email != null) {
+                        User user = (User) userService.loadUserByUsername(email);
+                        if (user != null) {
                             UsernamePasswordAuthenticationToken authenticationToken =
                                     new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
                             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                             request.getSession().setAttribute("currentUser", user);
-                        } else {
-                            request.getSession().setAttribute("currentUser", null);
-                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                            response.getWriter().write("Unauthorized: Authentication failed");
                         }
                     }
                 }

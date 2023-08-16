@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -20,22 +23,18 @@ public class UserRequestDtoConverter  implements Converter<UserRegisterRequestDt
 
     @Override
     public User convert(UserRegisterRequestDto source) {
-        try {
-            Date birthday = new SimpleDateFormat("dd/MM/yyyy").parse(source.getDayOfBirth());
+        //            Date birthday = new SimpleDateFormat("dd/MM/yyyy").parse(source.getDayOfBirth());
+        LocalDate birthday = LocalDate.parse(source.getDayOfBirth(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
-            return User.builder()
-                    .email(source.getEmail())
-                    .password(passwordEncoder.encode(source.getPassword()))
-                    .firstName(source.getFirstName())
-                    .lastName(source.getLastName())
-                    .gender(source.getGender())
-                    .dayOfBirth(birthday)
-                    .createdAt(new Date())
-                    .build();
-        } catch (ParseException exception) {
-            exception.printStackTrace();
-            return null;
-        }
+        return User.builder()
+                .email(source.getEmail())
+                .password(passwordEncoder.encode(source.getPassword()))
+                .firstName(source.getFirstName())
+                .lastName(source.getLastName())
+                .gender(source.getGender())
+                .dayOfBirth(birthday)
+                .createdAt(LocalDateTime.now())
+                .build();
     }
 
     @Override

@@ -19,7 +19,7 @@ public interface UserService extends UserDetailsService {
 
     UserLoginResponseDto authenticate(UserLoginRequestDto userLoginRequestDto);
 
-    UserLoginResponseDto refreshToken(String token);
+    String refreshToken(String bearerToken);
 
     boolean checkValidEmail(String email);
 }

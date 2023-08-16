@@ -35,13 +35,13 @@ public class AuthController {
     }
 
     @GetMapping("/auth/refreshtoken")
-    public ResponseEntity<UserLoginResponseDto> refreshToken(@RequestHeader("Authorization") String refreshToken) {
-        UserLoginResponseDto userLoginResponseDto = userService.refreshToken(refreshToken);
+    public ResponseEntity<?> refreshToken(@RequestHeader("Authorization") String bearerToken) {
+        String refreshToken = userService.refreshToken(bearerToken);
 
-        if (userLoginResponseDto.isStatus()) {
-            return ResponseEntity.ok(userLoginResponseDto);
+        if (refreshToken.equals("error")) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(refreshToken);
         } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(userLoginResponseDto);
+            return ResponseEntity.ok(refreshToken);
         }
     }
 
