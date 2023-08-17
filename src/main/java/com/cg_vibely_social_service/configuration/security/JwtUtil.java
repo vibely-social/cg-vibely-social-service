@@ -77,8 +77,7 @@ public class JwtUtil {
 
     public boolean isTokenValid(String bearerToken) {
         if (bearerToken.startsWith("Bearer ")) {
-            String token = extractJwtFromBearToken(bearerToken);
-            Date expiration = extractExpiration(token);
+            Date expiration = extractExpiration(bearerToken);
             return !expiration.before(new Date());
         }
         return false;
