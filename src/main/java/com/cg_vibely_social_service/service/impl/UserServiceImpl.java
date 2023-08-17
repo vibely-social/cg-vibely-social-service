@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
             String email = jwtUtil.extractEmail(bearerToken);
             User user = (User) loadUserByUsername(email);
             if (user != null) {
-                return jwtUtil.generateRefreshToken(user);
+                return jwtUtil.generateToken(user);
             }
         }
         return "error";
