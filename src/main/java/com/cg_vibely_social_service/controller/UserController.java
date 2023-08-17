@@ -1,8 +1,10 @@
 package com.cg_vibely_social_service.controller;
 
 import com.cg_vibely_social_service.converter.Converter;
+import com.cg_vibely_social_service.converter.impl.UserRequestDtoConverter;
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.RegisterRequestDto;
+import com.cg_vibely_social_service.payload.response.UserSuggestionResponseDto;
 import com.cg_vibely_social_service.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -52,6 +54,15 @@ public class UserController {
     public ResponseEntity<?> checkEmail(@PathVariable("email") String email) {
         if (userService.checkValidEmail(email)) {
             return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping("/{id}/suggestionFriends")
+    public ResponseEntity<?> showSuggestionFriends(@PathVariable("id") Long id) {
+        List<UserSuggestionResponseDto> userSuggestion = userService.find20UsersSuggestionByUserId(id);
+        if (!userSuggestion.isEmpty()){
+            return new ResponseEntity<>(userSuggestion, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

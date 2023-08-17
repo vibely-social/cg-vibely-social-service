@@ -2,16 +2,20 @@ package com.cg_vibely_social_service.service.impl;
 
 import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.converter.impl.UserRequestDtoConverter;
+import com.cg_vibely_social_service.converter.impl.UserSuggestionDtoConverter;
 import com.cg_vibely_social_service.entity.Friend;
 import com.cg_vibely_social_service.payload.request.LoginRequestDto;
 import com.cg_vibely_social_service.payload.request.RegisterRequestDto;
 import com.cg_vibely_social_service.payload.response.LoginResponseDto;
 import com.cg_vibely_social_service.entity.User;
+import com.cg_vibely_social_service.payload.response.UserSuggestionResponseDto;
 import com.cg_vibely_social_service.repository.UserRepository;
 import com.cg_vibely_social_service.configuration.security.JwtUtil;
 import com.cg_vibely_social_service.service.UserService;
 import com.cg_vibely_social_service.utils.Regex;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -19,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +37,7 @@ public class UserServiceImpl implements UserService {
     private final Regex regex;
 
     private final Converter<RegisterRequestDto, User> registerConverter;
-
+    private final Converter<UserSuggestionResponseDto, User> suggestionFriendConverter;
 
     @Override
     public void save(User user) {
@@ -124,6 +129,23 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Override
+    public List<UserSuggestionResponseDto> find20UsersSuggestionByUserId(Long userId) {
+        List<User> suggestionFriends = userRepository.find20UsersSuggestionByUserId(userId, Pageable.ofSize(20));
+        List<UserSuggestionResponseDto> userSuggestionResponseDtos = suggestionFriendConverter.revert(suggestionFriends);
+
+        List<Long> user1FriendIds = userRepository.findById(userId).orElse(null).getFriendList().stream().map(Friend::getFriendId).collect(Collectors.toList());
+
+        for (UserSuggestionResponseDto dto : userSuggestionResponseDtos) {
+            User user = userRepository.findById(dto.getId()).orElse(null);
+            if (user != null) {
+                List<Long> user2FriendIds = user.getFriendList().stream().map(Friend::getFriendId).collect(Collectors.toList());
+                int mutualFriends = (int) user1FriendIds.stream().filter(user2FriendIds::contains).count();
+                dto.setNumberMutualFriend(mutualFriends);
+            }
+        }
+        return userSuggestionResponseDtos;
+    }
 
     private boolean checkPassword(User user, String password) {
         return BCrypt.checkpw(password, user.getPassword());
