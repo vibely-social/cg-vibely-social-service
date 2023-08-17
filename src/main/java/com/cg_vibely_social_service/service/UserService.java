@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface UserService extends UserDetailsService {
+public interface UserService{
     void save(UserRegisterRequestDto userRegisterRequestDto);
 
     void update(Long id, User user);
@@ -17,8 +17,9 @@ public interface UserService extends UserDetailsService {
 
     UserLoginResponseDto authenticate(UserLoginRequestDto userLoginRequestDto);
 
-    String refreshToken(String bearerToken);
+    String refreshToken();
 
     boolean checkValidEmail(String email);
 
+    UserPrincipal getUserPrincipal(String email);
 }
