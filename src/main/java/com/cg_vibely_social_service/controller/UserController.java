@@ -40,9 +40,9 @@ public class UserController {
             try {
                 userService.save(userRegisterRequestDto);
             } catch (Exception exception) {
-                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 

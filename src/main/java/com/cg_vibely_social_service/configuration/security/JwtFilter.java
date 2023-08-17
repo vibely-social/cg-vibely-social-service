@@ -1,6 +1,7 @@
 package com.cg_vibely_social_service.configuration.security;
 
 import com.cg_vibely_social_service.service.UserService;
+import com.cg_vibely_social_service.service.impl.UserDetailsServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,31 +21,29 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
-    private final JwtUtil jwtUtil;
 
-    private final UserService userService;
+    private final JwtTokenProvider jwtUtil;
+    private final UserDetailsServiceImpl userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String bearerToken = request.getHeader("Authorization");
-            String email = null;
-
             if (bearerToken != null) {
                 if (jwtUtil.isTokenValid(bearerToken)) {
-                    email = jwtUtil.extractEmail(bearerToken);
+                    String email = jwtUtil.extractEmail(bearerToken);
                     if (email != null) {
-                        UserDetails user = userService.loadUserByUsername(email);
-                        if (user != null) {
+                        UserDetails  userDetails = userDetailsService.loadUserByUsername(email);
+                        if (userDetails != null) {
                             UsernamePasswordAuthenticationToken authenticationToken =
-                                    new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                                    new UsernamePasswordAuthenticationToken(
+                                            userDetails,
+                                            null,
+                                            userDetails.getAuthorities());
 
                             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
-                            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-                            request.getSession().setAttribute("currentUser", user);
+                            request.getSession().setAttribute("currentUser", userDetails);
                         }
                     }
                 }
