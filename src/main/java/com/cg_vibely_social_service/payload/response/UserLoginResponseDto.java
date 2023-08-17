@@ -11,7 +11,8 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class LoginResponseDto {
+public class UserLoginResponseDto {
+    private Long id;
     private String message;
     private boolean status;
     private String email;

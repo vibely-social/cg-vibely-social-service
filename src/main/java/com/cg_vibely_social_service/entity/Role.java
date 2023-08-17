@@ -33,4 +33,9 @@ public class Role {
 
     @ManyToMany(targetEntity = User.class, mappedBy = "roles")
     private Set<User> users;
+
+    @Override
+    public String toString() {
+        return roleName;
+    }
 }
