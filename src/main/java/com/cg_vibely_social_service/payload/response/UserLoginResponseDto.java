@@ -11,11 +11,11 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class LoginResponseDto {
-    private Long userId;
+public class UserLoginResponseDto {
+    private Long id;
     private String message;
+    private boolean status;
     private String email;
-    private Boolean status;
     private String accessToken;
     private String refreshToken;
 }

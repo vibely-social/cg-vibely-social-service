@@ -1,8 +1,7 @@
 package com.cg_vibely_social_service.controller;
 
-import com.cg_vibely_social_service.payload.request.LoginRequestDto;
-import com.cg_vibely_social_service.payload.response.LoginResponseDto;
-import com.cg_vibely_social_service.configuration.security.JwtUtil;
+import com.cg_vibely_social_service.payload.request.UserLoginRequestDto;
+import com.cg_vibely_social_service.payload.response.UserLoginResponseDto;
 import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,24 +20,24 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/auth/login")
-    public ResponseEntity<?> authentication(@RequestBody LoginRequestDto loginRequestDto) {
-        LoginResponseDto loginResponseDto = userService.authenticate(loginRequestDto);
+    public ResponseEntity<UserLoginResponseDto> authentication(@RequestBody UserLoginRequestDto userLoginRequestDto) {
+        UserLoginResponseDto userLoginResponseDto = userService.authenticate(userLoginRequestDto);
 
-        if (loginResponseDto.getStatus()) {
-            return ResponseEntity.ok(loginResponseDto);
+        if (userLoginResponseDto.isStatus()) {
+            return new ResponseEntity<>(userLoginResponseDto, HttpStatus.OK);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(loginResponseDto);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
     @GetMapping("/auth/refreshtoken")
-    public ResponseEntity<?> refreshToken(@RequestHeader("Authorization") String refreshToken) {
-        LoginResponseDto loginResponseDto = userService.refreshToken(refreshToken);
+    public ResponseEntity<?> refreshToken() {
+        String refreshToken = userService.refreshToken();
 
-        if (loginResponseDto.getStatus()) {
-            return ResponseEntity.ok(loginResponseDto.getAccessToken());
+        if (refreshToken.equals("error")) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(refreshToken, HttpStatus.OK);
         }
     }
 

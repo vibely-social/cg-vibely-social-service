@@ -1,14 +1,18 @@
 package com.cg_vibely_social_service.configuration.security;
 
+import com.cg_vibely_social_service.service.impl.UserDetailsServiceImpl;
 import jakarta.servlet.Filter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -20,17 +24,30 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-@EnableAutoConfiguration
 public class SecurityConfig {
     private final AuthenticationEntryPoint authenticationEntryPoint;
-
+    private final UserDetailsServiceImpl userDetailsService;
     private final Filter jwtFilter;
 
-    public SecurityConfig(AuthenticationEntryPoint authenticationEntryPoint, @Qualifier("jwtFilter") Filter filter) {
+    public SecurityConfig(AuthenticationEntryPoint authenticationEntryPoint,
+                          UserDetailsServiceImpl userDetailsService,
+                          @Qualifier("jwtFilter") Filter filter) {
+
         this.authenticationEntryPoint = authenticationEntryPoint;
+        this.userDetailsService = userDetailsService;
         this.jwtFilter = filter;
     }
 
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class).build();
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder.userDetailsService(userDetailsService)
+                .passwordEncoder(new BCryptPasswordEncoder());
+    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -45,14 +62,11 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         //permit all for easy testing, will disable in production
         http.authorizeHttpRequests()
-                .requestMatchers("/api/**")
-                .permitAll();
-
-        http.authorizeHttpRequests()
-                .requestMatchers("/ws/**")
+                .requestMatchers("/api/auth/login")
                 .permitAll();
 
         http.authorizeHttpRequests()
@@ -60,16 +74,18 @@ public class SecurityConfig {
                 .permitAll();
 
         http.authorizeHttpRequests()
+                .requestMatchers("/ws/**")
+                .permitAll();
+
+
+        http.authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/api/posts")
                 .permitAll();
 
         http.authorizeHttpRequests()
-                .requestMatchers("/api/auth/login")
-                .permitAll();
+                .requestMatchers("/api/friends/**")
+                .hasRole("USER");
 
-        http.authorizeHttpRequests()
-                .requestMatchers("/api/auth/refreshtoken")
-                .permitAll();
 
 
         //Testing random request
@@ -92,8 +108,6 @@ public class SecurityConfig {
                 .and()
                 .csrf()
                 .ignoringRequestMatchers("/api/**");
-
-        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

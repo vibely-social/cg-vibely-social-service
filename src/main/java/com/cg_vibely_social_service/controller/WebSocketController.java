@@ -1,6 +1,7 @@
 package com.cg_vibely_social_service.controller;
 
 import com.cg_vibely_social_service.payload.message.ChatMessage;
+import com.cg_vibely_social_service.service.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -24,6 +25,7 @@ public class WebSocketController {
         String from = user.getName();
         ChatMessage chatMessage = message.getPayload();
         chatMessage.setFrom(from);
+        chatMessage.setName(((UserPrincipal)user).getFirstName());
         String sendTo = chatMessage.getSendTo();
         System.out.println(from + ": " + message.getPayload().getContent());
         simpMessagingTemplate.convertAndSendToUser(from, "/queue/messages", chatMessage);
