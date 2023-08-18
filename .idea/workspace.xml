@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f21fcd04-5e85-4dc8-9fe7-d05a37a2c26c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/CgVibelySocialServiceApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/ServletInitializer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/configuration/BeanContext.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/configuration/WebSocketConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/configuration/security/JwtAuthEntryPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/configuration/security/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/configuration/security/JwtFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/configuration/security/JwtUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/configuration/security/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/configuration/security/WebSocketSecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/controller/AuthController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/controller/FriendController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/controller/PostController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/controller/TestUploadController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/controller/WebSocketController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/converter/Converter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/converter/impl/FriendResponseDtoConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/converter/impl/PostRequestDtoConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/converter/impl/PostResponseDtoConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/converter/impl/UserRequestDtoConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/entity/Friend.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/entity/Media.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/entity/Post.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/entity/PrivacyName.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/entity/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/entity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/payload/message/ChatMessage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/payload/request/PostRequestDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/payload/request/TestUploadContent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/payload/request/UserLoginRequestDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/payload/request/UserRegisterRequestDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/payload/response/FriendResponseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/payload/response/PostResponseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/payload/response/UserLoginResponseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/payload/response/UserResponseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/repository/FriendRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/repository/MediaRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/repository/PostRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/repository/RoleRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/service/FriendService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/service/ImageService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/service/PostService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/service/RoleService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/service/impl/FriendServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/service/impl/ImageServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/service/impl/PostServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/utils/Gender.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/utils/PrivacyName.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg_vibely_social_service/utils/Regex.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-local.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-phat.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-production.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-staging.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-tam.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-thanh.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-thao.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V1_00__schemas-and-user.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V1_01__post-like-comment.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V1_02__chat-and-notification.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V1_03__insert-data.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V1_04__fake-user-data.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V1_05__fake-friend-data.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/readme.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/vibely-social-firebase-adminsdk-bac20-0771bacfe3.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/cg_vibely_social_service/CgVibelySocialServiceApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2U9TempxwVQNdAREfXUBtrEDvWe" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/acer/Desktop/vibely/cg-vibely-social-service",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f21fcd04-5e85-4dc8-9fe7-d05a37a2c26c" name="Changes" comment="" />
+      <created>1692350894737</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1692350894737</updated>
+      <workItem from="1692350896164" duration="65000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
