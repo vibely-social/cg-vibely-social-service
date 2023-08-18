@@ -1,10 +1,12 @@
 package com.cg_vibely_social_service.configuration.security;
 
 import com.cg_vibely_social_service.entity.User;
+import com.cg_vibely_social_service.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +17,9 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Component
+@RequiredArgsConstructor
 public class JwtUtil {
+
     @Value("${app.jwtSecret}")
     private String jwtKey;
 
@@ -56,17 +60,28 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
 
-    public String extractEmail(String token) {
+    public String extractEmail(String bearerToken) {
+        String token = extractJwtFromBearToken(bearerToken);
         return extractClaim(token, Claims::getSubject);
     }
 
-    public Date extractExpiration(String token) {
+    public Date extractExpiration(String bearerToken) {
+        String token = extractJwtFromBearToken(bearerToken);
         return extractClaim(token, Claims::getExpiration);
     }
 
-    public boolean isTokenValid(String token) {
-        Date expiration = extractExpiration(token);
-        return !expiration.before(new Date());
+    public String extractJwtFromBearToken(String bearerToken) {
+        return bearerToken.substring(7);
+    }
+
+
+    public boolean isTokenValid(String bearerToken) {
+        if (bearerToken.startsWith("Bearer ")) {
+            String token = extractJwtFromBearToken(bearerToken);
+            Date expiration = extractExpiration(token);
+            return !expiration.before(new Date());
+        }
+        return false;
     }
 
     private SecretKey getSecretKey(String jwtKey) {

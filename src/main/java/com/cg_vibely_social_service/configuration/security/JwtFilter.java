@@ -28,58 +28,74 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            String authorizeHeader = request.getHeader("Authorization");
+            String bearerToken = request.getHeader("Authorization");
             String email = null;
-            String jwtToken = null;
-            String token = null;
 
-            Cookie[] cookies = request.getCookies();
-            if(cookies!=null) {
-                for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals("__vibely")) {
-                        token = cookie.getValue();
-                    }
-                }
-            }
+//            String jwtToken = null;
+//            String token = null;
+//
+//            Cookie[] cookies = request.getCookies();
+//            if(cookies!=null) {
+//                for (Cookie cookie : cookies) {
+//                    if (cookie.getName().equals("__vibely")) {
+//                        token = cookie.getValue();
+//                    }
+//                }
+//            }
+//
+//            if ((authorizeHeader == null && token == null)
+//                    || Objects.equals(token, "null")
+//                    || Objects.equals(token, "undefined")) {
+//                filterChain.doFilter(request, response);
+//                return;
+//            }
+//            if (token != null) {
+//                jwtToken = token;
+//            }
+//            else {
+//                if (authorizeHeader.startsWith("Bearer")) {
+//                    jwtToken = authorizeHeader.substring(7);
+//                } else {
+//                    filterChain.doFilter(request, response);
+//                    return;
+//                }
+//            }
+//
+//            email = jwtUtil.extractEmail(jwtToken);
+//            if (email != null) {
+//                User user = (User) userService.loadUserByUsername(email);
+//                if (user != null) {
+//                    if (jwtUtil.isTokenValid(jwtToken)) {
+//                        UsernamePasswordAuthenticationToken authenticationToken =
+//                                new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+//
+//                        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+//                        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+//                        request.getSession().setAttribute("currentUser", user);
+//                    } else {
+//                        request.getSession().setAttribute("currentUser", null);
+//                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//                        response.getWriter().write("Unauthorized: Authentication failed");
 
-            if ((authorizeHeader == null && token == null)
-                    || Objects.equals(token, "null")
-                    || Objects.equals(token, "undefined")) {
-                filterChain.doFilter(request, response);
-                return;
-            }
-            if (token != null) {
-                jwtToken = token;
-            }
-            else {
-                if (authorizeHeader.startsWith("Bearer")) {
-                    jwtToken = authorizeHeader.substring(7);
-                } else {
-                    filterChain.doFilter(request, response);
-                    return;
-                }
-            }
+            if (bearerToken != null) {
+                if (jwtUtil.isTokenValid(bearerToken)) {
+                    email = jwtUtil.extractEmail(bearerToken);
 
-            email = jwtUtil.extractEmail(jwtToken);
-            if (email != null) {
-                User user = (User) userService.loadUserByUsername(email);
-                if (user != null) {
-                    if (jwtUtil.isTokenValid(jwtToken)) {
-                        UsernamePasswordAuthenticationToken authenticationToken =
-                                new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                    if (email != null) {
+                        User user = (User) userService.loadUserByUsername(email);
+                        if (user != null) {
+                            UsernamePasswordAuthenticationToken authenticationToken =
+                                    new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
-                        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                        request.getSession().setAttribute("currentUser", user);
-                    } else {
-                        request.getSession().setAttribute("currentUser", null);
-                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                        response.getWriter().write("Unauthorized: Authentication failed");
+                            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                            request.getSession().setAttribute("currentUser", user);
+                        }
                     }
                 }
             }
         } catch (ExpiredJwtException exception) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403 Forbidden
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.setContentType("application/json");
             response.getWriter().write("{\"error\": \"Token expired\"}");
             return;

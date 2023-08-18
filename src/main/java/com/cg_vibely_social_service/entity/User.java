@@ -6,6 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -41,10 +43,10 @@ public class User implements UserDetails {
     private String gender;
 
     @Column(name = "day_of_birth", nullable = false)
-    private Date dayOfBirth;
+    private LocalDate dayOfBirth;
 
     @Column(name = "created_at")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "phone_number")
     private String phoneNumber;
