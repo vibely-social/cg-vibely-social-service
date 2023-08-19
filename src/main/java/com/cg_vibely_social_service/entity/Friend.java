@@ -24,5 +24,4 @@ public class Friend {
     @ManyToMany(mappedBy = "friendList")
     private List<User> userList;
 
-
 }

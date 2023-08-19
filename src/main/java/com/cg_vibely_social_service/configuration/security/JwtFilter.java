@@ -1,7 +1,5 @@
 package com.cg_vibely_social_service.configuration.security;
 
-import com.cg_vibely_social_service.entity.User;
-import com.cg_vibely_social_service.service.UserService;
 import com.cg_vibely_social_service.service.impl.UserDetailsServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
