@@ -20,7 +20,6 @@ public class FeedServiceImpl implements FeedService {
     @Override
     public void newPost(String source, List<String> files) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        LocalDateTime localDateTime = LocalDateTime.now();
         FeedItem feedItem =
                 IMapper.INSTANCE.newPostConvert(objectMapper.readValue(source, NewPostRequestDto.class));
         feedItem.setGallery(files);

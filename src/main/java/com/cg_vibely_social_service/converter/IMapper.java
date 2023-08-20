@@ -13,5 +13,6 @@ public interface IMapper {
     @Mapping(target = "authorId", source="newPostRequestDto.authorId")
     @Mapping(target = "content", source="newPostRequestDto.content")
     @Mapping(target = "privacy", source="newPostRequestDto.privacy")
+    @Mapping(target = "tags", source="newPostRequestDto.tags")
     FeedItem newPostConvert(NewPostRequestDto newPostRequestDto);
 }

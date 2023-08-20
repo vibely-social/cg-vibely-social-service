@@ -16,6 +16,6 @@ public class Comment {
     private String content;
     private String gallery;
     private String date;
-    private List<Like> like;
+    private List<Like> likes;
     private List<ReplyComment> replyComment;
 }

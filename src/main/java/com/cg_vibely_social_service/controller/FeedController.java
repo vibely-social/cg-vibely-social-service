@@ -22,19 +22,20 @@ public class FeedController {
     private final FeedService feedService;
     private final ImageService imageService;
     @PostMapping("/add")
-    public ResponseEntity<?> submitPost(@RequestParam(value = "files", required = false) List<MultipartFile> files,
-                                        @RequestParam(value = "newPostDTO", required = false) String newPostDTO){
+    public ResponseEntity<?> submitPost(@RequestParam(value = "files",required = false) List<MultipartFile> files,
+                                        @RequestParam(value = "newPostDTO") String newPostDTO){
         try {
             if(files != null) {
                 List<String> fileNames = imageService.save(files);
                 feedService.newPost(newPostDTO, fileNames);
-                fileNames.forEach(System.out::println);
-                return new ResponseEntity<>("Your post was created!",HttpStatus.CREATED);
             }
             else{
-                feedService.newPost(newPostDTO);
-                return new ResponseEntity<>("Your post was created!",HttpStatus.CREATED);
+                if(newPostDTO != null) feedService.newPost(newPostDTO);
+                else{
+                    return new ResponseEntity<>("Can't create empty post",HttpStatus.NOT_ACCEPTABLE);
+                }
             }
+            return new ResponseEntity<>("Your post was created!",HttpStatus.CREATED);
 //            return new ResponseEntity<>(imageService.getImageUrls(fileNames), HttpStatus.CREATED);
         }
         catch (JsonMappingException e){

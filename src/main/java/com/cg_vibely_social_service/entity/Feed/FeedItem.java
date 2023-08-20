@@ -13,6 +13,7 @@ public class FeedItem {
     private Long authorId;
     private String content;
     private String privacy;
+    private List<Tag> tags;
     private List<String> gallery;
     private String createdDate;
     private List<Like> likes;
