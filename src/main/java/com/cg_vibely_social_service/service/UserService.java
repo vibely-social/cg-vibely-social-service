@@ -10,6 +10,7 @@ import com.cg_vibely_social_service.payload.response.UserSuggestionResponseDto;
 
 import java.util.List;
 
+
 public interface UserService{
     void save(UserRegisterRequestDto userRegisterRequestDto);
 

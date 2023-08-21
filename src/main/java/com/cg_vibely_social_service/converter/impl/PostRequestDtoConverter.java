@@ -1,11 +1,15 @@
 package com.cg_vibely_social_service.converter.impl;
 
 import com.cg_vibely_social_service.converter.Converter;
+import com.cg_vibely_social_service.entity.Feed.FeedItem;
 import com.cg_vibely_social_service.entity.Post;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
 import com.cg_vibely_social_service.repository.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import com.cg_vibely_social_service.payload.request.NewPostRequestDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
