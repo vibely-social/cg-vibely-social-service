@@ -1,5 +1,6 @@
 package com.cg_vibely_social_service.entity.Feed;
 
+import com.cg_vibely_social_service.payload.response.UserResponseDto;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -13,9 +14,9 @@ public class FeedItem {
     private Long authorId;
     private String content;
     private String privacy;
-    private List<Tag> tags;
+    private List<Long> tags;
     private List<String> gallery;
     private String createdDate;
-    private List<Like> likes;
+    private List<Long> likes;
     private List<Comment> comments;
 }

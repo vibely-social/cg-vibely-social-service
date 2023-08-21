@@ -16,6 +16,6 @@ public class ReplyComment {
     private Long userId;
     private String content;
     private String gallery;
-    private List<Like> likes;
+    private List<Long> likes;
     private String date;
 }

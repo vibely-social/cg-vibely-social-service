@@ -5,6 +5,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+
 @Getter
 @Data
 @Setter
@@ -16,6 +17,6 @@ public class Comment {
     private String content;
     private String gallery;
     private String date;
-    private List<Like> likes;
+    private List<Long> likes;
     private List<ReplyComment> replyComment;
 }

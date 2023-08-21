@@ -1,7 +1,6 @@
 package com.cg_vibely_social_service.converter.impl;
 
 import com.cg_vibely_social_service.converter.Converter;
-import com.cg_vibely_social_service.converter.IMapper;
 import com.cg_vibely_social_service.entity.Feed.FeedItem;
 import com.cg_vibely_social_service.entity.Post;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;

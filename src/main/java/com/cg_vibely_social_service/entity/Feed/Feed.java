@@ -3,6 +3,8 @@ package com.cg_vibely_social_service.entity.Feed;
 
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,9 +16,11 @@ import lombok.*;
 @Entity
 @Table(name ="feed")
 public class Feed {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(columnDefinition = "json",name = "feed_items")
     private String feedItem;
 
@@ -27,4 +31,12 @@ public class Feed {
     public void setFeedItem(FeedItem feedItem) {
         this.feedItem = new Gson().toJson(feedItem);
     }
+
+    //    public String getAuthorId() {
+//        if (feedItem != null) {
+//            JsonObject jsonObject = JsonParser.parseString(feedItem).getAsJsonObject();
+//            return jsonObject.get("authorId").getAsString();
+//        }
+//        return null;
+//    }
 }

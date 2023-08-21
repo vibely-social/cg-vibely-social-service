@@ -4,9 +4,7 @@ import com.cg_vibely_social_service.payload.request.UserLoginRequestDto;
 import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
 import com.cg_vibely_social_service.payload.response.UserLoginResponseDto;
 import com.cg_vibely_social_service.entity.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
-import java.util.List;
 
 public interface UserService{
     void save(UserRegisterRequestDto userRegisterRequestDto);

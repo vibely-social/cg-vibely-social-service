@@ -14,5 +14,5 @@ public class NewPostRequestDto {
     private Long authorId;
     private String content;
     private String privacy;
-    private List<Tag> tags;
+    private List<Long> tags;
 }
