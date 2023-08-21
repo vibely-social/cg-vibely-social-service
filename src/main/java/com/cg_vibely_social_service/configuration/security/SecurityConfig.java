@@ -64,6 +64,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
+        http.authorizeHttpRequests()
+                .requestMatchers("/api/**")
+                .permitAll();
+
         //permit all for easy testing, will disable in production
         http.authorizeHttpRequests()
                 .requestMatchers("/**")
@@ -76,7 +80,7 @@ public class SecurityConfig {
 
 
         http.authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/api/users")
+                .requestMatchers("/api/users")
                 .permitAll();
 
         http.authorizeHttpRequests()

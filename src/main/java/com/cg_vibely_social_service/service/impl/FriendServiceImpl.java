@@ -7,7 +7,6 @@ import com.cg_vibely_social_service.payload.response.FriendResponseDto;
 import com.cg_vibely_social_service.repository.FriendRepository;
 import com.cg_vibely_social_service.repository.UserRepository;
 import com.cg_vibely_social_service.service.FriendService;
-import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

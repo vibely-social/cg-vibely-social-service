@@ -5,18 +5,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Component
 @Getter
 @Setter
-public class FriendResponseDto {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class UserSuggestionResponseDto {
     private Long id;
-    private String email;
     private String firstName;
     private String lastName;
-    private String avatarUrl;
-    private String gender;
-    private Integer mutualFriends;
+    private Integer numberMutualFriend;
 }
