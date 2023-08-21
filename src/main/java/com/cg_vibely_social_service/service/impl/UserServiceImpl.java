@@ -4,8 +4,10 @@ import com.cg_vibely_social_service.configuration.security.JwtTokenProvider;
 import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.entity.Friend;
 import com.cg_vibely_social_service.entity.User;
+import com.cg_vibely_social_service.payload.request.UserInfoRequestDto;
 import com.cg_vibely_social_service.payload.request.UserLoginRequestDto;
 import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
+import com.cg_vibely_social_service.payload.response.UserInfoResponseDto;
 import com.cg_vibely_social_service.payload.response.UserLoginResponseDto;
 import com.cg_vibely_social_service.payload.response.UserSuggestionResponseDto;
 import com.cg_vibely_social_service.repository.UserRepository;
@@ -35,6 +37,10 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
     private final Converter<UserRegisterRequestDto, User> converter;
     private final Converter<UserSuggestionResponseDto, User> suggestionFriendConverter;
+
+    private final Converter<UserInfoResponseDto, User> userInfoResponseConverter;
+
+    private final Converter<UserInfoRequestDto, User> userInfoRequestConverter;
 
 
     @Override
@@ -136,4 +142,15 @@ public class UserServiceImpl implements UserService {
         return BCrypt.checkpw(password, user.getPassword());
     }
 
+    @Override
+    public UserInfoResponseDto getUserInfoById(Long userId) {
+        return userInfoResponseConverter.revert(userRepository.findById(userId).orElseThrow());
+    }
+
+    @Override
+    public void updateUserInfo(UserInfoRequestDto userInfoRequestDto) {
+        User newInfo = userInfoRequestConverter.convert(userInfoRequestDto);
+        newInfo.setPassword(userRepository.findById(newInfo.getId()).orElseThrow().getPassword());
+        userRepository.save(newInfo);
+    }
 }

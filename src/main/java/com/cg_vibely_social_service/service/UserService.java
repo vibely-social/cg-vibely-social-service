@@ -1,11 +1,12 @@
 package com.cg_vibely_social_service.service;
 
+import com.cg_vibely_social_service.entity.User;
+import com.cg_vibely_social_service.payload.request.UserInfoRequestDto;
 import com.cg_vibely_social_service.payload.request.UserLoginRequestDto;
 import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
+import com.cg_vibely_social_service.payload.response.UserInfoResponseDto;
 import com.cg_vibely_social_service.payload.response.UserLoginResponseDto;
-import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.response.UserSuggestionResponseDto;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
@@ -23,5 +24,8 @@ public interface UserService{
     boolean checkValidEmail(String email);
     List<UserSuggestionResponseDto> find20UsersSuggestionByUserId(Long id);
 
+    UserInfoResponseDto getUserInfoById (Long userId);
+
+    void updateUserInfo(UserInfoRequestDto userInfoRequestDto);
     UserPrincipal getUserPrincipal(String email);
 }
