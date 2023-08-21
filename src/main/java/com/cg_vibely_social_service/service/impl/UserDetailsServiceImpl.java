@@ -38,10 +38,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             GrantedAuthority authority = new SimpleGrantedAuthority(role.toString());
             grantedAuthorities.add(authority);
         }
-
+        
         return new org.springframework.security.core.userdetails.User(
                         user.getEmail(),
                         user.getPassword(),
                         grantedAuthorities);
+
+
     }
 }
