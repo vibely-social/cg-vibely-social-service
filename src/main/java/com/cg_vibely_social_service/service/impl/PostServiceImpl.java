@@ -1,12 +1,11 @@
 package com.cg_vibely_social_service.service.impl;
 
-import com.cg_vibely_social_service.converter.IFeedMapper;
+import com.cg_vibely_social_service.converter.IPostMapper;
 import com.cg_vibely_social_service.converter.IUserMapper;
 import com.cg_vibely_social_service.entity.Feed.Feed;
 import com.cg_vibely_social_service.entity.Feed.FeedItem;
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
-import com.cg_vibely_social_service.payload.response.FeedItemResponseDto;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
 import com.cg_vibely_social_service.payload.response.UserResponseDto;
 import com.cg_vibely_social_service.repository.PostRepository;
@@ -62,7 +61,7 @@ public class PostServiceImpl implements PostService {
     public void newPost(String source, List<String> files) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         FeedItem feedItem =
-                IFeedMapper.INSTANCE.newPostConvert(objectMapper.readValue(source, PostRequestDto.class));
+                IPostMapper.INSTANCE.newPostConvert(objectMapper.readValue(source, PostRequestDto.class));
         feedItem.setGallery(files);
         feedItem.setCreatedDate(LocalDateTime.now().toString());
         Feed feed = new Feed();
@@ -74,7 +73,7 @@ public class PostServiceImpl implements PostService {
     public void newPost(String source) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         FeedItem feedItem =
-                IFeedMapper.INSTANCE.newPostConvert(objectMapper.readValue(source, PostRequestDto.class));
+                IPostMapper.INSTANCE.newPostConvert(objectMapper.readValue(source, PostRequestDto.class));
         feedItem.setCreatedDate(LocalDateTime.now().toString());
         Feed feed = new Feed();
         feed.setFeedItem(feedItem);
@@ -82,11 +81,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<FeedItemResponseDto> getNewestPost(int page){
+    public List<PostResponseDto> getNewestPost(int page){
         List<Feed> feeds = postRepository.findLatestFeeds(page);
         return feeds.stream()
                 .map(source -> {
-                    FeedItemResponseDto dto = IFeedMapper.INSTANCE.feedResponseDto(source.getFeedItem());
+                    PostResponseDto dto = IPostMapper.INSTANCE.postResponseDto(source.getFeedItem());
                     dto.setId(source.getId());
                     Optional<User> author = userRepository.findById(source.getFeedItem().getAuthorId());
                     author.ifPresent(data -> {

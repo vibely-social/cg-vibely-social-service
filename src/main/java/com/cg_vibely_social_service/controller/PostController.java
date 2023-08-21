@@ -2,7 +2,6 @@ package com.cg_vibely_social_service.controller;
 
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
-import com.cg_vibely_social_service.payload.response.FeedItemResponseDto;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
 import com.cg_vibely_social_service.service.ImageService;
 import com.cg_vibely_social_service.service.PostService;
@@ -57,7 +56,7 @@ public class PostController {
     }
     @GetMapping
     public ResponseEntity<?> showPosts(){
-        List<FeedItemResponseDto> feedItemResponseDTOs = postService.getNewestPost(0);
+        List<PostResponseDto> feedItemResponseDTOs = postService.getNewestPost(0);
         Collections.shuffle(feedItemResponseDTOs,new Random());
         return new ResponseEntity<>(feedItemResponseDTOs, HttpStatus.OK);
 }

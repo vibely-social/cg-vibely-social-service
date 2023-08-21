@@ -2,7 +2,6 @@ package com.cg_vibely_social_service.service;
 
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
-import com.cg_vibely_social_service.payload.response.FeedItemResponseDto;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,5 +23,5 @@ public interface PostService {
 
     void newPost(String source) throws JsonProcessingException;
 
-    List<FeedItemResponseDto> getNewestPost(int page);
+    List<PostResponseDto> getNewestPost(int page);
 }
