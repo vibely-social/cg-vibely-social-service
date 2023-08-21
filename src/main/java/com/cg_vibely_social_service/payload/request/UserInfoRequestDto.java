@@ -1,5 +1,6 @@
-package com.cg_vibely_social_service.payload.response;
+package com.cg_vibely_social_service.payload.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,13 +14,19 @@ import java.time.LocalDate;
 @Builder
 @Getter
 @Setter
-public class UserInfoResponseDto {
+public class UserInfoRequestDto {
     private Long id;
+
     private String email;
+
     private String firstName;
+
     private String lastName;
+
     private LocalDate birthday;
+
     private String gender;
+
     private String phoneNumber;
     private String city;
 }

@@ -6,6 +6,7 @@ import com.cg_vibely_social_service.payload.response.UserInfoResponseDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Component
@@ -25,6 +26,7 @@ public class UserInfoResponseDtoConverter implements Converter<UserInfoResponseD
     public UserInfoResponseDto revert(User target) {
         UserInfoResponseDto result = new UserInfoResponseDto();
         BeanUtils.copyProperties(target, result);
+        result.setBirthday(target.getDayOfBirth());
         return result;
     }
 
