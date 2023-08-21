@@ -3,6 +3,7 @@ package com.cg_vibely_social_service.controller;
 import com.cg_vibely_social_service.payload.request.UserInfoRequestDto;
 import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
 import com.cg_vibely_social_service.payload.response.UserInfoResponseDto;
+import com.cg_vibely_social_service.payload.response.UserSuggestionResponseDto;
 import com.cg_vibely_social_service.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -44,9 +46,9 @@ public class UserController {
             try {
                 userService.save(userRegisterRequestDto);
             } catch (Exception exception) {
-                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 
@@ -54,6 +56,17 @@ public class UserController {
     public ResponseEntity<?> checkEmail(@RequestParam("email") String email) {
         if (userService.checkValidEmail(email)) {
             return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    @GetMapping("/{id}/suggestionFriends")
+    public ResponseEntity<?> showSuggestionFriends(@PathVariable("id") Long id) {
+        List<UserSuggestionResponseDto> userSuggestion = userService.find20UsersSuggestionByUserId(id);
+        if (!userSuggestion.isEmpty()){
+            return new ResponseEntity<>(userSuggestion, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

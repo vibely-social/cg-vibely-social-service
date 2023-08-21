@@ -9,6 +9,7 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.StorageClient;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -46,6 +47,7 @@ public class ImageServiceImpl implements ImageService {
     public String getImageUrl(String filename) {
         return String.format(properties.imageUrl, filename);
     }
+
     @Override
     public List<String> getImageUrls(List<String> filenames) {
         return filenames.stream().map(this::getImageUrl).toList();
