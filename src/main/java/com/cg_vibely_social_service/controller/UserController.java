@@ -82,7 +82,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/info")
+    @PutMapping
     public ResponseEntity<?> editUserInfo(@Valid @RequestBody
                                           UserInfoRequestDto userInfoRequestDto,
                                           BindingResult bindingResult) {
