@@ -6,17 +6,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
-public class FriendResponseDto {
+public class UserInfoResponseDto {
     private Long id;
     private String email;
     private String firstName;
     private String lastName;
-    private String avatarUrl;
+    private LocalDate birthday;
     private String gender;
-    private Integer mutualFriends;
+    private String phoneNumber;
+    private String city;
 }

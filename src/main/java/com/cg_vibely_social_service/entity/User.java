@@ -72,6 +72,9 @@ public class User  {
     @Column(name = "relationship")
     private String relationship;
 
+    @Column(name = "avatar")
+    private String avatar;
+
     @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),

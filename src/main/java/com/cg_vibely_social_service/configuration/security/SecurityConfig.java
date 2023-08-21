@@ -64,13 +64,23 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
+        http.authorizeHttpRequests()
+                .requestMatchers("/api/**")
+                .permitAll();
+
         //permit all for easy testing, will disable in production
+        http.authorizeHttpRequests()
+                .requestMatchers("/**")
+                .permitAll();
+
         http.authorizeHttpRequests()
                 .requestMatchers("/api/auth/login")
                 .permitAll();
 
+
+
         http.authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/api/users")
+                .requestMatchers("/api/users")
                 .permitAll();
 
         http.authorizeHttpRequests()
@@ -79,7 +89,7 @@ public class SecurityConfig {
 
 
         http.authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/api/posts")
+                .requestMatchers( "/api/posts")
                 .permitAll();
 
         http.authorizeHttpRequests()
@@ -111,6 +121,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-
 }

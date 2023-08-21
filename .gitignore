@@ -37,4 +37,6 @@ out/
 .vscode/
 
 ### App Profile ###
-src/main/resources/application-phat.properties
+src/main/resources/application-huy.properties
+src/main/resources/application-thanh.properties
+src/main/resources/application.properties
