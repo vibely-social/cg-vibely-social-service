@@ -67,6 +67,9 @@ public class User implements UserDetails {
                 inverseJoinColumns = @JoinColumn(name = "id"))
     private List<Friend> friendList;
 
+    @OneToMany(mappedBy = "user")
+    private List<FriendRequest> friendRequestList;
+
 
 
     //Methods from UserDetails

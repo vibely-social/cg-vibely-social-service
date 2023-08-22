@@ -73,14 +73,13 @@ public class UserServiceImpl implements UserService {
             if (checkPassword(user, loginRequestDto.getPassword())) {
                 String token = jwtUtil.generateToken(user);
                 String refreshToken = jwtUtil.generateRefreshToken(user);
-                LoginResponseDto loginResponseDto = LoginResponseDto.builder()
+                return LoginResponseDto.builder()
                         .message("Login successfully")
                         .status(true)
                         .email(user.getEmail())
                         .accessToken(token)
                         .refreshToken(refreshToken)
                         .build();
-                return loginResponseDto;
             }
         } catch (UsernameNotFoundException exception) {
             return failLoginResponse;
@@ -103,13 +102,12 @@ public class UserServiceImpl implements UserService {
 
             if (email != null && jwtUtil.isTokenValid(refreshToken)) {
                 String newToken = jwtUtil.generateRefreshToken(user);
-                LoginResponseDto loginResponseDto = LoginResponseDto.builder()
+                return LoginResponseDto.builder()
                         .message("Login successfully")
                         .status(true)
                         .email(user.getEmail())
                         .accessToken(newToken)
                         .build();
-                return loginResponseDto;
             }
         }
         return failLoginResponse;
