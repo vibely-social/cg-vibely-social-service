@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface PostService {
     List<PostResponseDto> findByUser(User user);
+    PostResponseDto findById(Long id);
 
     List<PostResponseDto> findAll();
 

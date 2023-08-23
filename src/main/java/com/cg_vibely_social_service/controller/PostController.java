@@ -64,7 +64,11 @@ public class PostController {
     postService.deleteById(postId);
     return new ResponseEntity<>(HttpStatus.OK);
 }
-
+    @GetMapping("/{postId}")
+    public ResponseEntity<?> getPost(@PathVariable("postId") Long postId){
+        PostResponseDto postResponseDto = postService.findById(postId);
+        return new ResponseEntity<>(postResponseDto,HttpStatus.OK);
+    }
     @PutMapping
     public ResponseEntity<?> updateParticularPost(@Valid @RequestBody PostRequestDto postRequestDto, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
