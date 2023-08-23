@@ -72,7 +72,22 @@ public class User  {
     @Column(name = "relationship")
     private String relationship;
 
-    @ManyToMany(targetEntity = Role.class, fetch = FetchType.LAZY)
+    @Column(name = "district")
+    private String district;
+
+    @Column(name = "school")
+    private String school;
+
+    @Column(name = "company")
+    private String company;
+
+    @Column(name = "position")
+    private String position;
+
+    @Column(name = "avatar")
+    private String avatar;
+
+    @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
