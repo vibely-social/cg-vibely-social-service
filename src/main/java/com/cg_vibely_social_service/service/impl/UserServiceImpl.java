@@ -14,6 +14,7 @@ import com.cg_vibely_social_service.repository.UserRepository;
 import com.cg_vibely_social_service.service.UserPrincipal;
 import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,7 +42,8 @@ public class UserServiceImpl implements UserService {
     private final Converter<UserInfoResponseDto, User> userInfoResponseConverter;
 
     private final Converter<UserInfoRequestDto, User> userInfoRequestConverter;
-
+    @Value("${app.friendSuggestionNumber}")
+    private Integer friendSuggestionNumber;
 
     @Override
     public void save(UserRegisterRequestDto userRegisterRequestDto) {
@@ -112,8 +114,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserSuggestionResponseDto> find20UsersSuggestionByUserId(Long userId) {
-        List<User> suggestionFriends = userRepository.find20UsersSuggestionByUserId(userId, Pageable.ofSize(20));
+    public List<UserSuggestionResponseDto> findFriendSuggestionByUserId(Long userId) {
+        List<User> suggestionFriends = userRepository.findFriendSuggestionByUserId(userId, Pageable.ofSize(friendSuggestionNumber));
         List<UserSuggestionResponseDto> userSuggestionResponseDtos = suggestionFriendConverter.revert(suggestionFriends);
 
         List<Long> user1FriendIds = userRepository.findById(userId).orElse(null).getFriendList().stream().map(Friend::getFriendId).collect(Collectors.toList());

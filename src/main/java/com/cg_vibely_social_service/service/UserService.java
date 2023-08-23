@@ -23,7 +23,7 @@ public interface UserService{
     String refreshToken();
 
     boolean checkValidEmail(String email);
-    List<UserSuggestionResponseDto> find20UsersSuggestionByUserId(Long id);
+    List<UserSuggestionResponseDto> findFriendSuggestionByUserId(Long id);
 
     UserInfoResponseDto getUserInfoById (Long userId);
 
