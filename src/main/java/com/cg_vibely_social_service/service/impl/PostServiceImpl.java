@@ -5,6 +5,7 @@ import com.cg_vibely_social_service.entity.Post;
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
+import com.cg_vibely_social_service.payload.response.UserResponseDto;
 import com.cg_vibely_social_service.repository.PostRepository;
 import com.cg_vibely_social_service.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,8 @@ public class PostServiceImpl implements PostService {
     private final Converter<PostResponseDto, Post> postResponseDtoConverter;
 
     private final Converter<PostRequestDto, Post> postRequestDtoConverter;
+
+    private final Converter<UserResponseDto, User> userConverter;
 
 
     @Override
@@ -53,8 +56,18 @@ public class PostServiceImpl implements PostService {
         post.setPrivacy(postRequestDto.getPrivacy());
         post.setTextContent(postRequestDto.getTextContent());
         post.setCreatedAt(LocalDateTime.now());
-        post.setEdited(true);
+//        post.setEdited(true);
         postRepository.save(post);
         return postResponseDtoConverter.revert(post);
+    }
+
+    @Override
+    public PostResponseDto findById(Long id) {
+        Post post = postRepository.findById(id).get();
+        User user = post.getUser();
+        UserResponseDto userResponseDto = userConverter.revert(user);
+        PostResponseDto postResponseDto = postResponseDtoConverter.revert(postRepository.findById(id).get());
+        postResponseDto.setUserInfo(userResponseDto);
+        return postResponseDto;
     }
 }

@@ -6,15 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class UserResponseDto {
+public class MediaResponseDto {
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String avatar;
+    private Long postId;
+    private String fileName;
 }

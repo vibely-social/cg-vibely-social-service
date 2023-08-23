@@ -75,7 +75,7 @@ public class User  {
     @Column(name = "avatar")
     private String avatar;
 
-    @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = Role.class)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -86,8 +86,12 @@ public class User  {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "id"))
     private List<Friend> friendList;
+
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Post> posts;
+
+    @OneToMany(mappedBy = "user")
+    private List<Media> media;
 
     //Methods from UserDetails
 //    @Override

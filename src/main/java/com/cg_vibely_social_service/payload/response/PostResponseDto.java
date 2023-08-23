@@ -17,13 +17,13 @@ public class PostResponseDto {
 
     private Long id;
 
-    private UserResponseDto userResponseDto;
+    private UserResponseDto userInfo;
 
     private PrivacyName privacy;
 
     private String textContent;
 
     private LocalDateTime createdAt;
-    private Boolean edited;
+//    private Boolean edited;
 
 }

@@ -25,8 +25,6 @@ public class Media {
 //    @JoinColumn(name = "post_id")
 //    private Post post;
 
-    @Column(name = "user")
-    private Long userID;
     @Column(name ="post_id")
     private Long postID;
 

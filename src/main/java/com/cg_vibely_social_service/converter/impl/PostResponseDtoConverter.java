@@ -1,5 +1,4 @@
 package com.cg_vibely_social_service.converter.impl;
-
 import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.entity.Post;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
@@ -9,9 +8,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Component
 @RequiredArgsConstructor
 public class PostResponseDtoConverter implements Converter<PostResponseDto, Post> {
+
     @Override
     public Post convert(PostResponseDto source) {
         Post post = new Post();
