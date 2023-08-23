@@ -1,5 +1,6 @@
 package com.cg_vibely_social_service.payload.response;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,4 +23,8 @@ public class UserInfoResponseDto {
     private String gender;
     private String phoneNumber;
     private String city;
+    private String district;
+    private String school;
+    private String company;
+    private String position;
 }

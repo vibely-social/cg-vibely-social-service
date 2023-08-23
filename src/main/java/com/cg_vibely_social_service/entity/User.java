@@ -72,6 +72,18 @@ public class User  {
     @Column(name = "relationship")
     private String relationship;
 
+    @Column(name = "district")
+    private String district;
+
+    @Column(name = "school")
+    private String school;
+
+    @Column(name = "company")
+    private String company;
+
+    @Column(name = "position")
+    private String position;
+
     @Column(name = "avatar")
     private String avatar;
 
