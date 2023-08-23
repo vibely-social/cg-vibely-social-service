@@ -16,17 +16,15 @@ import java.time.LocalDate;
 @Setter
 public class UserInfoRequestDto {
     private Long id;
-
     private String email;
-
     private String firstName;
-
     private String lastName;
-
     private LocalDate birthday;
-
     private String gender;
-
     private String phoneNumber;
     private String city;
+    private String district;
+    private String school;
+    private String company;
+    private String position;
 }

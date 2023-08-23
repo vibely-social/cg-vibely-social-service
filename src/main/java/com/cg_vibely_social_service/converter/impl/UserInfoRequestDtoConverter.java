@@ -6,8 +6,6 @@ import com.cg_vibely_social_service.payload.request.UserInfoRequestDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Component
