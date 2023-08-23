@@ -24,7 +24,7 @@ import java.util.Map;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<?> register(@Valid @RequestBody
                                       UserRegisterRequestDto userRegisterRequestDto,
                                       BindingResult bindingResult) {
@@ -51,7 +51,7 @@ public class UserController {
         if (userService.checkValidEmail(email)) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 }

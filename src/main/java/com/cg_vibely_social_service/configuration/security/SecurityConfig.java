@@ -52,7 +52,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.addAllowedOrigin("*");
+        corsConfig.addAllowedOriginPattern("**");
         corsConfig.addAllowedHeader("*");
         corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -64,10 +64,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-        //permit all for easy testing, will disable in production
+        http.authorizeHttpRequests()
+                .requestMatchers("/api/**")
+                .permitAll();
+
         http.authorizeHttpRequests()
                 .requestMatchers("/api/auth/login")
                 .permitAll();
+
+        http.authorizeHttpRequests()
+                .requestMatchers("/api/auth/refresh-token")
+                .authenticated();
 
         http.authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/api/users")
@@ -77,26 +84,9 @@ public class SecurityConfig {
                 .requestMatchers("/ws/**")
                 .permitAll();
 
-
         http.authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/api/posts")
-                .permitAll();
-
-        http.authorizeHttpRequests()
-                .requestMatchers("/api/friends/**")
+                .requestMatchers("/api/**")
                 .hasRole("USER");
-
-
-
-        //Testing random request
-        http.authorizeHttpRequests()
-                .requestMatchers("/api/random")
-                .permitAll();
-
-        //This is for testing filter by role
-        http.authorizeHttpRequests()
-                .requestMatchers("/api/admin")
-                .hasRole("ADMIN");
 
         http.exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint)

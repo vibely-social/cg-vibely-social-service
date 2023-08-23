@@ -1,6 +1,5 @@
 package com.cg_vibely_social_service.repository;
 
-import com.cg_vibely_social_service.entity.Friend;
 import com.cg_vibely_social_service.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

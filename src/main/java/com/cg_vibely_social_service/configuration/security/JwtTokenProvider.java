@@ -27,11 +27,12 @@ public class JwtTokenProvider {
     @Value("${app.jwtSecret}")
     private String jwtSecret;
     @Value("${app.jwtExpirationInMs}") //1hour
-    private int jwtExpirationInMs;
+    private Long jwtExpirationInMs;
 
-    private SecretKey getSecretKey(){
+    private SecretKey getSecretKey() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
+
     public String generateToken(Authentication authentication) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
@@ -58,7 +59,7 @@ public class JwtTokenProvider {
 
     public String generateRefreshToken(Authentication authentication) {
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + (7 * 24 * 60 * 60 * 1000));
+        Date expiryDate = new Date(now.getTime() + (jwtExpirationInMs * 24 * 7));
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .setIssuedAt(now)

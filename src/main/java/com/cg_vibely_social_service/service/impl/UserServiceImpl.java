@@ -7,14 +7,12 @@ import com.cg_vibely_social_service.payload.request.UserLoginRequestDto;
 import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
 import com.cg_vibely_social_service.payload.response.UserLoginResponseDto;
 import com.cg_vibely_social_service.repository.UserRepository;
-import com.cg_vibely_social_service.service.UserPrincipal;
 import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -66,26 +64,20 @@ public class UserServiceImpl implements UserService {
                         userLoginRequestDto.getEmail(), userLoginRequestDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-//        try {
-            User user = loadUserByEmail(userLoginRequestDto.getEmail());
-//
-//            if (checkPassword(user, userLoginRequestDto.getPassword())) {
+        User user = loadUserByEmail(userLoginRequestDto.getEmail());
 
-                String token = jwtUtil.generateToken(authentication);
-                String refreshToken = jwtUtil.generateRefreshToken(authentication);
-                return UserLoginResponseDto.builder()
-                        .message("Login successfully")
-                        .status(true)
-                        .id(user.getId())
-                        .email(user.getEmail())
-                        .accessToken(token)
-                        .refreshToken(refreshToken)
-                        .build();
-//            }
-//        } catch (UsernameNotFoundException exception) {
-//            return failLoginResponse;
-//        }
-//        return failLoginResponse;
+        String token = jwtUtil.generateToken(authentication);
+        String refreshToken = jwtUtil.generateRefreshToken(authentication);
+        return UserLoginResponseDto.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .avatar("https://media.discordapp.net/attachments/1006048991043145829/1006049027734913075/unknown.png?width=662&height=662")
+                .accessToken(token)
+                .refreshToken(refreshToken)
+                .build();
+
     }
 
     @Override
@@ -102,6 +94,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserPrincipal getUserPrincipal(String email) {
+        System.out.println("calling getUserPrincipal");
         User user = userRepository.findByEmail(email).orElseThrow();
         return UserPrincipal.builder()
                 .email(user.getEmail())
