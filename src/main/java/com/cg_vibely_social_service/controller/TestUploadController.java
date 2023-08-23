@@ -34,10 +34,10 @@ public class TestUploadController {
         }
     }
 
-    @DeleteMapping("/{file}")
-    public ResponseEntity<?> delete(@PathVariable String file){
+    @DeleteMapping("/{fileName}")
+    public ResponseEntity<?> delete(@PathVariable String fileName){
         try {
-            imageService.delete(file);
+            imageService.delete(fileName);
             return new ResponseEntity<>("success", HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();

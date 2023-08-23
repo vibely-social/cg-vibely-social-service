@@ -100,42 +100,4 @@ public class User  {
     private List<Friend> friendList;
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Post> posts;
-
-    //Methods from UserDetails
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return roles.stream()
-//                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRoleName()))
-//                .collect(Collectors.toSet());
-//    }
-//
-////    @OneToMany(mappedBy = "media",cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-////    private List<Media> medias;
-//
-//    @Override
-//    public String getUsername() {
-//        return this.email;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return true;
-//    }
-
-
 }
