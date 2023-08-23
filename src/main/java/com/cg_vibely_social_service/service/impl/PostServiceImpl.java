@@ -1,57 +1,122 @@
 package com.cg_vibely_social_service.service.impl;
 
-import com.cg_vibely_social_service.converter.Converter;
-import com.cg_vibely_social_service.entity.Post;
+import com.cg_vibely_social_service.converter.IPostMapper;
+import com.cg_vibely_social_service.converter.IUserMapper;
+import com.cg_vibely_social_service.entity.Feed.Feed;
+import com.cg_vibely_social_service.entity.Feed.FeedItem;
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
+import com.cg_vibely_social_service.payload.response.UserResponseDto;
 import com.cg_vibely_social_service.repository.PostRepository;
+import com.cg_vibely_social_service.repository.UserRepository;
+import com.cg_vibely_social_service.service.ImageService;
 import com.cg_vibely_social_service.service.PostService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
+
     private final PostRepository postRepository;
-    private final Converter<PostResponseDto, Post> postResponseDtoConverter;
-    private final Converter<PostRequestDto, Post> postRequestDtoConverter;
+    private final UserRepository userRepository;
+    private final ImageService imageService;
 
 
     @Override
     public List<PostResponseDto> findByUser(User user) {
-        List<Post> posts = postRepository.findByUser(user);
-        return postResponseDtoConverter.revert(posts);
+        return null;
     }
 
     @Override
     public List<PostResponseDto> findAll() {
-        List<Post> posts = postRepository.findAll();
-        return postResponseDtoConverter.revert(posts);
+        return null;
     }
 
     @Override
     public void save(PostRequestDto postRequestDto) {
-        Post post = postRequestDtoConverter.convert(postRequestDto);
-        postRepository.save(post);
+
     }
 
     @Override
     public void deleteById(Long postId) {
-        postRepository.deleteById(postId);
+
     }
 
     @Override
     public PostResponseDto update(PostRequestDto postRequestDto) {
-        Post post = postRepository.findById(postRequestDto.getId()).orElseThrow();
-        post.setPrivacy(postRequestDto.getPrivacy());
-        post.setTextContent(postRequestDto.getTextContent());
-        post.setCreatedAt(LocalDateTime.now());
-        post.setEdited(true);
-        postRepository.save(post);
-        return postResponseDtoConverter.revert(post);
+        return null;
+    }
+
+    @Override
+    public void newPost(String source, List<String> files) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        FeedItem feedItem =
+                IPostMapper.INSTANCE.newPostConvert(objectMapper.readValue(source, PostRequestDto.class));
+        feedItem.setGallery(files);
+        feedItem.setCreatedDate(LocalDateTime.now().toString());
+        Feed feed = new Feed();
+        feed.setFeedItem(feedItem);
+        postRepository.save(feed);
+    }
+
+    @Override
+    public void newPost(String source) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        FeedItem feedItem =
+                IPostMapper.INSTANCE.newPostConvert(objectMapper.readValue(source, PostRequestDto.class));
+        feedItem.setCreatedDate(LocalDateTime.now().toString());
+        Feed feed = new Feed();
+        feed.setFeedItem(feedItem);
+        postRepository.save(feed);
+    }
+
+    @Override
+    public List<PostResponseDto> getNewestPost(int page){
+        List<Feed> feeds = postRepository.findLatestFeeds(page);
+        return feeds.stream()
+                .map(source -> {
+                    PostResponseDto dto = IPostMapper.INSTANCE.postResponseDto(source.getFeedItem());
+                    dto.setId(source.getId());
+                    Optional<User> author = userRepository.findById(source.getFeedItem().getAuthorId());
+                    author.ifPresent(data -> {
+                        UserResponseDto authorDTO =
+                                IUserMapper.INSTANCE.userResponseDTOConvert(data);
+                        dto.setAuthor(authorDTO);
+                    });
+
+                    if(!source.getFeedItem().getGallery().isEmpty()){
+                        dto.setGallery(imageService.getImageUrls(source.getFeedItem().getGallery()));
+                    }
+                    if(source.getFeedItem().getLikes() != null && source.getFeedItem().getLikes().size() == 0){
+                        dto.setLikeCount((long) source.getFeedItem().getLikes().size());
+                    }
+                    if(source.getFeedItem().getComments() != null && source.getFeedItem().getComments().size() == 0){
+                        dto.setCommentCount((long) source.getFeedItem().getComments().size());
+                    }
+                    List<UserResponseDto> newUserTags = new ArrayList<>();
+                    if(source.getFeedItem().getTags() != null) {
+                        for (Long id : source.getFeedItem().getTags()) {
+                            Optional<User> user = userRepository.findById(id);
+                            user.ifPresent(data -> {
+                                UserResponseDto tag =
+                                        IUserMapper.INSTANCE.userResponseDTOConvert(data);
+                                newUserTags.add(tag);
+                            });
+                        }
+                        dto.setUsersTag(newUserTags);
+                    }
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 }

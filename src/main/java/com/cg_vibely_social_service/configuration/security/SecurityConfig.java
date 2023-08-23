@@ -70,8 +70,14 @@ public class SecurityConfig {
 
         //permit all for easy testing, will disable in production
         http.authorizeHttpRequests()
+                .requestMatchers("/**")
+                .permitAll();
+
+        http.authorizeHttpRequests()
                 .requestMatchers("/api/auth/login")
                 .permitAll();
+
+
 
         http.authorizeHttpRequests()
                 .requestMatchers("/api/users")
@@ -83,7 +89,7 @@ public class SecurityConfig {
 
 
         http.authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/api/posts")
+                .requestMatchers( "/api/posts")
                 .permitAll();
 
         http.authorizeHttpRequests()
@@ -115,6 +121,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-
 }

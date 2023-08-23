@@ -1,20 +1,17 @@
 package com.cg_vibely_social_service.payload.response;
-import com.cg_vibely_social_service.utils.PrivacyName;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+
+import com.cg_vibely_social_service.payload.response.UserResponseDto;
+import lombok.*;
+
 import java.util.List;
 
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class PostResponseDto {
+public class FeedItemResponseDto {
 
     private Long id;
     private UserResponseDto author;
@@ -25,5 +22,4 @@ public class PostResponseDto {
     private String createdDate;
     private Long likeCount;
     private Long commentCount;
-
 }
