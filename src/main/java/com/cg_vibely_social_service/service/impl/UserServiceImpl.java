@@ -41,6 +41,10 @@ public class UserServiceImpl implements UserService {
 
     private final Converter<UserInfoRequestDto, User> userInfoRequestConverter;
 
+    @Override
+    public UserImpl getCurrentUser() {
+        return (UserImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
 
     @Override
     public void save(UserRegisterRequestDto userRegisterRequestDto) {
