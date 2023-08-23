@@ -1,4 +1,4 @@
-package com.cg_vibely_social_service.service;
+package com.cg_vibely_social_service.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

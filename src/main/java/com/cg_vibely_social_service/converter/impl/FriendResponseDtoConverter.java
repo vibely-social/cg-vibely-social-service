@@ -24,6 +24,7 @@ public class FriendResponseDtoConverter implements Converter<FriendResponseDto, 
     public FriendResponseDto revert(User target) {
         FriendResponseDto result = new FriendResponseDto();
         BeanUtils.copyProperties(target, result);
+//        result.setAvatarUrl("https://media.discordapp.net/attachments/1006048991043145829/1006049027734913075/unknown.png?width=662&height=662");
         return result;
     }
 

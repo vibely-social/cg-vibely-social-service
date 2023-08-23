@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChatMessage {
+public class ChatMessageDto {
+    private String sender;
+    private String receiver;
+    private String senderName;
     private String content;
-    private String sendTo;
-    private String from;
-    private String name;
     private LocalDateTime time = LocalDateTime.now();
 }
