@@ -23,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.naming.AuthenticationException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,7 +44,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserImpl getCurrentUser() {
-        return (UserImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        try {
+            return (UserImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch (ClassCastException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
