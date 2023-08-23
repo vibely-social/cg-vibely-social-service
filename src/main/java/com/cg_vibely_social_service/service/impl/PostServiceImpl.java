@@ -94,14 +94,18 @@ public class PostServiceImpl implements PostService {
                         dto.setAuthor(authorDTO);
                     });
 
-                    if(!source.getFeedItem().getGallery().isEmpty()){
+                    if(source.getFeedItem().getGallery() != null){
                         dto.setGallery(imageService.getImageUrls(source.getFeedItem().getGallery()));
                     }
-                    if(source.getFeedItem().getLikes() != null && source.getFeedItem().getLikes().size() == 0){
-                        dto.setLikeCount((long) source.getFeedItem().getLikes().size());
+                    if(source.getFeedItem().getLikes() != null ){
+                        if(source.getFeedItem().getLikes().size() != 0) {
+                            dto.setLike(source.getFeedItem().getLikes());
+                        }
                     }
-                    if(source.getFeedItem().getComments() != null && source.getFeedItem().getComments().size() == 0){
-                        dto.setCommentCount((long) source.getFeedItem().getComments().size());
+                    if(source.getFeedItem().getComments() != null ){
+                        if(source.getFeedItem().getComments().size() != 0) {
+                            dto.setCommentCount((long) source.getFeedItem().getComments().size());
+                        }
                     }
                     List<UserResponseDto> newUserTags = new ArrayList<>();
                     if(source.getFeedItem().getTags() != null) {

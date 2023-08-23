@@ -1,6 +1,7 @@
 package com.cg_vibely_social_service.controller;
 
 import com.cg_vibely_social_service.entity.User;
+import com.cg_vibely_social_service.payload.request.LikeRequestDto;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
 import com.cg_vibely_social_service.service.ImageService;
@@ -38,15 +39,12 @@ public class PostController {
                 postService.newPost(newPostDTO, fileNames);
             }
             else{
-                if(newPostDTO != null) postService.newPost(newPostDTO);
-                else{
-                    return new ResponseEntity<>("Can't create empty post", HttpStatus.NOT_ACCEPTABLE);
-                }
+                if(newPostDTO == null) return new ResponseEntity<>("Can't create empty post", HttpStatus.NOT_ACCEPTABLE);
+                postService.newPost(newPostDTO);
             }
             return new ResponseEntity<>("Your post was created!",HttpStatus.CREATED);
         }
-        catch (
-                JsonMappingException e){
+        catch (JsonMappingException e){
             return new ResponseEntity<>("Invalid new post data",HttpStatus.NOT_ACCEPTABLE);
         }
         catch (Exception exception) {
@@ -82,4 +80,9 @@ public class PostController {
             }
         }
     }
+//    @PutMapping
+//    public ResponseEntity<?> likePost(@RequestBody LikeRequestDto likeRequestDto) {
+//
+//    }
+
 }
