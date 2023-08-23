@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface PostService {
-    List<PostResponseDto> findByUser(User user);
+    List<PostResponseDto> findByAuthorId(Long authorId);
     PostResponseDto findById(Long id);
 
     List<PostResponseDto> findAll();

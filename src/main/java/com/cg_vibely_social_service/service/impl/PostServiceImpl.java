@@ -35,8 +35,11 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public List<PostResponseDto> findByUser(User user) {
-        return null;
+    public List<PostResponseDto> findByAuthorId(Long authorId) {
+        List<Feed> feeds = postRepository.findAllByAuthorId(authorId);
+        return feeds.stream()
+                .map(source -> this.findById(source.getId()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -88,15 +91,13 @@ public class PostServiceImpl implements PostService {
     public List<PostResponseDto> getNewestPost(int page){
         List<Feed> feeds = postRepository.findLatestFeeds(page);
         return feeds.stream()
-                .map(source -> {
-                    return this.findById(source.getId());
-                })
+                .map(source -> this.findById(source.getId()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public PostResponseDto findById(Long id) {
-        Feed feed = postRepository.findById(id).orElseThrow();
+    public PostResponseDto findById(Long postId) {
+        Feed feed = postRepository.findById(postId).orElseThrow();
         FeedItem feedItem = feed.getFeedItem();
         PostResponseDto dto = IPostMapper.INSTANCE.postResponseDto(feedItem);
         dto.setId(feed.getId());

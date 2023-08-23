@@ -45,12 +45,10 @@ public class PostController {
             return new ResponseEntity<>("Your post was created!",HttpStatus.CREATED);
         }
         catch (JsonMappingException e){
-            return new ResponseEntity<>("Invalid new post data",HttpStatus.NOT_ACCEPTABLE);
-        }
+            return new ResponseEntity<>("Invalid new post data",HttpStatus.NOT_ACCEPTABLE); }
         catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(exception.getMessage(),HttpStatus.PAYMENT_REQUIRED);
-        }
+            return new ResponseEntity<>(exception.getMessage(),HttpStatus.PAYMENT_REQUIRED);}
     }
     @GetMapping
     public ResponseEntity<?> showPosts(){
@@ -67,6 +65,12 @@ public class PostController {
     @GetMapping("/{postId}")
     public ResponseEntity<?> getPost(@PathVariable("postId") Long postId){
         PostResponseDto postResponseDto = postService.findById(postId);
+        return new ResponseEntity<>(postResponseDto,HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{authorId}")
+    public ResponseEntity<?> getPostsByUser(@PathVariable("authorId") Long authorId){
+        List<PostResponseDto> postResponseDto = postService.findByAuthorId(authorId);
         return new ResponseEntity<>(postResponseDto,HttpStatus.OK);
     }
     @PutMapping

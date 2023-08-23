@@ -6,8 +6,5 @@ CREATE TABLE IF NOT EXISTS feed
     feed_items   json not null
 );
 
-ALTER TABLE  user
-    ADD avatar varchar(255);
-
 ALTER TABLE user
-    ADD cover varchar(255);
+    ADD avatar varchar(255);
