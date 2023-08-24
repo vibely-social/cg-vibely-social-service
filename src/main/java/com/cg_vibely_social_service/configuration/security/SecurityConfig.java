@@ -65,16 +65,8 @@ public class SecurityConfig {
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeHttpRequests()
-                .requestMatchers("/api/**")
-                .permitAll();
-
-        http.authorizeHttpRequests()
                 .requestMatchers("/api/auth/login")
                 .permitAll();
-
-        http.authorizeHttpRequests()
-                .requestMatchers("/api/auth/refresh-token")
-                .authenticated();
 
         http.authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/api/users")
@@ -85,8 +77,12 @@ public class SecurityConfig {
                 .permitAll();
 
         http.authorizeHttpRequests()
+                .requestMatchers("/api/auth/refresh-token")
+                .authenticated();
+
+        http.authorizeHttpRequests()
                 .requestMatchers("/api/**")
-                .hasRole("USER");
+                .authenticated();
 
         http.exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint)
