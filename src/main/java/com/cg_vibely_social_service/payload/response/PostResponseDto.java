@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Getter
@@ -16,14 +17,13 @@ import java.time.LocalDateTime;
 public class PostResponseDto {
 
     private Long id;
-
-    private UserResponseDto userResponseDto;
-
-    private PrivacyName privacy;
-
-    private String textContent;
-
-    private LocalDateTime createdAt;
-    private Boolean edited;
+    private UserResponseDto author;
+    private String content;
+    private String privacy;
+    private List<UserResponseDto> usersTag;
+    private List<String> gallery;
+    private String createdDate;
+    private List<Long> like;
+    private Long commentCount;
 
 }

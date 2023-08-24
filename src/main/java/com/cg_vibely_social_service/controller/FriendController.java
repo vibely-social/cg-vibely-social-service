@@ -6,11 +6,13 @@ import com.cg_vibely_social_service.payload.response.FriendResponseDto;
 import com.cg_vibely_social_service.service.FriendRequestService;
 import com.cg_vibely_social_service.service.FriendService;
 import com.cg_vibely_social_service.service.UserService;
+import com.cg_vibely_social_service.service.impl.UserImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.AuthenticationException;
 import java.util.List;
 
 @RestController
@@ -24,7 +26,8 @@ public class FriendController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getFriendList (@PathVariable("id") Long id ) {
-        if (userService.findById(id) != null) {
+        UserImpl user = userService.getCurrentUser();
+        if (user != null) {
             List<FriendResponseDto> friendList = friendService.findFriendsByUserId(id);
             return new ResponseEntity<>(friendList, HttpStatus.OK);
         } else {
