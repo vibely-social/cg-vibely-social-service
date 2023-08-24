@@ -27,3 +27,4 @@
 2023-08-24 15:12:08,422 +0700 [http-nio-8080-exec-9] WARN  (ControllerLogger.java:22) - ```yaml
 !##EXCEPTION: com.cg_vibely_social_service.controller.PostController.getPost() !ARGS: [7]!```
 2023-08-24 15:12:08,776 +0700 [http-nio-8080-exec-9] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+>>>>>>> 86b9c866c6b5bfc20faef6a74ac6d4a6eddb5226
