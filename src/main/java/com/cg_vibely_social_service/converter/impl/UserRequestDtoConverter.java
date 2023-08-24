@@ -2,18 +2,15 @@ package com.cg_vibely_social_service.converter.impl;
 
 
 import com.cg_vibely_social_service.converter.Converter;
-import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
 import com.cg_vibely_social_service.entity.User;
+import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 @Component
