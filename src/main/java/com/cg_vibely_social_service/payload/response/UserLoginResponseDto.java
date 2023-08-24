@@ -11,12 +11,11 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class FriendResponseDto {
+public class UserLoginResponseDto {
     private Long id;
+    private String message;
+    private boolean status;
     private String email;
-    private String firstName;
-    private String lastName;
-    private String avatarUrl;
-    private String gender;
-    private Integer mutualFriends;
+    private String accessToken;
+    private String refreshToken;
 }

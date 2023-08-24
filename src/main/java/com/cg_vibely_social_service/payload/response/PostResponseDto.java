@@ -8,12 +8,13 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
-@Component
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostResponseDto {
+
     private Long id;
 
     private UserResponseDto userResponseDto;

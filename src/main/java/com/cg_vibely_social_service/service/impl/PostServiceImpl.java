@@ -16,8 +16,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
+
     private final PostRepository postRepository;
+
     private final Converter<PostResponseDto, Post> postResponseDtoConverter;
+
     private final Converter<PostRequestDto, Post> postRequestDtoConverter;
 
 

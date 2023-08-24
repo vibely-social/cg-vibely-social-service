@@ -6,15 +6,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
 @Setter
-public class LoginResponseDto {
-    private String message;
-    private boolean status;
+public class UserInfoResponseDto {
+    private Long id;
     private String email;
-    private String accessToken;
-    private String refreshToken;
+    private String firstName;
+    private String lastName;
+    private LocalDate birthday;
+    private String gender;
+    private String phoneNumber;
+    private String city;
 }

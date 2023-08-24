@@ -1,42 +1,51 @@
 package com.cg_vibely_social_service.service.impl;
 
+import com.cg_vibely_social_service.configuration.security.JwtTokenProvider;
 import com.cg_vibely_social_service.converter.Converter;
-import com.cg_vibely_social_service.converter.impl.UserRequestDtoConverter;
 import com.cg_vibely_social_service.entity.Friend;
-import com.cg_vibely_social_service.payload.request.LoginRequestDto;
-import com.cg_vibely_social_service.payload.request.RegisterRequestDto;
-import com.cg_vibely_social_service.payload.response.LoginResponseDto;
 import com.cg_vibely_social_service.entity.User;
+import com.cg_vibely_social_service.payload.request.UserInfoRequestDto;
+import com.cg_vibely_social_service.payload.request.UserLoginRequestDto;
+import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
+import com.cg_vibely_social_service.payload.response.UserInfoResponseDto;
+import com.cg_vibely_social_service.payload.response.UserLoginResponseDto;
+import com.cg_vibely_social_service.payload.response.UserSuggestionResponseDto;
 import com.cg_vibely_social_service.repository.UserRepository;
-import com.cg_vibely_social_service.configuration.security.JwtUtil;
+import com.cg_vibely_social_service.service.UserPrincipal;
 import com.cg_vibely_social_service.service.UserService;
-import com.cg_vibely_social_service.utils.Regex;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserRequestDtoConverter userRequestDtoConverter;
-
     private final UserRepository userRepository;
+    private final JwtTokenProvider jwtUtil;
+    private final AuthenticationManager authenticationManager;
+    private final Converter<UserRegisterRequestDto, User> converter;
+    private final Converter<UserSuggestionResponseDto, User> suggestionFriendConverter;
 
-    private final JwtUtil jwtUtil;
+    private final Converter<UserInfoResponseDto, User> userInfoResponseConverter;
 
-    private final Regex regex;
-
-    private final Converter<RegisterRequestDto, User> registerConverter;
+    private final Converter<UserInfoRequestDto, User> userInfoRequestConverter;
 
 
     @Override
-    public void save(User user) {
-        userRepository.save(user);
+    public void save(UserRegisterRequestDto userRegisterRequestDto) {
+        userRepository.save(converter.convert(userRegisterRequestDto));
     }
 
     @Override
@@ -52,8 +61,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id).orElseThrow();
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+    public User loadUserByEmail(String email) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("Invalid username");
@@ -62,70 +71,87 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LoginResponseDto authenticate(LoginRequestDto loginRequestDto) {
-        LoginResponseDto failLoginResponse = LoginResponseDto.builder()
-                .message("Invalid credential")
-                .status(false)
-                .build();
-        try {
-            User user = (User) loadUserByUsername(loginRequestDto.getEmail());
+    public UserLoginResponseDto authenticate(UserLoginRequestDto userLoginRequestDto) {
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(
+                        userLoginRequestDto.getEmail(), userLoginRequestDto.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            if (checkPassword(user, loginRequestDto.getPassword())) {
-                String token = jwtUtil.generateToken(user);
-                String refreshToken = jwtUtil.generateRefreshToken(user);
-                return LoginResponseDto.builder()
+//        try {
+            User user = loadUserByEmail(userLoginRequestDto.getEmail());
+//
+//            if (checkPassword(user, userLoginRequestDto.getPassword())) {
+
+                String token = jwtUtil.generateToken(authentication);
+                String refreshToken = jwtUtil.generateRefreshToken(authentication);
+                return UserLoginResponseDto.builder()
                         .message("Login successfully")
                         .status(true)
+                        .id(user.getId())
                         .email(user.getEmail())
                         .accessToken(token)
                         .refreshToken(refreshToken)
                         .build();
-            }
-        } catch (UsernameNotFoundException exception) {
-            return failLoginResponse;
-        }
-        return failLoginResponse;
+
+//            }
+//        } catch (UsernameNotFoundException exception) {
+//            return failLoginResponse;
+//        }
+//        return failLoginResponse;
     }
 
     @Override
-    public LoginResponseDto refreshToken(String token) {
-        LoginResponseDto failLoginResponse = LoginResponseDto.builder()
-                .message("Illegal token")
-                .status(false)
-                .build();
-
-        if (token.startsWith("Bearer ")) {
-            String refreshToken = token.substring(7);
-            String email = jwtUtil.extractEmail(refreshToken);
-
-            User user = (User) loadUserByUsername(email);
-
-            if (email != null && jwtUtil.isTokenValid(refreshToken)) {
-                String newToken = jwtUtil.generateRefreshToken(user);
-                return LoginResponseDto.builder()
-                        .message("Login successfully")
-                        .status(true)
-                        .email(user.getEmail())
-                        .accessToken(newToken)
-                        .build();
-            }
-        }
-        return failLoginResponse;
+    public String refreshToken() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return jwtUtil.generateToken(authentication);
     }
 
     @Override
     public boolean checkValidEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
-        if (user.isEmpty()) {
-            return true;
-        }
-        return false;
+        return user.isEmpty();
     }
 
+    @Override
+    public List<UserSuggestionResponseDto> find20UsersSuggestionByUserId(Long userId) {
+        List<User> suggestionFriends = userRepository.find20UsersSuggestionByUserId(userId, Pageable.ofSize(20));
+        List<UserSuggestionResponseDto> userSuggestionResponseDtos = suggestionFriendConverter.revert(suggestionFriends);
+
+        List<Long> user1FriendIds = userRepository.findById(userId).orElse(null).getFriendList().stream().map(Friend::getFriendId).collect(Collectors.toList());
+
+        for (UserSuggestionResponseDto dto : userSuggestionResponseDtos) {
+            User user = userRepository.findById(dto.getId()).orElse(null);
+            if (user != null) {
+                List<Long> user2FriendIds = user.getFriendList().stream().map(Friend::getFriendId).collect(Collectors.toList());
+                int mutualFriends = (int) user1FriendIds.stream().filter(user2FriendIds::contains).count();
+                dto.setNumberMutualFriend(mutualFriends);
+            }
+        }
+        return userSuggestionResponseDtos;
+    }
+
+    public UserPrincipal getUserPrincipal(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
+        return UserPrincipal.builder()
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .build();
+    }
 
     private boolean checkPassword(User user, String password) {
         return BCrypt.checkpw(password, user.getPassword());
     }
 
+    @Override
+    public UserInfoResponseDto getUserInfoById(Long userId) {
+        return userInfoResponseConverter.revert(userRepository.findById(userId).orElseThrow());
+    }
 
+    @Override
+    public void updateUserInfo(UserInfoRequestDto userInfoRequestDto) {
+        User newInfo = userInfoRequestConverter.convert(userInfoRequestDto);
+        newInfo.setPassword(userRepository.findById(newInfo.getId()).orElseThrow().getPassword());
+        userRepository.save(newInfo);
+    }
 }
