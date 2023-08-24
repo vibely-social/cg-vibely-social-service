@@ -3,6 +3,7 @@ package com.cg_vibely_social_service.converter.impl;
 import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.UserInfoRequestDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Component
 public class UserInfoRequestDtoConverter implements Converter<UserInfoRequestDto, User> {
+
 
     @Override
     public User convert(UserInfoRequestDto source) {

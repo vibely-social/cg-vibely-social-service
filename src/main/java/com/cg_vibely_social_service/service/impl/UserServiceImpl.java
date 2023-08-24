@@ -13,6 +13,7 @@ import com.cg_vibely_social_service.payload.response.UserSuggestionResponseDto;
 import com.cg_vibely_social_service.repository.UserRepository;
 import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -147,8 +148,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUserInfo(UserInfoRequestDto userInfoRequestDto) {
-        User newInfo = userInfoRequestConverter.convert(userInfoRequestDto);
-        newInfo.setPassword(userRepository.findById(newInfo.getId()).orElseThrow().getPassword());
-        userRepository.save(newInfo);
+        UserImpl currentUser = getCurrentUser();
+        User user = userRepository.findById(currentUser.getId()).orElseThrow();
+        BeanUtils.copyProperties(userInfoRequestDto, user);
+
+        userRepository.save(user);
     }
 }
