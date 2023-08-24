@@ -23,7 +23,7 @@ public class Media {
 
 //    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 //    @JoinColumn(name = "post_id")
-//    private Post post;
+//    private FeedItem post;
 
     @Column(name ="post_id")
     private Long postID;
