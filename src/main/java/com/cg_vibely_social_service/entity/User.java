@@ -84,6 +84,12 @@ public class User  {
     @Column(name = "position")
     private String position;
 
+    @Column(name = "bio")
+    private String bio;
+
+    @Column(name = "hobbies")
+    private String hobbies;
+
     @Column(name = "avatar")
     private String avatar;
 

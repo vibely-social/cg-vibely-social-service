@@ -27,4 +27,7 @@ public class UserInfoResponseDto {
     private String school;
     private String company;
     private String position;
+    private String bio;
+    private String hobbies;
+
 }
