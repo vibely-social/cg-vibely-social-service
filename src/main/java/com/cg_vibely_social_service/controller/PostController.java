@@ -51,11 +51,6 @@ public class PostController {
             return new ResponseEntity<>(exception.getMessage(),HttpStatus.PAYMENT_REQUIRED);}
     }
 
-    @GetMapping("/{postId}")
-    public ResponseEntity<?> getPost(@PathVariable("postId") Long postId) {
-        return new ResponseEntity<>(postService.findById(postId), HttpStatus.OK);
-    }
-
     @GetMapping
     public ResponseEntity<?> showPosts(){
         List<PostResponseDto> feedItemResponseDTOs = postService.getNewestPost(0);

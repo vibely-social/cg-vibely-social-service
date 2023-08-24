@@ -15,3 +15,51 @@
 !##Begining upload... !ARGS: [[org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@229cb0bc, org.springframework.web.multipart.support.StandardMultipartHttpServletRequest$StandardMultipartFile@31b9ec71]]!```
 2023-08-23 22:12:28,773 +0700 [http-nio-8080-exec-9] INFO  (ServiceLogger.java:45) - ```diff
 +##Upload success!... [16f0e692-29ce-42f7-8f51-872a0f74a750jpg, e2d877f5-1c04-4ceb-9af9-132c29a50a36jpg]!```
+2023-08-24 10:20:10,556 +0700 [http-nio-8080-exec-3] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.PostServiceImpl.findById() !ARGS: [1008]!```
+2023-08-24 10:20:11,604 +0700 [http-nio-8080-exec-3] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 10:20:12,085 +0700 [http-nio-8080-exec-3] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.PostController.getPost() !ARGS: [1008]!```
+2023-08-24 10:20:12,510 +0700 [http-nio-8080-exec-3] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 10:24:02,205 +0700 [http-nio-8080-exec-3] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.PostServiceImpl.findById() !ARGS: [1008]!```
+2023-08-24 10:24:02,756 +0700 [http-nio-8080-exec-3] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 10:24:03,121 +0700 [http-nio-8080-exec-3] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.PostController.getPost() !ARGS: [1008]!```
+2023-08-24 10:24:03,483 +0700 [http-nio-8080-exec-3] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 10:25:23,923 +0700 [http-nio-8080-exec-2] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.PostServiceImpl.findById() !ARGS: [1008]!```
+2023-08-24 10:25:24,563 +0700 [http-nio-8080-exec-2] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 10:25:24,968 +0700 [http-nio-8080-exec-2] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.PostController.getPost() !ARGS: [1008]!```
+2023-08-24 10:25:25,395 +0700 [http-nio-8080-exec-2] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 10:26:57,474 +0700 [http-nio-8080-exec-4] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.PostServiceImpl.findById() !ARGS: [1008]!```
+2023-08-24 10:26:57,952 +0700 [http-nio-8080-exec-4] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 10:26:58,321 +0700 [http-nio-8080-exec-4] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.PostController.getPost() !ARGS: [1008]!```
+2023-08-24 10:26:58,683 +0700 [http-nio-8080-exec-4] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 10:34:53,023 +0700 [http-nio-8080-exec-8] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.PostServiceImpl.findById() !ARGS: [1008]!```
+2023-08-24 10:34:53,589 +0700 [http-nio-8080-exec-8] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 10:34:53,984 +0700 [http-nio-8080-exec-8] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.PostController.getPost() !ARGS: [1008]!```
+2023-08-24 10:34:54,356 +0700 [http-nio-8080-exec-8] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 10:42:45,366 +0700 [http-nio-8080-exec-9] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.PostServiceImpl.findById() !ARGS: [1008]!```
+2023-08-24 10:42:45,913 +0700 [http-nio-8080-exec-9] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 10:42:46,319 +0700 [http-nio-8080-exec-9] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.PostController.getPost() !ARGS: [1008]!```
+2023-08-24 10:42:46,711 +0700 [http-nio-8080-exec-9] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 11:00:02,263 +0700 [http-nio-8080-exec-9] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.PostServiceImpl.findById() !ARGS: [1008]!```
+2023-08-24 11:00:02,915 +0700 [http-nio-8080-exec-9] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 11:00:03,281 +0700 [http-nio-8080-exec-9] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.PostController.getPost() !ARGS: [1008]!```
+2023-08-24 11:00:03,725 +0700 [http-nio-8080-exec-9] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 11:02:01,743 +0700 [http-nio-8080-exec-6] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.PostServiceImpl.findById() !ARGS: [1008]!```
+2023-08-24 11:02:02,282 +0700 [http-nio-8080-exec-6] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 11:02:02,709 +0700 [http-nio-8080-exec-6] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.PostController.getPost() !ARGS: [1008]!```
+2023-08-24 11:02:03,118 +0700 [http-nio-8080-exec-6] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||

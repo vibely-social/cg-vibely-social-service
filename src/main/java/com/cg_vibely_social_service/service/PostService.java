@@ -12,8 +12,6 @@ public interface PostService {
     List<PostResponseDto> findByAuthorId(Long authorId);
     PostResponseDto findById(Long id);
 
-    PostResponseDto findById(Long id);
-
     List<PostResponseDto> findAll();
 
     void save(PostRequestDto postRequestDto);
