@@ -12,9 +12,12 @@ import com.cg_vibely_social_service.repository.PostRepository;
 import com.cg_vibely_social_service.repository.UserRepository;
 import com.cg_vibely_social_service.service.ImageService;
 import com.cg_vibely_social_service.service.PostService;
+import com.cg_vibely_social_service.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.gax.rpc.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +35,7 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final ImageService imageService;
-
+    private final UserService userService;
 
     @Override
     public List<PostResponseDto> findByAuthorId(Long authorId) {
@@ -64,11 +67,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void newPost(String source, List<String> files) throws JsonProcessingException {
-        Principal principal = SecurityContextHolder.getContext().getAuthentication();
-
         ObjectMapper objectMapper = new ObjectMapper();
         FeedItem feedItem =
                 IPostMapper.INSTANCE.newPostConvert(objectMapper.readValue(source, PostRequestDto.class));
+        UserImpl user = userService.getCurrentUser();
+        feedItem.setAuthorId(user.getId());
         feedItem.setGallery(files);
         feedItem.setCreatedDate(LocalDateTime.now().toString());
         Feed feed = new Feed();
@@ -79,8 +82,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public void newPost(String source) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        FeedItem feedItem =
-                IPostMapper.INSTANCE.newPostConvert(objectMapper.readValue(source, PostRequestDto.class));
+        FeedItem feedItem = IPostMapper.INSTANCE.newPostConvert(objectMapper.readValue(source, PostRequestDto.class));
+        UserImpl user = userService.getCurrentUser();
+        feedItem.setAuthorId(user.getId());
         feedItem.setCreatedDate(LocalDateTime.now().toString());
         Feed feed = new Feed();
         feed.setFeedItem(feedItem);
@@ -113,12 +117,12 @@ public class PostServiceImpl implements PostService {
         }
         if(feedItem.getLikes() != null ){
             if(feedItem.getLikes().size() != 0) {
-                dto.setLike(feedItem.getLikes());
+                dto.setLikes(feedItem.getLikes());
             }
         }
         if(feedItem.getComments() != null ){
             if(feedItem.getComments().size() != 0) {
-                dto.setCommentCount((long) feedItem.getComments().size());
+                dto.setComments(feedItem.getComments());
             }
         }
         List<UserResponseDto> newUserTags = new ArrayList<>();
