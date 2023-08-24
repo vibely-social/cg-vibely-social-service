@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.naming.AuthenticationException;
 import java.util.List;
 
 @RestController
@@ -35,21 +33,18 @@ public class FriendController {
         }
     }
 
-    //Tạo lời mời
     @PostMapping("/request")
     public ResponseEntity<?> saveFriendRequest(@RequestBody FriendRequestDto friendRequestDto) {
        friendRequestService.saveFriendRequest(friendRequestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //Tìm lời mời đã gửi kết bạn
     @GetMapping("/requested/{id}")
     public ResponseEntity<?> getRequestedFriend (@PathVariable("id") Long id) {
         List<FriendRequestDto> friendRequestList = friendRequestService.findAllFriendRequestByUserId(id);
         return new ResponseEntity<>(friendRequestList, HttpStatus.OK);
     }
 
-    //Tìm lời mời kết bạn
     @GetMapping("/request/{id}")
     public ResponseEntity<?> getFriendRequest (@PathVariable("id") Long id) {
         List<FriendRequestDto> friendRequestList = friendRequestService.findAllFriendRequestByFriendId(id);
