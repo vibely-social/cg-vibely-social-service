@@ -15,8 +15,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class UserInfoRequestDto {
-    private Long id;
-    private String email;
     private String firstName;
     private String lastName;
     private LocalDate birthday;
@@ -27,4 +25,6 @@ public class UserInfoRequestDto {
     private String school;
     private String company;
     private String position;
+    private String bio;
+    private String hobbies;
 }

@@ -65,3 +65,17 @@
 2023-08-24 15:18:08,592 +0700 [http-nio-8080-exec-4] WARN  (ControllerLogger.java:22) - ```yaml
 !##EXCEPTION: com.cg_vibely_social_service.controller.CommentController.getComments() !ARGS: [17]!```
 2023-08-24 15:18:09,181 +0700 [http-nio-8080-exec-4] ERROR (ControllerLogger.java:26) - ||[org.springframework.core.convert.ConverterNotFoundException: No converter found capable of converting from type [org.springframework.data.jpa.repository.query.AbstractJpaQuery$TupleConverter$TupleBackedMap] to type [com.cg_vibely_social_service.entity.Feed.Comment]]||
+2023-08-24 15:12:00,453 +0700 [http-nio-8080-exec-8] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.PostServiceImpl.findById() !ARGS: [7]!```
+2023-08-24 15:12:01,344 +0700 [http-nio-8080-exec-8] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 15:12:01,789 +0700 [http-nio-8080-exec-8] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.PostController.getPost() !ARGS: [7]!```
+2023-08-24 15:12:02,220 +0700 [http-nio-8080-exec-8] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 15:12:07,528 +0700 [http-nio-8080-exec-9] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.PostServiceImpl.findById() !ARGS: [7]!```
+2023-08-24 15:12:07,955 +0700 [http-nio-8080-exec-9] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-24 15:12:08,422 +0700 [http-nio-8080-exec-9] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.PostController.getPost() !ARGS: [7]!```
+2023-08-24 15:12:08,776 +0700 [http-nio-8080-exec-9] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+>>>>>>> 86b9c866c6b5bfc20faef6a74ac6d4a6eddb5226
+>>>>>>> 667b838c23da704e9b645871c09877b72ff6ea8c
