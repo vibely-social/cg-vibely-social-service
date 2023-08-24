@@ -1,5 +1,10 @@
 package com.cg_vibely_social_service.entity;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,11 +21,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -65,6 +65,18 @@ public class User  {
     @Column(name = "relationship")
     private String relationship;
 
+    @Column(name = "district")
+    private String district;
+
+    @Column(name = "school")
+    private String school;
+
+    @Column(name = "company")
+    private String company;
+
+    @Column(name = "position")
+    private String position;
+
     @Column(name = "avatar")
     private String avatar;
 
@@ -85,42 +97,4 @@ public class User  {
 
     @OneToMany(mappedBy = "user")
     private List<Media> media;
-
-    //Methods from UserDetails
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return roles.stream()
-//                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRoleName()))
-//                .collect(Collectors.toSet());
-//    }
-//
-////    @OneToMany(mappedBy = "media",cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-////    private List<Media> medias;
-//
-//    @Override
-//    public String getUsername() {
-//        return this.email;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return true;
-//    }
-
-
 }

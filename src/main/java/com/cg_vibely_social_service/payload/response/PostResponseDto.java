@@ -25,7 +25,7 @@ public class PostResponseDto {
     private List<UserResponseDto> usersTag;
     private List<String> gallery;
     private String createdDate;
-    private Long likeCount;
+    private List<Long> like;
     private Long commentCount;
 
 }
