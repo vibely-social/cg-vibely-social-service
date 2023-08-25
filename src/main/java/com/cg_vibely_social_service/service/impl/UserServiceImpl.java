@@ -13,6 +13,7 @@ import com.cg_vibely_social_service.payload.response.UserSuggestionResponseDto;
 import com.cg_vibely_social_service.repository.UserRepository;
 import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +37,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtUtil;
+    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final Converter<UserRegisterRequestDto, User> converter;
     private final Converter<UserSuggestionResponseDto, User> suggestionFriendConverter;
@@ -42,6 +45,8 @@ public class UserServiceImpl implements UserService {
     private final Converter<UserInfoResponseDto, User> userInfoResponseConverter;
 
     private final Converter<UserInfoRequestDto, User> userInfoRequestConverter;
+    @Value("${app.friendSuggestionNumber}")
+    private Integer friendSuggestionNumber;
 
     @Override
     public UserImpl getCurrentUser() {
@@ -116,8 +121,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserSuggestionResponseDto> find20UsersSuggestionByUserId(Long userId) {
-        List<User> suggestionFriends = userRepository.find20UsersSuggestionByUserId(userId, Pageable.ofSize(20));
+    public List<UserSuggestionResponseDto> findFriendSuggestionByUserId(Long userId) {
+        List<User> suggestionFriends = userRepository.findFriendSuggestionByUserId(userId, Pageable.ofSize(friendSuggestionNumber));
         List<UserSuggestionResponseDto> userSuggestionResponseDtos = suggestionFriendConverter.revert(suggestionFriends);
 
         List<Long> user1FriendIds = userRepository.findById(userId).orElse(null).getFriendList().stream().map(Friend::getFriendId).collect(Collectors.toList());
@@ -141,6 +146,14 @@ public class UserServiceImpl implements UserService {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .build();
+    }
+
+    @Override
+    public void updateUserPassword(String email, String tempPassword) {
+        User user = loadUserByEmail(email);
+        String hashedPassword = passwordEncoder.encode(tempPassword);
+        user.setPassword(hashedPassword);
+        userRepository.save(user);
     }
 
     private boolean checkPassword(User user, String password) {
