@@ -55,15 +55,11 @@ dependencies {
     implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.5.3.Final'
 
     //sending email
-//    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 
     //thymeleaf for sending mail
-//    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.7.3'
-
-
 
     //logger
     implementation group: 'log4j', name: 'log4j', version: '1.2.17'
