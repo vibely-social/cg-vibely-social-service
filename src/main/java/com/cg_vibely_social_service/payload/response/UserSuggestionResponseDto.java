@@ -18,4 +18,5 @@ public class UserSuggestionResponseDto {
     private String firstName;
     private String lastName;
     private Integer numberMutualFriend;
+    private String avatar;
 }
