@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReplyComment {
-    private UUID replyId;
+    private Long replyId;
     private Long userId;
     private String content;
     private String gallery;

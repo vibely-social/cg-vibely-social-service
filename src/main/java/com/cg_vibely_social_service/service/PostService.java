@@ -25,4 +25,5 @@ public interface PostService {
     void newPost(String source) throws JsonProcessingException;
 
     List<PostResponseDto> getNewestPost(int page);
+
 }
