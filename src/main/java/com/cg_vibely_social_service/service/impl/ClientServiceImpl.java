@@ -4,6 +4,7 @@ import com.cg_vibely_social_service.payload.response.DataMailDto;
 import com.cg_vibely_social_service.payload.sdi.ClientSdi;
 import com.cg_vibely_social_service.service.ClientService;
 import com.cg_vibely_social_service.service.MailService;
+import com.cg_vibely_social_service.service.UserService;
 import com.cg_vibely_social_service.utils.Const;
 import com.cg_vibely_social_service.utils.DataUtils;
 import jakarta.mail.MessagingException;
@@ -17,19 +18,20 @@ import java.util.Map;
 public class ClientServiceImpl implements ClientService {
 
     private final MailService mailService;
+    private final UserService userService;
 
 
     public Boolean create(ClientSdi sdi) {
         try {
             DataMailDto dataMail = new DataMailDto();
-
-            dataMail.setTo(sdi.getEmail());
+            String email = sdi.getEmail();
+            dataMail.setTo(email);
             dataMail.setSubject(Const.SEND_MAIL_SUBJECT.CLIENT_REGISTER);
 
             Map<String, Object> props = new HashMap<>();
-            props.put("name", sdi.getName());
-            props.put("username", sdi.getUsername());
-            props.put("password", DataUtils.generateTempPwd(6));
+            String tempPassword = DataUtils.generateTempPwd(6);
+            userService.updateUserPassword(email,tempPassword);
+            props.put("password", tempPassword);
             dataMail.setProps(props);
 
             mailService.sendHtmlMail(dataMail,Const.TEMPLATE_FILE_NAME.CLIENT_REGISTER);

@@ -10,8 +10,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ClientSdi {
-    private String name;
-    private String username;
     private String email;
 
 }

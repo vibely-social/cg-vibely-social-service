@@ -21,8 +21,8 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
             errorMessage = "Access token expired";
         }
 
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
-        response.getWriter().write("{\"error\": \"" + errorMessage + "\"}");
+        response.getWriter().write("{\"error\": \"" + authException.getMessage() + "\"}");
     }
 }

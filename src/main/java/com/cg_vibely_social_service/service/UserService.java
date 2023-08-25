@@ -9,6 +9,7 @@ import com.cg_vibely_social_service.payload.response.UserLoginResponseDto;
 import com.cg_vibely_social_service.payload.response.UserSuggestionResponseDto;
 
 import java.util.List;
+import com.cg_vibely_social_service.service.impl.UserPrincipal;
 
 
 public interface UserService{
@@ -29,4 +30,6 @@ public interface UserService{
 
     void updateUserInfo(UserInfoRequestDto userInfoRequestDto);
     UserPrincipal getUserPrincipal(String email);
+
+    void updateUserPassword(String email, String tempPassword);
 }

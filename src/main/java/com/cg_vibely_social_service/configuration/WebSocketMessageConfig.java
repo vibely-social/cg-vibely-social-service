@@ -1,5 +1,6 @@
 package com.cg_vibely_social_service.configuration;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -9,14 +10,15 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
 @Configuration
 @EnableWebSocketMessageBroker
+@RequiredArgsConstructor
 public class WebSocketMessageConfig implements WebSocketMessageBrokerConfigurer {
     @Value("${app.cors.allowedOrigins}")
     private String allowedOrigin;
-    @Autowired
-    private ChannelInterceptor channelInterceptor;
+    private final ChannelInterceptor channelInterceptor;
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
@@ -26,6 +28,7 @@ public class WebSocketMessageConfig implements WebSocketMessageBrokerConfigurer 
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
+        registry.enableSimpleBroker("/topic");
         registry.enableSimpleBroker("/queue");
         registry.setApplicationDestinationPrefixes("/app");
         registry.setUserDestinationPrefix("/users");
@@ -35,5 +38,11 @@ public class WebSocketMessageConfig implements WebSocketMessageBrokerConfigurer 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws").setAllowedOriginPatterns("*");
+        registry.addEndpoint("/comment").setAllowedOriginPatterns("*");
+    }
+
+    @Override
+    public void configureWebSocketTransport(WebSocketTransportRegistration registry) {
+        WebSocketMessageBrokerConfigurer.super.configureWebSocketTransport(registry);
     }
 }
