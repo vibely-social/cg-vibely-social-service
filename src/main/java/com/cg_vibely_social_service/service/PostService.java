@@ -9,7 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface PostService {
-    List<PostResponseDto> findByUser(User user);
+    List<PostResponseDto> findByAuthorId(Long authorId);
+    PostResponseDto findById(Long id);
 
     List<PostResponseDto> findAll();
 
@@ -24,4 +25,5 @@ public interface PostService {
     void newPost(String source) throws JsonProcessingException;
 
     List<PostResponseDto> getNewestPost(int page);
+
 }

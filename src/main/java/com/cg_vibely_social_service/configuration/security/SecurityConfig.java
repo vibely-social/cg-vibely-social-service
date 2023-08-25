@@ -77,6 +77,10 @@ public class SecurityConfig {
                 .permitAll();
 
         http.authorizeHttpRequests()
+                .requestMatchers("/api/forgot_password")
+                .permitAll();
+
+        http.authorizeHttpRequests()
                 .requestMatchers("/ws/**")
                 .permitAll();
 

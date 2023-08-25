@@ -12,11 +12,16 @@ import com.cg_vibely_social_service.repository.PostRepository;
 import com.cg_vibely_social_service.repository.UserRepository;
 import com.cg_vibely_social_service.service.ImageService;
 import com.cg_vibely_social_service.service.PostService;
+import com.cg_vibely_social_service.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.gax.rpc.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +35,14 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final ImageService imageService;
-
+    private final UserService userService;
 
     @Override
-    public List<PostResponseDto> findByUser(User user) {
-        return null;
+    public List<PostResponseDto> findByAuthorId(Long authorId) {
+        List<Feed> feeds = postRepository.findAllByAuthorId(authorId);
+        return feeds.stream()
+                .map(source -> this.findById(source.getId()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -62,6 +70,8 @@ public class PostServiceImpl implements PostService {
         ObjectMapper objectMapper = new ObjectMapper();
         FeedItem feedItem =
                 IPostMapper.INSTANCE.newPostConvert(objectMapper.readValue(source, PostRequestDto.class));
+        UserImpl user = userService.getCurrentUser();
+        feedItem.setAuthorId(user.getId());
         feedItem.setGallery(files);
         feedItem.setCreatedDate(LocalDateTime.now().toString());
         Feed feed = new Feed();
@@ -72,8 +82,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public void newPost(String source) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        FeedItem feedItem =
-                IPostMapper.INSTANCE.newPostConvert(objectMapper.readValue(source, PostRequestDto.class));
+        FeedItem feedItem = IPostMapper.INSTANCE.newPostConvert(objectMapper.readValue(source, PostRequestDto.class));
+        UserImpl user = userService.getCurrentUser();
+        feedItem.setAuthorId(user.getId());
         feedItem.setCreatedDate(LocalDateTime.now().toString());
         Feed feed = new Feed();
         feed.setFeedItem(feedItem);
@@ -84,39 +95,48 @@ public class PostServiceImpl implements PostService {
     public List<PostResponseDto> getNewestPost(int page){
         List<Feed> feeds = postRepository.findLatestFeeds(page);
         return feeds.stream()
-                .map(source -> {
-                    PostResponseDto dto = IPostMapper.INSTANCE.postResponseDto(source.getFeedItem());
-                    dto.setId(source.getId());
-                    Optional<User> author = userRepository.findById(source.getFeedItem().getAuthorId());
-                    author.ifPresent(data -> {
-                        UserResponseDto authorDTO =
-                                IUserMapper.INSTANCE.userResponseDTOConvert(data);
-                        dto.setAuthor(authorDTO);
-                    });
-
-                    if(!source.getFeedItem().getGallery().isEmpty()){
-                        dto.setGallery(imageService.getImageUrls(source.getFeedItem().getGallery()));
-                    }
-                    if(source.getFeedItem().getLikes() != null && source.getFeedItem().getLikes().size() == 0){
-                        dto.setLikeCount((long) source.getFeedItem().getLikes().size());
-                    }
-                    if(source.getFeedItem().getComments() != null && source.getFeedItem().getComments().size() == 0){
-                        dto.setCommentCount((long) source.getFeedItem().getComments().size());
-                    }
-                    List<UserResponseDto> newUserTags = new ArrayList<>();
-                    if(source.getFeedItem().getTags() != null) {
-                        for (Long id : source.getFeedItem().getTags()) {
-                            Optional<User> user = userRepository.findById(id);
-                            user.ifPresent(data -> {
-                                UserResponseDto tag =
-                                        IUserMapper.INSTANCE.userResponseDTOConvert(data);
-                                newUserTags.add(tag);
-                            });
-                        }
-                        dto.setUsersTag(newUserTags);
-                    }
-                    return dto;
-                })
+                .map(source -> this.findById(source.getId()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public PostResponseDto findById(Long postId) {
+        Feed feed = postRepository.findById(postId).orElseThrow();
+        FeedItem feedItem = feed.getFeedItem();
+        PostResponseDto dto = IPostMapper.INSTANCE.postResponseDto(feedItem);
+        dto.setId(feed.getId());
+        Optional<User> author = userRepository.findById(feedItem.getAuthorId());
+        author.ifPresent(data -> {
+            UserResponseDto authorDTO =
+                    IUserMapper.INSTANCE.userResponseDTOConvert(data);
+            dto.setAuthor(authorDTO);
+        });
+
+        if(feedItem.getGallery() != null){
+            dto.setGallery(imageService.getImageUrls(feedItem.getGallery()));
+        }
+        if(feedItem.getLikes() != null ){
+            if(feedItem.getLikes().size() != 0) {
+                dto.setLikes(feedItem.getLikes());
+            }
+        }
+        if(feedItem.getComments() != null ){
+            if(feedItem.getComments().size() != 0) {
+                dto.setComments(feedItem.getComments());
+            }
+        }
+        List<UserResponseDto> newUserTags = new ArrayList<>();
+        if(feedItem.getTags() != null) {
+            for (Long userid : feedItem.getTags()) {
+                Optional<User> user = userRepository.findById(userid);
+                user.ifPresent(data -> {
+                    UserResponseDto tag =
+                            IUserMapper.INSTANCE.userResponseDTOConvert(data);
+                    newUserTags.add(tag);
+                });
+            }
+            dto.setUsersTag(newUserTags);
+        }
+        return dto;
     }
 }

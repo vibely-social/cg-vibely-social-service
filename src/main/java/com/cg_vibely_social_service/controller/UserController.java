@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +63,7 @@ public class UserController {
 
     @GetMapping("/{id}/suggestionFriends")
     public ResponseEntity<?> showSuggestionFriends(@PathVariable("id") Long id) {
-        List<UserSuggestionResponseDto> userSuggestion = userService.find20UsersSuggestionByUserId(id);
+        List<UserSuggestionResponseDto> userSuggestion = userService.findFriendSuggestionByUserId(id);
         if (!userSuggestion.isEmpty()){
             return new ResponseEntity<>(userSuggestion, HttpStatus.OK);
         } else {

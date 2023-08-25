@@ -84,6 +84,12 @@ public class User  {
     @Column(name = "position")
     private String position;
 
+    @Column(name = "bio")
+    private String bio;
+
+    @Column(name = "hobbies")
+    private String hobbies;
+
     @Column(name = "avatar")
     private String avatar;
 
@@ -98,6 +104,7 @@ public class User  {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "id"))
     private List<Friend> friendList;
+
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Post> posts;
 }

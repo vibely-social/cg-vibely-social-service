@@ -3,6 +3,7 @@ package com.cg_vibely_social_service.controller;
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
+import com.cg_vibely_social_service.service.CommentService;
 import com.cg_vibely_social_service.service.ImageService;
 import com.cg_vibely_social_service.service.PostService;
 
@@ -32,28 +33,23 @@ public class PostController {
     @PostMapping
     public ResponseEntity<?> submitPost(@RequestParam(value = "files",required = false) List<MultipartFile> files,
                                         @RequestParam(value = "newPostDTO") String newPostDTO){
+
         try {
             if(files != null) {
                 List<String> fileNames = imageService.save(files);
                 postService.newPost(newPostDTO, fileNames);
             }
             else{
-                if(newPostDTO != null) postService.newPost(newPostDTO);
-                else{
-                    return new ResponseEntity<>("Can't create empty post", HttpStatus.NOT_ACCEPTABLE);
-                }
+                if(newPostDTO == null) return new ResponseEntity<>("Can't create empty post", HttpStatus.NOT_ACCEPTABLE);
+                postService.newPost(newPostDTO);
             }
             return new ResponseEntity<>("Your post was created!",HttpStatus.CREATED);
         }
-        catch (
-                JsonMappingException e){
-            return new ResponseEntity<>("Invalid new post data",HttpStatus.NOT_ACCEPTABLE);
-        }
         catch (Exception exception) {
-            exception.printStackTrace();
-            return new ResponseEntity<>(exception.getMessage(),HttpStatus.PAYMENT_REQUIRED);
+            return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_ACCEPTABLE);
         }
     }
+
     @GetMapping
     public ResponseEntity<?> showPosts(){
         List<PostResponseDto> feedItemResponseDTOs = postService.getNewestPost(0);
@@ -66,6 +62,18 @@ public class PostController {
     postService.deleteById(postId);
     return new ResponseEntity<>(HttpStatus.OK);
 }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<?> getPost(@PathVariable("postId") Long postId){
+        PostResponseDto postResponseDto = postService.findById(postId);
+        return new ResponseEntity<>(postResponseDto,HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{authorId}")
+    public ResponseEntity<?> getPostsByUser(@PathVariable("authorId") Long authorId){
+        List<PostResponseDto> postResponseDto = postService.findByAuthorId(authorId);
+        return new ResponseEntity<>(postResponseDto,HttpStatus.OK);
+    }
 
     @PutMapping
     public ResponseEntity<?> updateParticularPost(@Valid @RequestBody PostRequestDto postRequestDto, BindingResult bindingResult){
@@ -82,4 +90,6 @@ public class PostController {
             }
         }
     }
+
 }
+
