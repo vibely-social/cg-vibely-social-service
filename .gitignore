@@ -43,4 +43,6 @@ src/main/resources/application-thanh.properties
 src/main/resources/application-phat.properties
 src/main/resources/application-tam.properties
 src/main/resources/application-thao.properties
-*.log
+
+### log ###
+src/main/resources/logs/main.log
