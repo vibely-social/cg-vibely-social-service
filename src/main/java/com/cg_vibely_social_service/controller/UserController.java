@@ -52,7 +52,7 @@ public class UserController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/check_email")
     public ResponseEntity<?> checkEmail(@RequestParam("email") String email) {
         if (userService.checkValidEmail(email)) {
             return new ResponseEntity<>(HttpStatus.OK);

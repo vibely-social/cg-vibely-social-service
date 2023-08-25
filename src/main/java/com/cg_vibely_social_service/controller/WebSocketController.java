@@ -37,8 +37,15 @@ public class WebSocketController {
             if (!sender.equals(receiver)) {
                 simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages", chatMessageDto);
             }
+            if (!Boolean.TRUE.equals(chatMessageDto.getIsStatusType())) {
+                chatService.save(chatMessageDto);
+            }
+        } else {
+            if (Boolean.TRUE.equals(chatMessageDto.getIsStatusType())) {
+                simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages", chatMessageDto);
+            }
         }
-        chatService.save(chatMessageDto);
+
     }
 
     @MessageMapping("/comment/{channelId}")
