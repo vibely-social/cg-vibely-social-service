@@ -14,6 +14,7 @@ import com.cg_vibely_social_service.repository.UserRepository;
 import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.naming.AuthenticationException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,6 +47,16 @@ public class UserServiceImpl implements UserService {
     private final Converter<UserInfoRequestDto, User> userInfoRequestConverter;
     @Value("${app.friendSuggestionNumber}")
     private Integer friendSuggestionNumber;
+
+    @Override
+    public UserImpl getCurrentUser() {
+        try {
+            return (UserImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }catch (ClassCastException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     @Override
     public void save(UserRegisterRequestDto userRegisterRequestDto) {
@@ -155,8 +167,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUserInfo(UserInfoRequestDto userInfoRequestDto) {
-        User newInfo = userInfoRequestConverter.convert(userInfoRequestDto);
-        newInfo.setPassword(userRepository.findById(newInfo.getId()).orElseThrow().getPassword());
-        userRepository.save(newInfo);
+        UserImpl currentUser = getCurrentUser();
+        User user = userRepository.findById(currentUser.getId()).orElseThrow();
+        BeanUtils.copyProperties(userInfoRequestDto, user);
+
+        userRepository.save(user);
     }
 }

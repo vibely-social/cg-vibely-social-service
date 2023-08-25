@@ -15,6 +15,7 @@ public interface IPostMapper {
     @Mapping(target = "content", source="postRequestDto.content")
     @Mapping(target = "privacy", source="postRequestDto.privacy")
     @Mapping(target = "tags", source="postRequestDto.tags")
+    @Mapping(target = "subscribers", source="postRequestDto.subscribers")
     FeedItem newPostConvert(PostRequestDto postRequestDto);
 
     @Mapping(target = "author.id", source="feedItem.authorId")

@@ -7,12 +7,14 @@ import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
 import com.cg_vibely_social_service.payload.response.UserInfoResponseDto;
 import com.cg_vibely_social_service.payload.response.UserLoginResponseDto;
 import com.cg_vibely_social_service.payload.response.UserSuggestionResponseDto;
+import com.cg_vibely_social_service.service.impl.UserImpl;
+import com.cg_vibely_social_service.service.impl.UserPrincipal;
 
 import java.util.List;
-import com.cg_vibely_social_service.service.impl.UserPrincipal;
 
 
 public interface UserService{
+    UserImpl getCurrentUser();
     void save(UserRegisterRequestDto userRegisterRequestDto);
 
     void update(Long id, User user);

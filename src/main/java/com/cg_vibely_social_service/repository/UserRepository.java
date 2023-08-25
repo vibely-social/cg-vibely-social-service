@@ -11,7 +11,6 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
-
     List<User> findAllById(Long id);
     @Query(value = "SELECT DISTINCT u FROM User u " +
             "WHERE u.id != :userId " +
