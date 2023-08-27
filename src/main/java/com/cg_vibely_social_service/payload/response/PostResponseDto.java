@@ -24,7 +24,8 @@ public class PostResponseDto {
     private List<UserResponseDto> usersTag;
     private List<String> gallery;
     private String createdDate;
-    private List <Long> likes;
-    private List<Comment> comments;
+    private Long likeCount;
+    private Long commentCount;
+    private boolean isLiked;
 
 }

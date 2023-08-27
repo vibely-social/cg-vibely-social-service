@@ -35,15 +35,16 @@ public class PostController {
                                         @RequestParam(value = "newPostDTO") String newPostDTO){
 
         try {
+            PostResponseDto postResponseDto ;
             if(files != null) {
+                if(newPostDTO == null) return new ResponseEntity<>("Can't create empty post", HttpStatus.NOT_ACCEPTABLE);
                 List<String> fileNames = imageService.save(files);
-                postService.newPost(newPostDTO, fileNames);
+                postResponseDto = postService.newPost(newPostDTO, fileNames);
             }
             else{
-                if(newPostDTO == null) return new ResponseEntity<>("Can't create empty post", HttpStatus.NOT_ACCEPTABLE);
-                postService.newPost(newPostDTO);
+                postResponseDto = postService.newPost(newPostDTO);
             }
-            return new ResponseEntity<>("Your post was created!",HttpStatus.CREATED);
+            return new ResponseEntity<>(postResponseDto,HttpStatus.CREATED);
         }
         catch (Exception exception) {
             return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_ACCEPTABLE);
