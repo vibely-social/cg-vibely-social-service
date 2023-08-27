@@ -9,6 +9,6 @@ import java.util.Comparator;
 public class ChatMessageTimeComparator implements Comparator<ChatMessage> {
     @Override
     public int compare(ChatMessage chatMessage1, ChatMessage chatMessage2) {
-        return chatMessage1.getTime().compareTo(chatMessage2.getTime());
+        return - chatMessage1.getTime().compareTo(chatMessage2.getTime());
     }
 }

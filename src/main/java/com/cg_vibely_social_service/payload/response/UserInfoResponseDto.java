@@ -1,6 +1,5 @@
 package com.cg_vibely_social_service.payload.response;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,5 +28,5 @@ public class UserInfoResponseDto {
     private String position;
     private String bio;
     private String hobbies;
-
+    private String background;
 }

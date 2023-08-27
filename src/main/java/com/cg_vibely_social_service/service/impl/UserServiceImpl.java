@@ -11,6 +11,7 @@ import com.cg_vibely_social_service.payload.response.UserInfoResponseDto;
 import com.cg_vibely_social_service.payload.response.UserLoginResponseDto;
 import com.cg_vibely_social_service.payload.response.UserSuggestionResponseDto;
 import com.cg_vibely_social_service.repository.UserRepository;
+import com.cg_vibely_social_service.service.ImageService;
 import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,6 +42,7 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
     private final Converter<UserRegisterRequestDto, User> converter;
     private final Converter<UserSuggestionResponseDto, User> suggestionFriendConverter;
+    private final ImageService imageService;
 
     private final Converter<UserInfoResponseDto, User> userInfoResponseConverter;
 
@@ -101,9 +103,10 @@ public class UserServiceImpl implements UserService {
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
-                .avatar("https://media.discordapp.net/attachments/1006048991043145829/1006049027734913075/unknown.png?width=662&height=662")
+                .avatarUrl(imageService.getImageUrl(user.getAvatar()))
                 .accessToken(token)
                 .refreshToken(refreshToken)
+                .background(imageService.getImageUrl(user.getBackground()))
                 .build();
 
     }

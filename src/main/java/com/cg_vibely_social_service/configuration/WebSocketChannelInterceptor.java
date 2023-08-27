@@ -39,6 +39,7 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
                             userPrincipal = userService.getUserPrincipal(email);
                             System.out.println("calling db at interceptor");
                             headerAccessor.setUser(userPrincipal);
+                            headerAccessor.setHeartbeat(5000,5000);
                             return message;
                         } else {
                             return null;
@@ -63,7 +64,7 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
             System.out.println(headerAccessor.getDestination());
             System.out.println("Some one SUBSCRIBED");
         }
-        headerAccessor.setHeartbeat(5000,5000);
+
         return message;
     }
 
@@ -73,7 +74,7 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
         if (headerAccessor != null && StompCommand.SEND.equals(headerAccessor.getCommand())) {
             if (sent) {
 //                Object fromMessage = messageConverter.fromMessage(message, ChatMessageDto.class);
-                System.out.println("sent");
+//                System.out.println("sent");
             } else {
                 System.err.println("sent failed");
             }
