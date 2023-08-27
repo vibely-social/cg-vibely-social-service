@@ -4,6 +4,7 @@ import com.cg_vibely_social_service.configuration.security.JwtTokenProvider;
 import com.cg_vibely_social_service.service.impl.UserPrincipal;
 import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
@@ -21,7 +22,10 @@ import java.util.Map;
 public class WebSocketChannelInterceptor implements ChannelInterceptor {
     private final JwtTokenProvider tokenProvider;
     private final UserService userService;
-
+    @Value("${websocket.server_heartbeat_delay_ms}")
+    private long serverHeartbeatDelay;
+    @Value("${websocket.client_heartbeat_require_ms}")
+    private long clientHeartbeatRequire;
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
 
@@ -39,7 +43,7 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
                             userPrincipal = userService.getUserPrincipal(email);
                             System.out.println("calling db at interceptor");
                             headerAccessor.setUser(userPrincipal);
-                            headerAccessor.setHeartbeat(5000,5000);
+                            headerAccessor.setHeartbeat(serverHeartbeatDelay,clientHeartbeatRequire);
                             return message;
                         } else {
                             return null;
@@ -72,10 +76,7 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
     public void afterSendCompletion(Message<?> message, MessageChannel channel, boolean sent, Exception ex) {
         StompHeaderAccessor headerAccessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
         if (headerAccessor != null && StompCommand.SEND.equals(headerAccessor.getCommand())) {
-            if (sent) {
-//                Object fromMessage = messageConverter.fromMessage(message, ChatMessageDto.class);
-//                System.out.println("sent");
-            } else {
+            if (!sent){
                 System.err.println("sent failed");
             }
         }

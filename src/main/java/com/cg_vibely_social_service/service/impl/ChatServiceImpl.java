@@ -86,6 +86,19 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
+    public ChatMessagesResponse findAll(String senderEmail, String receiverEmail, Pageable pageable) {
+        Page<ChatMessage> messagePage = messageRepository
+                .findAllBySenderAndReceiverOrSenderAndReceiver(senderEmail, receiverEmail, receiverEmail, senderEmail, pageable);
+        List<ChatMessage> messageList = new ArrayList<>(messagePage.getContent());
+        messageList.sort(chatMessageComparator);
+        List<ChatMessageDto> finalList = chatMessageConverter.revert(messageList);
+        return ChatMessagesResponse.builder()
+                .totalPage(messagePage.getTotalPages())
+                .messageList(finalList)
+                .build();
+    }
+
+    @Override
     public ChatMessagesResponse findAllWithCacheActive(String senderEmail, String receiverEmail, Pageable pageable) {
         Pageable newPageable = PageRequest.of(pageable.getPageNumber(), MESSAGE_PAGE_SIZE);
 
@@ -97,57 +110,59 @@ public class ChatServiceImpl implements ChatService {
 
         try {
             List<ChatMessageDto> chatMessageDtoList = new ArrayList<>();
-            if (Boolean.TRUE.equals(redisTemplate.hasKey(liveChatCacheKey))) {
-                String stringOfCachedCategories = cachedData.get(liveChatCacheKey);
-                chatMessageDtoList = gsonUtils
-                        .parseToObject(stringOfCachedCategories, ChatMessagesResponse.class)
-                        .getMessageList();
-            } else if (Boolean.TRUE.equals(redisTemplate.hasKey(rv_liveChatCacheKey))) {
-                String stringOfCachedCategories = cachedData.get(rv_liveChatCacheKey);
-                chatMessageDtoList = gsonUtils
-                        .parseToObject(stringOfCachedCategories, ChatMessagesResponse.class)
-                        .getMessageList();
-            }
+            chatMessageDtoList = getLiveChatMessages(liveChatCacheKey, rv_liveChatCacheKey, chatMessageDtoList);
 
             if (Boolean.TRUE.equals(redisTemplate.hasKey(chatPageCacheKey))) {
+
                 String stringOfCachedCategories = cachedData.get(chatPageCacheKey);
                 ChatMessagesResponse chatMessagesWithPageResponse = gsonUtils
                         .parseToObject(stringOfCachedCategories, ChatMessagesResponse.class);
                 List<ChatMessageDto> chatMessageDtoPageCached = chatMessagesWithPageResponse.getMessageList();
-                chatMessageDtoPageCached.addAll(chatMessageDtoList);
-                return new ChatMessagesResponse(chatMessagesWithPageResponse.getTotalPage(), chatMessageDtoPageCached);
+                chatMessageDtoList.addAll(chatMessageDtoPageCached);
+                return new ChatMessagesResponse(chatMessagesWithPageResponse.getTotalPage(), chatMessageDtoList);
+
             } else if (Boolean.TRUE.equals(redisTemplate.hasKey(rv_chatPageCacheKey))) {
+
                 String stringOfCachedCategories = cachedData.get(rv_chatPageCacheKey);
                 ChatMessagesResponse chatMessagesWithPageResponse = gsonUtils
                         .parseToObject(stringOfCachedCategories, ChatMessagesResponse.class);
                 List<ChatMessageDto> chatMessageDtoPageCached = chatMessagesWithPageResponse.getMessageList();
-                chatMessageDtoPageCached.addAll(chatMessageDtoList);
-                return new ChatMessagesResponse(chatMessagesWithPageResponse.getTotalPage(), chatMessageDtoPageCached);
+                chatMessageDtoList.addAll(chatMessageDtoPageCached);
+                return new ChatMessagesResponse(chatMessagesWithPageResponse.getTotalPage(), chatMessageDtoList);
+
             }
 
             ChatMessagesResponse chatMessagesResponse = findAll(senderEmail, receiverEmail, newPageable);
-            if (chatMessagesResponse.getMessageList().size() == MESSAGE_PAGE_SIZE && newPageable.getPageNumber() < MAX_CACHE_PAGES) {
+
+            if (chatMessagesResponse.getMessageList().size() == MESSAGE_PAGE_SIZE
+                    && newPageable.getPageNumber() < MAX_CACHE_PAGES) {
+
                 String gsonString = gsonUtils.parseToString(chatMessagesResponse);
                 cachedData.set(chatPageCacheKey, gsonString, 60, TimeUnit.MINUTES);
+
             }
+
             List<ChatMessageDto> chatMessageDtoPage = chatMessagesResponse.getMessageList();
             chatMessageDtoPage.addAll(chatMessageDtoList);
             return new ChatMessagesResponse(chatMessagesResponse.getTotalPage(), chatMessageDtoPage);
+
         } catch (Exception e) {
             return findAll(senderEmail, receiverEmail, newPageable);
         }
     }
 
-    @Override
-    public ChatMessagesResponse findAll(String senderEmail, String receiverEmail, Pageable pageable) {
-        Page<ChatMessage> messagePage = messageRepository
-                .findAllBySenderAndReceiverOrSenderAndReceiver(senderEmail, receiverEmail, receiverEmail, senderEmail, pageable);
-        List<ChatMessage> messageList = new ArrayList<>(messagePage.getContent());
-        messageList.sort(chatMessageComparator);
-        List<ChatMessageDto> finalList = chatMessageConverter.revert(messageList);
-        return ChatMessagesResponse.builder()
-                .totalPage(messagePage.getTotalPages())
-                .messageList(finalList)
-                .build();
+    private List<ChatMessageDto> getLiveChatMessages(String liveChatCacheKey, String rv_liveChatCacheKey, List<ChatMessageDto> chatMessageDtoList) {
+        if (Boolean.TRUE.equals(redisTemplate.hasKey(liveChatCacheKey))) {
+            String stringOfCachedCategories = cachedData.get(liveChatCacheKey);
+            chatMessageDtoList = gsonUtils
+                    .parseToObject(stringOfCachedCategories, ChatMessagesResponse.class)
+                    .getMessageList();
+        } else if (Boolean.TRUE.equals(redisTemplate.hasKey(rv_liveChatCacheKey))) {
+            String stringOfCachedCategories = cachedData.get(rv_liveChatCacheKey);
+            chatMessageDtoList = gsonUtils
+                    .parseToObject(stringOfCachedCategories, ChatMessagesResponse.class)
+                    .getMessageList();
+        }
+        return chatMessageDtoList;
     }
 }

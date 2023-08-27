@@ -41,6 +41,8 @@ public class RedisConfiguration extends CachingConfigurerSupport {
         return new LettuceConnectionFactory(config);
     }
 
+// Using in future for deployment (not local environment)
+
 //    @Bean
 //    public LettuceClientConfigurationBuilderCustomizer lettuceClientConfigurationBuilderCustomizer() {
 //        return clientConfigurationBuilder -> {
