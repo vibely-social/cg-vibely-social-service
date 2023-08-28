@@ -12,8 +12,10 @@ import com.cg_vibely_social_service.payload.response.UserLoginResponseDto;
 import com.cg_vibely_social_service.payload.response.UserSearchResponseDto;
 import com.cg_vibely_social_service.payload.response.UserSuggestionResponseDto;
 import com.cg_vibely_social_service.repository.UserRepository;
+import com.cg_vibely_social_service.service.ImageService;
 import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +25,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,13 +39,17 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtUtil;
+    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final Converter<UserRegisterRequestDto, User> converter;
     private final Converter<UserSuggestionResponseDto, User> suggestionFriendConverter;
+    private final ImageService imageService;
 
     private final Converter<UserInfoResponseDto, User> userInfoResponseConverter;
 
     private final Converter<UserInfoRequestDto, User> userInfoRequestConverter;
+    @Value("${app.friendSuggestionNumber}")
+    private Integer friendSuggestionNumber;
 
     private final Converter<UserSearchResponseDto, User> userSearchResponseConverter;
 
@@ -99,9 +106,10 @@ public class UserServiceImpl implements UserService {
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
-                .avatar("https://media.discordapp.net/attachments/1006048991043145829/1006049027734913075/unknown.png?width=662&height=662")
+                .avatarUrl(imageService.getImageUrl(user.getAvatar()))
                 .accessToken(token)
                 .refreshToken(refreshToken)
+                .background(imageService.getImageUrl(user.getBackground()))
                 .build();
 
     }
@@ -119,8 +127,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserSuggestionResponseDto> find20UsersSuggestionByUserId(Long userId) {
-        List<User> suggestionFriends = userRepository.find20UsersSuggestionByUserId(userId, Pageable.ofSize(20));
+    public List<UserSuggestionResponseDto> findFriendSuggestionByUserId(Long userId) {
+        List<User> suggestionFriends = userRepository.findFriendSuggestionByUserId(userId, Pageable.ofSize(friendSuggestionNumber));
         List<UserSuggestionResponseDto> userSuggestionResponseDtos = suggestionFriendConverter.revert(suggestionFriends);
 
         List<Long> user1FriendIds = userRepository.findById(userId).orElse(null).getFriendList().stream().map(Friend::getFriendId).collect(Collectors.toList());
@@ -144,6 +152,14 @@ public class UserServiceImpl implements UserService {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .build();
+    }
+
+    @Override
+    public void updateUserPassword(String email, String tempPassword) {
+        User user = loadUserByEmail(email);
+        String hashedPassword = passwordEncoder.encode(tempPassword);
+        user.setPassword(hashedPassword);
+        userRepository.save(user);
     }
 
     private boolean checkPassword(User user, String password) {

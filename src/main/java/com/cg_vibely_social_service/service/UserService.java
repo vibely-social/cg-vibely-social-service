@@ -27,7 +27,7 @@ public interface UserService{
     String refreshToken();
 
     boolean checkValidEmail(String email);
-    List<UserSuggestionResponseDto> find20UsersSuggestionByUserId(Long id);
+    List<UserSuggestionResponseDto> findFriendSuggestionByUserId(Long id);
 
     UserInfoResponseDto getUserInfoById (Long userId);
 
@@ -35,4 +35,5 @@ public interface UserService{
     UserPrincipal getUserPrincipal(String email);
 
     List<UserSearchResponseDto> findUsersByLastNameOrFirstName(String keyword, Integer pageNumber);
+    void updateUserPassword(String email, String tempPassword);
 }
