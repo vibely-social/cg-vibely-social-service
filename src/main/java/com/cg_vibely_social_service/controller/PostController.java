@@ -2,9 +2,11 @@ package com.cg_vibely_social_service.controller;
 
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
+import com.cg_vibely_social_service.payload.response.LikeResponseDto;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
 import com.cg_vibely_social_service.service.CommentService;
 import com.cg_vibely_social_service.service.ImageService;
+import com.cg_vibely_social_service.service.LikeService;
 import com.cg_vibely_social_service.service.PostService;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -29,6 +31,7 @@ public class PostController {
     private final PostService postService;
     private final HttpServletRequest request;
     private final ImageService imageService;
+    private final LikeService likeService;
 
     @PostMapping
     public ResponseEntity<?> submitPost(@RequestParam(value = "files",required = false) List<MultipartFile> files,
@@ -57,6 +60,17 @@ public class PostController {
         Collections.shuffle(feedItemResponseDTOs,new Random());
         return new ResponseEntity<>(feedItemResponseDTOs, HttpStatus.OK);
 }
+    @GetMapping("/like/{postId}")
+    public ResponseEntity<?> likePost(@PathVariable Long postId){
+        try{
+            LikeResponseDto likeResponseDto = likeService.likePost(postId);
+            return new ResponseEntity<>(likeResponseDto, HttpStatus.OK);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
 
     @DeleteMapping("/{postId}")
     public ResponseEntity<?> deleteParticularPost(@PathVariable("postId") Long postId){
@@ -91,6 +105,5 @@ public class PostController {
             }
         }
     }
-
 }
 

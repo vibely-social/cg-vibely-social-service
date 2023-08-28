@@ -18,6 +18,4 @@ public interface PostRepository extends JpaRepository<Feed, Long> {
     @Query(value = "SELECT * FROM FEED WHERE JSON_EXTRACT(feed_items, '$.authorId' ) = ?1 ORDER BY id DESC", nativeQuery = true)
     List<Feed> findAllByAuthorId(Long authorId);
 
-
-
 }

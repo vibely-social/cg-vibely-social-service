@@ -6,6 +6,7 @@ import com.cg_vibely_social_service.entity.Feed.Feed;
 import com.cg_vibely_social_service.entity.Feed.FeedItem;
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
+import com.cg_vibely_social_service.payload.response.LikeResponseDto;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
 import com.cg_vibely_social_service.payload.response.UserResponseDto;
 import com.cg_vibely_social_service.repository.PostRepository;

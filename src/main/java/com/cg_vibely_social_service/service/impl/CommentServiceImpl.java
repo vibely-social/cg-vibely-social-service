@@ -1,8 +1,14 @@
 package com.cg_vibely_social_service.service.impl;
 
+import com.cg_vibely_social_service.converter.IPostMapper;
+import com.cg_vibely_social_service.converter.IUserMapper;
 import com.cg_vibely_social_service.entity.Feed.Comment;
 import com.cg_vibely_social_service.entity.Feed.Feed;
 import com.cg_vibely_social_service.entity.Feed.FeedItem;
+import com.cg_vibely_social_service.entity.User;
+import com.cg_vibely_social_service.payload.request.PostRequestDto;
+import com.cg_vibely_social_service.payload.response.CommentResponseDto;
+import com.cg_vibely_social_service.payload.response.UserResponseDto;
 import com.cg_vibely_social_service.repository.PostRepository;
 import com.cg_vibely_social_service.service.CommentService;
 import com.cg_vibely_social_service.service.ImageService;
@@ -49,5 +55,38 @@ public class CommentServiceImpl implements CommentService {
             feedItem.setComments(commentList);
             feed.setFeedItem(feedItem);
             postRepository.save(feed);
+    }
+
+    @Override
+    public List<CommentResponseDto> getComments(Long postId) {
+        Feed feed = postRepository.findById(postId).orElseThrow();
+        FeedItem feedItem = feed.getFeedItem();
+        List <CommentResponseDto> commentResponseDTOs = new ArrayList<>();
+        if(feedItem.getComments() != null) {
+            for(Comment comment : feedItem.getComments()) {
+                List<CommentResponseDto> replyComments = new ArrayList<>();
+                if(comment.getReplyComments() != null) {
+                    for (Comment reply : comment.getReplyComments()){
+                        CommentResponseDto replyDto =
+                                IPostMapper.INSTANCE.commentResponseDto(reply);
+                        User user = userService.findById(reply.getUserId());
+                        UserResponseDto userResponseDto =
+                                IUserMapper.INSTANCE.userResponseDTOConvert(user);
+                        replyDto.setAuthor(userResponseDto);
+                        replyComments.add(replyDto);
+                    }
+                }
+                CommentResponseDto commentResponseDto =
+                        IPostMapper.INSTANCE.commentResponseDto(comment);
+                User user = userService.findById(comment.getUserId());
+                UserResponseDto userResponseDto =
+                        IUserMapper.INSTANCE.userResponseDTOConvert(user);
+                commentResponseDto.setAuthor(userResponseDto);
+                commentResponseDto.setReplyCommentDTOs(replyComments);
+                commentResponseDTOs.add(commentResponseDto);
+            }
+            return commentResponseDTOs;
+        }
+        return null;
     }
 }
