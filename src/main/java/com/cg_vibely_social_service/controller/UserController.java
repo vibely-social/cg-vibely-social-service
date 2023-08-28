@@ -104,9 +104,9 @@ public class UserController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchUser(@RequestParam String keyword,
-                                        @RequestParam Integer number) {
-        List<UserSearchResponseDto> users = userService.findUsersByLastNameOrFirstName(keyword, number);
+    public ResponseEntity<?> searchUser(@RequestParam("keyword") String keyword,
+                                        @RequestParam("number-page") Integer numberPage) {
+        List<UserSearchResponseDto> users = userService.findUsersByLastNameOrFirstName(keyword, numberPage);
         if (!users.isEmpty()) {
             return new ResponseEntity<>(users, HttpStatus.OK);
         } else {

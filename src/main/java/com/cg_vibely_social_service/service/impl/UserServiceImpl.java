@@ -183,7 +183,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserSearchResponseDto> findUsersByLastNameOrFirstName(String keyword, Integer pageNumber) {
         List<User> users = userRepository.findUsersByLastNameOrFirstName
-                (keyword, PageRequest.of(pageNumber, 20));
+                (keyword, PageRequest.of(pageNumber, 20)).getContent();
         return userSearchResponseConverter.revert(users);
     }
 }

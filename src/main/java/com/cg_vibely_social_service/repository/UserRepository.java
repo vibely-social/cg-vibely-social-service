@@ -1,6 +1,7 @@
 package com.cg_vibely_social_service.repository;
 
 import com.cg_vibely_social_service.entity.User;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,5 +22,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findFriendSuggestionByUserId(@Param("userId") Long userId, Pageable pageable);
 
     @Query(value = "SELECT u FROM User u WHERE u.lastName LIKE %:keyword% OR u.firstName LIKE %:keyword%")
-    List<User> findUsersByLastNameOrFirstName(String keyword, Pageable pageable);
+    Page<User> findUsersByLastNameOrFirstName(@Param("keyword") String keyword, Pageable pageable);
 }
