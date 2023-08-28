@@ -3,10 +3,9 @@ package com.cg_vibely_social_service.entity.Feed;
 
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import jakarta.persistence.*;
 import lombok.*;
+
 
 @Getter
 @Data
@@ -32,7 +31,7 @@ public class Feed {
         this.feedItem = new Gson().toJson(feedItem);
     }
 
-    //    public String getAuthorId() {
+//        public String getAuthorId() {
 //        if (feedItem != null) {
 //            JsonObject jsonObject = JsonParser.parseString(feedItem).getAsJsonObject();
 //            return jsonObject.get("authorId").getAsString();

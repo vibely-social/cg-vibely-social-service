@@ -38,11 +38,12 @@ out/
 
 ### App Profile ###
 src/main/resources/application.properties
+src/main/resources/application-local.properties
 src/main/resources/application-huy.properties
 src/main/resources/application-thanh.properties
 src/main/resources/application-phat.properties
 src/main/resources/application-tam.properties
 src/main/resources/application-thao.properties
 
-### log ###
+### Log files
 src/main/resources/logs/main.log
