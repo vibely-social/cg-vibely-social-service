@@ -27,3 +27,63 @@
 2023-08-24 15:12:08,422 +0700 [http-nio-8080-exec-9] WARN  (ControllerLogger.java:22) - ```yaml
 !##EXCEPTION: com.cg_vibely_social_service.controller.PostController.getPost() !ARGS: [7]!```
 2023-08-24 15:12:08,776 +0700 [http-nio-8080-exec-9] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 14:54:41,959 +0700 [http-nio-8080-exec-6] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findById() !ARGS: [32132132132112]!```
+2023-08-25 14:54:42,777 +0700 [http-nio-8080-exec-6] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 14:54:43,190 +0700 [http-nio-8080-exec-6] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.checkEmail() !ARGS: [32132132132112]!```
+2023-08-25 14:54:43,576 +0700 [http-nio-8080-exec-6] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 14:58:00,403 +0700 [http-nio-8080-exec-3] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findById() !ARGS: [32132132132112]!```
+2023-08-25 14:58:00,914 +0700 [http-nio-8080-exec-3] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 14:58:01,405 +0700 [http-nio-8080-exec-3] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.checkEmail() !ARGS: [32132132132112]!```
+2023-08-25 14:58:01,927 +0700 [http-nio-8080-exec-3] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 16:16:22,826 +0700 [http-nio-8080-exec-8] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findById() !ARGS: [321313131]!```
+2023-08-25 16:16:23,458 +0700 [http-nio-8080-exec-8] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 16:16:23,821 +0700 [http-nio-8080-exec-8] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.checkEmail() !ARGS: [321313131]!```
+2023-08-25 16:16:24,188 +0700 [http-nio-8080-exec-8] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 16:17:21,885 +0700 [http-nio-8080-exec-2] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findById() !ARGS: [321313131]!```
+2023-08-25 16:17:22,357 +0700 [http-nio-8080-exec-2] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 16:17:22,770 +0700 [http-nio-8080-exec-2] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.checkEmail() !ARGS: [321313131]!```
+2023-08-25 16:17:23,191 +0700 [http-nio-8080-exec-2] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 16:17:35,498 +0700 [http-nio-8080-exec-1] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findById() !ARGS: [321313131]!```
+2023-08-25 16:17:35,999 +0700 [http-nio-8080-exec-1] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 16:17:36,430 +0700 [http-nio-8080-exec-1] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.checkEmail() !ARGS: [321313131]!```
+2023-08-25 16:17:36,837 +0700 [http-nio-8080-exec-1] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 16:17:51,676 +0700 [http-nio-8080-exec-10] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findById() !ARGS: [321313131]!```
+2023-08-25 16:17:52,106 +0700 [http-nio-8080-exec-10] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 16:17:52,497 +0700 [http-nio-8080-exec-10] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.checkEmail() !ARGS: [321313131]!```
+2023-08-25 16:17:52,903 +0700 [http-nio-8080-exec-10] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 16:18:07,279 +0700 [http-nio-8080-exec-6] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findById() !ARGS: [321313131]!```
+2023-08-25 16:18:07,798 +0700 [http-nio-8080-exec-6] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 16:18:08,318 +0700 [http-nio-8080-exec-6] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.checkEmail() !ARGS: [321313131]!```
+2023-08-25 16:18:08,831 +0700 [http-nio-8080-exec-6] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 16:18:24,043 +0700 [http-nio-8080-exec-7] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findById() !ARGS: [321313131]!```
+2023-08-25 16:18:24,481 +0700 [http-nio-8080-exec-7] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 16:18:24,898 +0700 [http-nio-8080-exec-7] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.checkEmail() !ARGS: [321313131]!```
+2023-08-25 16:18:25,255 +0700 [http-nio-8080-exec-7] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 16:18:27,778 +0700 [http-nio-8080-exec-10] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findById() !ARGS: [321313131]!```
+2023-08-25 16:18:28,172 +0700 [http-nio-8080-exec-10] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-25 16:18:28,805 +0700 [http-nio-8080-exec-10] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.checkEmail() !ARGS: [321313131]!```
+2023-08-25 16:18:29,257 +0700 [http-nio-8080-exec-10] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-28 07:53:05,162 +0700 [http-nio-8080-exec-1] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findById() !ARGS: [101021]!```
+2023-08-28 07:53:06,088 +0700 [http-nio-8080-exec-1] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-28 07:53:06,435 +0700 [http-nio-8080-exec-1] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.checkEmail() !ARGS: [101021]!```
+2023-08-28 07:53:06,813 +0700 [http-nio-8080-exec-1] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||

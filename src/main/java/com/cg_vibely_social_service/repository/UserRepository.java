@@ -13,6 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 
     List<User> findAllById(Long id);
+
     @Query(value = "SELECT DISTINCT u FROM User u " +
             "WHERE u.id != :userId " +
             "AND u.id NOT IN (SELECT f.friendId FROM Friend f WHERE f.userId = :userId) " +
@@ -20,4 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "ORDER BY RAND()")
     List<User> find20UsersSuggestionByUserId(@Param("userId") Long userId, Pageable pageable);
 
+    @Query(value = "SELECT u FROM User u WHERE u.lastName LIKE %:keyword% OR u.firstName LIKE %:keyword%")
+    List<User> findUsersByLastNameOrFirstName(String keyword, Pageable pageable);
 }

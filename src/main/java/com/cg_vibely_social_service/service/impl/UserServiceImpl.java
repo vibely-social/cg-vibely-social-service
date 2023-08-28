@@ -9,11 +9,13 @@ import com.cg_vibely_social_service.payload.request.UserLoginRequestDto;
 import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
 import com.cg_vibely_social_service.payload.response.UserInfoResponseDto;
 import com.cg_vibely_social_service.payload.response.UserLoginResponseDto;
+import com.cg_vibely_social_service.payload.response.UserSearchResponseDto;
 import com.cg_vibely_social_service.payload.response.UserSuggestionResponseDto;
 import com.cg_vibely_social_service.repository.UserRepository;
 import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +26,6 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.naming.AuthenticationException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,6 +43,8 @@ public class UserServiceImpl implements UserService {
     private final Converter<UserInfoResponseDto, User> userInfoResponseConverter;
 
     private final Converter<UserInfoRequestDto, User> userInfoRequestConverter;
+
+    private final Converter<UserSearchResponseDto, User> userSearchResponseConverter;
 
     @Override
     public UserImpl getCurrentUser() {
@@ -159,5 +162,12 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(userInfoRequestDto, user);
 
         userRepository.save(user);
+    }
+
+    @Override
+    public List<UserSearchResponseDto> findUsersByLastNameOrFirstName(String keyword, Integer pageNumber) {
+        List<User> users = userRepository.findUsersByLastNameOrFirstName
+                (keyword, PageRequest.of(pageNumber, 20));
+        return userSearchResponseConverter.revert(users);
     }
 }
