@@ -3,6 +3,8 @@ package com.cg_vibely_social_service.converter.impl;
 import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.response.UserInfoResponseDto;
+import com.cg_vibely_social_service.service.ImageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -10,8 +12,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class UserInfoResponseDtoConverter implements Converter<UserInfoResponseDto, User> {
-
+    private final ImageService imageService;
     @Override
     public User convert(UserInfoResponseDto source) {
         return null;
@@ -27,6 +30,7 @@ public class UserInfoResponseDtoConverter implements Converter<UserInfoResponseD
         UserInfoResponseDto result = new UserInfoResponseDto();
         BeanUtils.copyProperties(target, result);
         result.setBirthday(target.getDayOfBirth());
+        result.setBackground(imageService.getImageUrl(target.getBackground()));
         return result;
     }
 

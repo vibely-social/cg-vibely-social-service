@@ -69,6 +69,10 @@ public class SecurityConfig {
                 .permitAll();
 
         http.authorizeHttpRequests()
+                .requestMatchers("/api/users/check_email")
+                .permitAll();
+
+        http.authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/api/users")
                 .permitAll();
 
