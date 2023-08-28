@@ -30,11 +30,7 @@ public class AuthController {
 
     @GetMapping("/auth/refresh-token")
     public ResponseEntity<?> refreshToken() {
-        String refreshToken = userService.refreshToken();
-        if (refreshToken.equals("error")) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } else {
-            return new ResponseEntity<>(refreshToken, HttpStatus.OK);
-        }
+        String accessToken = userService.refreshToken();
+        return new ResponseEntity<>(accessToken, HttpStatus.OK);
     }
 }

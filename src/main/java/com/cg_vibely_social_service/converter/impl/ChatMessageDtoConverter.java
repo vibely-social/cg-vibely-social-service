@@ -26,7 +26,7 @@ public class ChatMessageDtoConverter implements Converter<ChatMessageDto, ChatMe
 
     @Override
     public List<ChatMessage> convert(List<ChatMessageDto> sources) {
-        return null;
+        return sources.stream().map(this::convert).collect(Collectors.toList());
     }
 
     @Override

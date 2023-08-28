@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ChatMessageDto {
+    private Boolean isStatusType;
+    private Boolean typingStatus;
     private String sender;
     private String receiver;
     private String senderName;
