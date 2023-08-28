@@ -1,4 +1,5 @@
 package com.cg_vibely_social_service.payload.response;
+import com.cg_vibely_social_service.entity.Feed.Comment;
 import com.cg_vibely_social_service.utils.PrivacyName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +26,8 @@ public class PostResponseDto {
     private List<UserResponseDto> usersTag;
     private List<String> gallery;
     private String createdDate;
-    private List<Long> like;
+    private Long likeCount;
     private Long commentCount;
+    private boolean isLiked;
 
 }

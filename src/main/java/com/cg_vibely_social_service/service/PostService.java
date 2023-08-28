@@ -20,9 +20,10 @@ public interface PostService {
 
     PostResponseDto update(PostRequestDto postRequestDto);
 
-    void newPost(String source, List<String> files) throws JsonProcessingException;
+    PostResponseDto newPost(String source, List<String> files) throws JsonProcessingException;
 
-    void newPost(String source) throws JsonProcessingException;
+    PostResponseDto newPost(String source) throws JsonProcessingException;
 
     List<PostResponseDto> getNewestPost(int page);
+
 }

@@ -17,5 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "AND u.id NOT IN (SELECT f.friendId FROM Friend f WHERE f.userId = :userId) " +
             "AND u.id NOT IN (SELECT f.userId FROM Friend f WHERE f.friendId = :userId) " +
             "ORDER BY RAND()")
-    List<User> find20UsersSuggestionByUserId(@Param("userId") Long userId, Pageable pageable);
+    List<User> findFriendSuggestionByUserId(@Param("userId") Long userId, Pageable pageable);
+
 }
