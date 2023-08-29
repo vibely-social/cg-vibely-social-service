@@ -6,15 +6,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class UserResponseDto {
+public class UserSearchResponseDto {
     private Long id;
+    private String email;
     private String firstName;
     private String lastName;
-    private String avatar;
+    private String avatarUrl;
+    private Integer mutualFriends;
 }

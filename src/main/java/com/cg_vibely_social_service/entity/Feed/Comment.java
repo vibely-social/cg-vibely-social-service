@@ -15,11 +15,12 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Comment {
+
     private Long commentId;
     private Long userId;
     private String content;
     private String gallery;
     private String date;
     private List<Long> likes;
-    private List<ReplyComment> replyComment;
+    private List<Comment> replyComments;
 }

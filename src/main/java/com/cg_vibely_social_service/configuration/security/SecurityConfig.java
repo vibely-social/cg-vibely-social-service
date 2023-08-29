@@ -77,6 +77,10 @@ public class SecurityConfig {
                 .permitAll();
 
         http.authorizeHttpRequests()
+                .requestMatchers(HttpMethod.POST, "/api/oauth2/google/**")
+                .permitAll();
+
+        http.authorizeHttpRequests()
                 .requestMatchers("/api/forgot_password")
                 .permitAll();
 

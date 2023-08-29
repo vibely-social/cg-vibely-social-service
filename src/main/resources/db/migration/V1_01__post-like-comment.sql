@@ -1,6 +1,6 @@
 USE vibely_social_webapp;
 
-CREATE TABLE IF NOT EXISTS post
+CREATE TABLE IF NOT EXISTS feedItem
 (
     id           bigint PRIMARY KEY AUTO_INCREMENT,
     user_id      bigint,

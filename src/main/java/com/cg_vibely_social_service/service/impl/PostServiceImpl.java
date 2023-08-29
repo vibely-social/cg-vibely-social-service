@@ -1,11 +1,13 @@
 package com.cg_vibely_social_service.service.impl;
 
+import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.converter.IPostMapper;
 import com.cg_vibely_social_service.converter.IUserMapper;
 import com.cg_vibely_social_service.entity.Feed.Feed;
 import com.cg_vibely_social_service.entity.Feed.FeedItem;
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
+import com.cg_vibely_social_service.payload.response.LikeResponseDto;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
 import com.cg_vibely_social_service.payload.response.UserResponseDto;
 import com.cg_vibely_social_service.repository.PostRepository;
@@ -15,23 +17,19 @@ import com.cg_vibely_social_service.service.PostService;
 import com.cg_vibely_social_service.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.gax.rpc.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
-
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final ImageService imageService;
@@ -66,7 +64,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void newPost(String source, List<String> files) throws JsonProcessingException {
+    public PostResponseDto newPost(String source, List<String> files) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         FeedItem feedItem =
                 IPostMapper.INSTANCE.newPostConvert(objectMapper.readValue(source, PostRequestDto.class));
@@ -76,11 +74,12 @@ public class PostServiceImpl implements PostService {
         feedItem.setCreatedDate(LocalDateTime.now().toString());
         Feed feed = new Feed();
         feed.setFeedItem(feedItem);
-        postRepository.save(feed);
+        Feed newFeed = postRepository.save(feed);
+        return this.findById(newFeed.getId());
     }
 
     @Override
-    public void newPost(String source) throws JsonProcessingException {
+    public PostResponseDto newPost(String source) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         FeedItem feedItem = IPostMapper.INSTANCE.newPostConvert(objectMapper.readValue(source, PostRequestDto.class));
         UserImpl user = userService.getCurrentUser();
@@ -88,7 +87,8 @@ public class PostServiceImpl implements PostService {
         feedItem.setCreatedDate(LocalDateTime.now().toString());
         Feed feed = new Feed();
         feed.setFeedItem(feedItem);
-        postRepository.save(feed);
+        Feed newFeed = postRepository.save(feed);
+        return this.findById(newFeed.getId());
     }
 
     @Override
@@ -117,12 +117,19 @@ public class PostServiceImpl implements PostService {
         }
         if(feedItem.getLikes() != null ){
             if(feedItem.getLikes().size() != 0) {
-                dto.setLikes(feedItem.getLikes());
+                UserImpl user = userService.getCurrentUser();
+                for(Long id : feedItem.getLikes()){
+                    if(Objects.equals(id, user.getId())){
+                        dto.setLiked(true);
+                        break;
+                    }
+                }
+                dto.setLikeCount((long) feedItem.getLikes().size());
             }
         }
         if(feedItem.getComments() != null ){
             if(feedItem.getComments().size() != 0) {
-                dto.setComments(feedItem.getComments());
+                dto.setCommentCount((long) feedItem.getComments().size());
             }
         }
         List<UserResponseDto> newUserTags = new ArrayList<>();

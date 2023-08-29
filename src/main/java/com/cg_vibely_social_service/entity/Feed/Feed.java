@@ -3,10 +3,9 @@ package com.cg_vibely_social_service.entity.Feed;
 
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import jakarta.persistence.*;
 import lombok.*;
+
 
 @Getter
 @Data
