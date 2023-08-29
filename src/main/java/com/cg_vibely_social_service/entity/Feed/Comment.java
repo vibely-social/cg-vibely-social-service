@@ -14,6 +14,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Comment {
 
     private Long commentId;
