@@ -109,6 +109,13 @@ public class PostServiceImpl implements PostService {
         author.ifPresent(data -> {
             UserResponseDto authorDTO =
                     IUserMapper.INSTANCE.userResponseDTOConvert(data);
+
+            if (author.get().getAvatar() == null && author.get().getGoogleAvatar() != null) {
+                authorDTO.setAvatar(author.get().getGoogleAvatar());
+            } else {
+                authorDTO.setAvatar(imageService.getImageUrl(author.get().getAvatar()));
+            }
+
             dto.setAuthor(authorDTO);
         });
 
