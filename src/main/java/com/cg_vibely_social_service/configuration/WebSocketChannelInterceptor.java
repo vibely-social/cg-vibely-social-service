@@ -1,6 +1,8 @@
 package com.cg_vibely_social_service.configuration;
 
 import com.cg_vibely_social_service.configuration.security.JwtTokenProvider;
+import com.cg_vibely_social_service.logging.AppLogger;
+import com.cg_vibely_social_service.service.StatusService;
 import com.cg_vibely_social_service.service.impl.UserPrincipal;
 import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,8 @@ import java.util.Map;
 public class WebSocketChannelInterceptor implements ChannelInterceptor {
     private final JwtTokenProvider tokenProvider;
     private final UserService userService;
+    private final StatusService statusService;
+
     @Value("${websocket.server_heartbeat_delay_ms}")
     private long serverHeartbeatDelay;
     @Value("${websocket.client_heartbeat_require_ms}")
@@ -41,7 +45,6 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
                         if (email != null) {
                             UserPrincipal userPrincipal;
                             userPrincipal = userService.getUserPrincipal(email);
-                            System.out.println("calling db at interceptor");
                             headerAccessor.setUser(userPrincipal);
                             headerAccessor.setHeartbeat(serverHeartbeatDelay,clientHeartbeatRequire);
                             return message;
@@ -59,13 +62,26 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
             }
         }
         if (headerAccessor != null && StompCommand.DISCONNECT.equals(headerAccessor.getCommand())) {
-            return null;
+            try {
+                if (headerAccessor.getUser() != null){
+                    String userEmail = headerAccessor.getUser().getName();
+                    statusService.deactivate(userEmail);
+                }
+
+            }catch (Exception e){
+                AppLogger.LOGGER.error(e);
+            }
         }
         if (headerAccessor != null && StompCommand.SUBSCRIBE.equals(headerAccessor.getCommand())) {
             if (headerAccessor.getUser() == null || headerAccessor.getUser().getName() == null){
                 return null;
+            }else {
+                String userEmail = headerAccessor.getUser().getName();
+                if ("/users/queue/messages".equals(headerAccessor.getDestination())){
+                    statusService.activate(userEmail);
+                }
             }
-            System.out.println(headerAccessor.getDestination());
+
             System.out.println("Some one SUBSCRIBED");
         }
 

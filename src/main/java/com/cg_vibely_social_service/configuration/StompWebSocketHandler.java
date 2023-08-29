@@ -1,13 +1,16 @@
 package com.cg_vibely_social_service.configuration;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 @Component
-public class StompWebSocketHandler implements WebSocketHandler {
+@Qualifier("stompWebSocketHandler")
+public class StompWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         System.out.println(session.getId());
@@ -27,10 +30,5 @@ public class StompWebSocketHandler implements WebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
         System.out.println(closeStatus.getCode());
-    }
-
-    @Override
-    public boolean supportsPartialMessages() {
-        return false;
     }
 }
