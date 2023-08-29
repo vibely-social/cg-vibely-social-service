@@ -1,5 +1,7 @@
 package com.cg_vibely_social_service.controller;
 
+import com.cg_vibely_social_service.entity.Feed.Comment;
+import com.cg_vibely_social_service.payload.response.CommentResponseDto;
 import com.cg_vibely_social_service.service.CommentService;
 import com.cg_vibely_social_service.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,15 @@ public class CommentController {
         try {
             commentService.newComment(postId,newComment,file);
             return new ResponseEntity<>("Your comment was created!",HttpStatus.CREATED);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+    @GetMapping("/{postId}/comments")
+    public ResponseEntity<?> getComment(@PathVariable("postId") Long postId) {
+        try {
+            List<CommentResponseDto> commentResponseDTOs = commentService.getComments(postId);
+            return new ResponseEntity<>(commentResponseDTOs,HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         }

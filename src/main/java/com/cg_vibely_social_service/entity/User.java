@@ -2,7 +2,6 @@ package com.cg_vibely_social_service.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -87,11 +86,13 @@ public class User  {
     @Column(name = "avatar")
     private String avatar;
 
+    private String background;
+
     @ManyToMany(targetEntity = Role.class, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles;
 
     @ManyToMany(targetEntity = Friend.class)
     @JoinTable(name = "friend",

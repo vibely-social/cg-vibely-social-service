@@ -10,12 +10,15 @@ import com.cg_vibely_social_service.payload.request.UserLoginRequestDto;
 import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
 import com.cg_vibely_social_service.payload.response.UserInfoResponseDto;
 import com.cg_vibely_social_service.payload.response.UserLoginResponseDto;
+import com.cg_vibely_social_service.payload.response.UserSearchResponseDto;
 import com.cg_vibely_social_service.payload.response.UserSuggestionResponseDto;
 import com.cg_vibely_social_service.repository.UserRepository;
+import com.cg_vibely_social_service.service.ImageService;
 import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -42,6 +45,7 @@ public class UserServiceImpl implements UserService {
     private final Converter<UserRegisterRequestDto, User> userRegisterRequestDtoUserConverter;
 
     private final Converter<UserSuggestionResponseDto, User> suggestionFriendConverter;
+    private final ImageService imageService;
 
     private final Converter<UserInfoResponseDto, User> userInfoResponseConverter;
 
@@ -51,6 +55,8 @@ public class UserServiceImpl implements UserService {
 
     @Value("${app.friendSuggestionNumber}")
     private Integer friendSuggestionNumber;
+
+    private final Converter<UserSearchResponseDto, User> userSearchResponseConverter;
 
     @Override
     public UserImpl getCurrentUser() {
@@ -110,9 +116,10 @@ public class UserServiceImpl implements UserService {
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
-                .avatar("https://media.discordapp.net/attachments/1006048991043145829/1006049027734913075/unknown.png?width=662&height=662")
+                .avatarUrl(imageService.getImageUrl(user.getAvatar()))
                 .accessToken(token)
                 .refreshToken(refreshToken)
+                .background(imageService.getImageUrl(user.getBackground()))
                 .build();
 
     }
@@ -183,27 +190,10 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-//    @Override
-//    public UserLoginResponseDto oauth2Authenticate(Oauth2RequestDto oauth2RequestDto) {
-//        Authentication authentication = authenticationManager
-//                .authenticate(new UsernamePasswordAuthenticationToken(
-//                        oauth2RequestDto.getEmail(), oauth2RequestDto.getPassword()));
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//        User user = loadUserByEmail(oauth2RequestDto.getEmail());
-//
-//        String token = jwtUtil.generateToken(authentication);
-//        String refreshToken = jwtUtil.generateRefreshToken(authentication);
-//        return UserLoginResponseDto.builder()
-//                .id(user.getId())
-//                .email(user.getEmail())
-//                .firstName(user.getFirstName())
-//                .lastName(user.getLastName())
-//                .avatar(user.getAvatar())
-//                .accessToken(token)
-//                .refreshToken(refreshToken)
-//                .build();
-//
-//    }
+    @Override
+    public List<UserSearchResponseDto> findUsersByLastNameOrFirstName(String keyword, Integer pageNumber) {
+        List<User> users = userRepository.findUsersByLastNameOrFirstName
+                (keyword, PageRequest.of(pageNumber, 20)).getContent();
+        return userSearchResponseConverter.revert(users);
+    }
 }

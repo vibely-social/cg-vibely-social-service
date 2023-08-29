@@ -3,13 +3,17 @@ package com.cg_vibely_social_service.converter.impl;
 import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.response.FriendResponseDto;
+import com.cg_vibely_social_service.service.ImageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class FriendResponseDtoConverter implements Converter<FriendResponseDto, User> {
+    private final ImageService imageService;
     @Override
     public User convert(FriendResponseDto source) {
         return null;
@@ -24,7 +28,7 @@ public class FriendResponseDtoConverter implements Converter<FriendResponseDto, 
     public FriendResponseDto revert(User target) {
         FriendResponseDto result = new FriendResponseDto();
         BeanUtils.copyProperties(target, result);
-//        result.setAvatarUrl("https://media.discordapp.net/attachments/1006048991043145829/1006049027734913075/unknown.png?width=662&height=662");
+        result.setAvatarUrl(imageService.getImageUrl(target.getAvatar()));
         return result;
     }
 

@@ -3,6 +3,7 @@ package com.cg_vibely_social_service.controller;
 import com.cg_vibely_social_service.payload.request.UserInfoRequestDto;
 import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
 import com.cg_vibely_social_service.payload.response.UserInfoResponseDto;
+import com.cg_vibely_social_service.payload.response.UserSearchResponseDto;
 import com.cg_vibely_social_service.payload.response.UserSuggestionResponseDto;
 import com.cg_vibely_social_service.service.UserService;
 import jakarta.validation.Valid;
@@ -51,8 +52,7 @@ public class UserController {
         }
     }
 
-
-    @GetMapping
+    @GetMapping("/check_email")
     public ResponseEntity<?> checkEmail(@RequestParam("email") String email) {
         if (userService.checkValidEmail(email)) {
             return new ResponseEntity<>(HttpStatus.OK);
@@ -100,6 +100,17 @@ public class UserController {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchUser(@RequestParam("keyword") String keyword,
+                                        @RequestParam("number-page") Integer numberPage) {
+        List<UserSearchResponseDto> users = userService.findUsersByLastNameOrFirstName(keyword, numberPage);
+        if (!users.isEmpty()) {
+            return new ResponseEntity<>(users, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 }

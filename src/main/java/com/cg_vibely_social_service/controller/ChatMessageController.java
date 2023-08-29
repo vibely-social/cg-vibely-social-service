@@ -22,7 +22,7 @@ public class ChatMessageController {
     @GetMapping
     public ResponseEntity<?> getMessages(@RequestParam(required = false) String sender, String receiver,
                                          @PageableDefault(size = 20, sort = "time",direction = Sort.Direction.DESC) Pageable pageable) {
-        ChatMessagesResponse chatMessagesResponse = chatService.findAll(sender, receiver, pageable);
+        ChatMessagesResponse chatMessagesResponse = chatService.findAllWithCacheActive(sender, receiver, pageable);
         return new ResponseEntity<>(chatMessagesResponse, HttpStatus.OK);
     }
 }
