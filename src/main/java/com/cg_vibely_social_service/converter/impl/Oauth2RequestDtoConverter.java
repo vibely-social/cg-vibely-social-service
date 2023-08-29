@@ -31,7 +31,7 @@ public class Oauth2RequestDtoConverter implements Converter<Oauth2RequestDto, Us
                 .firstName(source.getFamily_name())
                 .lastName(source.getGiven_name())
                 .email(source.getEmail())
-                .avatar(source.getPicture())
+                .googleAvatar(source.getPicture())
                 .password(passwordEncoder.encode(source.getPassword()))
                 .createdAt(LocalDateTime.now())
                 .roles(roleSet)

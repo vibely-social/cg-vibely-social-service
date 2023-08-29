@@ -28,7 +28,11 @@ public class FriendResponseDtoConverter implements Converter<FriendResponseDto, 
     public FriendResponseDto revert(User target) {
         FriendResponseDto result = new FriendResponseDto();
         BeanUtils.copyProperties(target, result);
-        result.setAvatarUrl(imageService.getImageUrl(target.getAvatar()));
+        if (target.getAvatar() == null && target.getGoogleAvatar() != null) {
+            result.setAvatarUrl(target.getGoogleAvatar());
+        } else {
+            result.setAvatarUrl(imageService.getImageUrl(target.getAvatar()));
+        }
         return result;
     }
 

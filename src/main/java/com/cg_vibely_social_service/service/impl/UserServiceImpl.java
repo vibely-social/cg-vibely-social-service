@@ -111,17 +111,24 @@ public class UserServiceImpl implements UserService {
 
         String token = jwtUtil.generateToken(authentication);
         String refreshToken = jwtUtil.generateRefreshToken(authentication);
-        return UserLoginResponseDto.builder()
+
+        UserLoginResponseDto userLoginResponseDto = UserLoginResponseDto.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
-                .avatarUrl(imageService.getImageUrl(user.getAvatar()))
                 .accessToken(token)
                 .refreshToken(refreshToken)
                 .background(imageService.getImageUrl(user.getBackground()))
                 .build();
 
+        if (user.getAvatar() == null && user.getGoogleAvatar() != null) {
+            userLoginResponseDto.setAvatarUrl(user.getGoogleAvatar());
+        } else {
+            userLoginResponseDto.setAvatarUrl(imageService.getImageUrl(user.getAvatar()));
+        }
+
+        return userLoginResponseDto;
     }
 
     @Override

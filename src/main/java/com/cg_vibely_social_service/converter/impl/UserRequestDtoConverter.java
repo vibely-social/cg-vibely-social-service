@@ -25,8 +25,6 @@ public class UserRequestDtoConverter  implements Converter<UserRegisterRequestDt
 
     @Override
     public User convert(UserRegisterRequestDto source) {
-
-        //            Date birthday = new SimpleDateFormat("dd/MM/yyyy").parse(source.getDayOfBirth());
         LocalDate birthday = LocalDate.parse(source.getDayOfBirth(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         Role role = roleService.findById(1L);

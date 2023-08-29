@@ -86,6 +86,9 @@ public class User  {
     @Column(name = "avatar")
     private String avatar;
 
+    @Column(name = "google_avatar")
+    private String googleAvatar;
+
     private String background;
 
     @ManyToMany(targetEntity = Role.class, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
