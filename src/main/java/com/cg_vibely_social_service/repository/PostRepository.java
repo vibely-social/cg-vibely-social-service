@@ -2,8 +2,6 @@ package com.cg_vibely_social_service.repository;
 
 import com.cg_vibely_social_service.entity.Feed.Comment;
 import com.cg_vibely_social_service.entity.Feed.Feed;
-import com.cg_vibely_social_service.entity.Post;
-import com.cg_vibely_social_service.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         Set<Role> roles = user.getRoles();
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        if (roles == null) roles =  new HashSet<>();
         for (Role role: roles) {
             GrantedAuthority authority = new SimpleGrantedAuthority(role.toString());
             grantedAuthorities.add(authority);

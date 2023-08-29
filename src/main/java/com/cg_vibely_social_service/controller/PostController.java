@@ -91,16 +91,16 @@ public class PostController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateParticularPost(@Valid @RequestBody PostRequestDto postRequestDto, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
+    public ResponseEntity<?> updateParticularPost(@Valid @RequestBody PostRequestDto postRequestDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }else {
+        } else {
             try {
                 User user = (User) request.getSession().getAttribute("currentUser");
                 postRequestDto.setAuthorId(user.getId());
                 postService.update(postRequestDto);
                 return new ResponseEntity<>("success", HttpStatus.CREATED);
-            }catch (Exception exception){
+            } catch (Exception exception) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
         }
