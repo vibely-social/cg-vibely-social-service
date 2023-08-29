@@ -58,29 +58,77 @@ public class LikeServiceImpl implements LikeService {
         UserImpl user = userService.getCurrentUser();
         List<Long> likes;
         LikeResponseDto likeResponseDto = new LikeResponseDto();
-        for(Comment comment : feedItem.getComments()){
-            if(comment.getCommentId().equals(commentId)){
-                if(comment.getLikes() != null) {
-                    likes = comment.getLikes();
-                    if(!likes.contains(user.getId())){
-                        likes.add(user.getId());
-                        likeResponseDto.setIsLiked(true);
+        if(feedItem.getComments() != null){
+            for(Comment comment : feedItem.getComments()){
+                if(comment.getCommentId().equals(commentId)){
+                    if(comment.getLikes() != null) {
+                        likes = comment.getLikes();
+                        if(!likes.contains(user.getId())){
+                            likes.add(user.getId());
+                            likeResponseDto.setIsLiked(true);
+                        }
+                        else{
+                            likes.removeIf(id -> Objects.equals(id, user.getId()));
+                            likeResponseDto.setIsLiked(false);
+                        }
+                        likeResponseDto.setLikeCount((long) likes.size());
+                        comment.setLikes(likes);
                     }
                     else{
-                        likes.removeIf(id -> Objects.equals(id, user.getId()));
-                        likeResponseDto.setIsLiked(false);
+                        likes = new ArrayList<>();
+                        likes.add(user.getId());
+                        likeResponseDto.setLikeCount(1L);
+                        likeResponseDto.setIsLiked(true);
+                        comment.setLikes(likes);
                     }
-                    likeResponseDto.setLikeCount((long) likes.size());
-                    comment.setLikes(likes);
+                    break;
                 }
-                else{
-                    likes = new ArrayList<>();
-                    likes.add(user.getId());
-                    likeResponseDto.setLikeCount(1L);
-                    likeResponseDto.setIsLiked(true);
-                    comment.setLikes(likes);
+            }
+        }
+        feed.setFeedItem(feedItem);
+        postRepository.save(feed);
+        return likeResponseDto;
+    }
+
+    @Override
+    public LikeResponseDto likeReply(Long replyId, Long commentId, Long postId) {
+        Feed feed = postRepository.findById(postId).orElseThrow();
+        FeedItem feedItem = feed.getFeedItem();
+        UserImpl user = userService.getCurrentUser();
+        List<Long> likes;
+        LikeResponseDto likeResponseDto = new LikeResponseDto();
+        if(feedItem.getComments() != null){
+            for(Comment comment : feedItem.getComments()){
+                if(comment.getCommentId().equals(commentId)){
+                    if(comment.getReplyComments() != null){
+                        for(Comment reply : comment.getReplyComments()){
+                            if(reply.getCommentId().equals(replyId)){
+                                if(reply.getLikes() != null){
+                                    likes = reply.getLikes();
+                                    if(reply.getLikes().contains(user.getId())){
+                                        likes.removeIf(id -> Objects.equals(id, user.getId()));
+                                        likeResponseDto.setIsLiked(false);
+                                    }
+                                    else{
+                                        likes.add(user.getId());
+                                        likeResponseDto.setIsLiked(true);
+                                    }
+                                    likeResponseDto.setLikeCount((long) likes.size());
+                                    reply.setLikes(likes);
+                                }
+                                else{
+                                    likes = new ArrayList<>();
+                                    likes.add(user.getId());
+                                    likeResponseDto.setLikeCount(1L);
+                                    likeResponseDto.setIsLiked(true);
+                                    reply.setLikes(likes);
+                                }
+                                break;
+                            }
+                        }
+                        break;
+                    }
                 }
-                break;
             }
         }
         feed.setFeedItem(feedItem);

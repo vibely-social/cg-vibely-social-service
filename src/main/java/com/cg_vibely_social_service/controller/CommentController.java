@@ -32,7 +32,7 @@ public class CommentController {
         }
     }
     @PostMapping("/{postId}/reply/{commentId}")
-    public ResponseEntity<?> newComment(@PathVariable("postId") Long postId,
+    public ResponseEntity<?> newReply(@PathVariable("postId") Long postId,
                                         @PathVariable("commentId") Long commentId,
                                         @RequestParam(value = "file",required = false) MultipartFile file ,
                                         String reply) {
@@ -55,9 +55,21 @@ public class CommentController {
     }
 
     @GetMapping("/{postId}/like/{commentId}")
-    public ResponseEntity<?> getComment(@PathVariable("postId") Long postId,@PathVariable("commentId") Long commentId) {
+    public ResponseEntity<?> likeComment(@PathVariable("postId") Long postId,
+                                         @PathVariable("commentId") Long commentId) {
         try {
             LikeResponseDto likeResponseDto = likeService.likeComment(postId,commentId);
+            return new ResponseEntity<>(likeResponseDto,HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+    @GetMapping("/{postId}/like/{commentId}/{replyId}")
+    public ResponseEntity<?> likeReply(@PathVariable("postId") Long postId,
+                                       @PathVariable("commentId") Long commentId,
+                                       @PathVariable("replyId") Long replyId) {
+        try {
+            LikeResponseDto likeResponseDto = likeService.likeReply(replyId,commentId,postId);
             return new ResponseEntity<>(likeResponseDto,HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);

@@ -137,6 +137,7 @@ public class CommentServiceImpl implements CommentService {
                     }
                     reply.add(comment);
                     cmt.setReplyComments(reply);
+                    break;
                 }
             }
             feedItem.setComments(commentList);
