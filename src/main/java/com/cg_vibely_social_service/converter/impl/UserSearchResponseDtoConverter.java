@@ -23,14 +23,15 @@ public class UserSearchResponseDtoConverter implements Converter<UserSearchRespo
 
     @Override
     public UserSearchResponseDto revert(User target) {
-        UserSearchResponseDto result = new UserSearchResponseDto();
-        BeanUtils.copyProperties(target, result);
-        if (target.getAvatar() == null && target.getGoogleAvatar() != null) {
-            result.setAvatarUrl(target.getGoogleAvatar());
-        } else {
-            result.setAvatarUrl(imageService.getImageUrl(target.getAvatar()));
-        }
-        return result;
+//        UserSearchResponseDto result = new UserSearchResponseDto();
+//        BeanUtils.copyProperties(target, result);
+//        if (target.getAvatar() == null && target.getGoogleAvatar() != null) {
+//            result.setAvatarUrl(target.getGoogleAvatar());
+//        } else {
+//            result.setAvatarUrl(imageService.getImageUrl(target.getAvatar()));
+//        }
+//        return result;
+        return null;
     }
 
     @Override

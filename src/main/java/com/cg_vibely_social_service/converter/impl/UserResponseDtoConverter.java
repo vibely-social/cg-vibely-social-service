@@ -21,17 +21,18 @@ public class UserResponseDtoConverter implements Converter<UserResponseDto, User
 
     @Override
     public UserResponseDto revert(User target) {
-        UserResponseDto userResponseDto = UserResponseDto.builder()
-                .id(target.getId())
-                .firstName(target.getFirstName())
-                .lastName(target.getLastName())
-                .build();
-        if (target.getAvatar() == null && target.getGoogleAvatar() != null) {
-            userResponseDto.setAvatar(target.getGoogleAvatar());
-        } else {
-            userResponseDto.setAvatar(imageService.getImageUrl(target.getAvatar()));
-        }
-        return userResponseDto;
+//        UserResponseDto userResponseDto = UserResponseDto.builder()
+//                .id(target.getId())
+//                .firstName(target.getFirstName())
+//                .lastName(target.getLastName())
+//                .build();
+//        if (target.getAvatar() == null && target.getGoogleAvatar() != null) {
+//            userResponseDto.setAvatar(target.getGoogleAvatar());
+//        } else {
+//            userResponseDto.setAvatar(imageService.getImageUrl(target.getAvatar()));
+//        }
+//        return userResponseDto;
+        return null;
     }
 
     @Override
