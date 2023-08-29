@@ -4,6 +4,7 @@ import com.cg_vibely_social_service.configuration.security.JwtTokenProvider;
 import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.entity.Friend;
 import com.cg_vibely_social_service.entity.User;
+import com.cg_vibely_social_service.payload.request.Oauth2RequestDto;
 import com.cg_vibely_social_service.payload.request.UserInfoRequestDto;
 import com.cg_vibely_social_service.payload.request.UserLoginRequestDto;
 import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
@@ -26,7 +27,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.naming.AuthenticationException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,12 +39,16 @@ public class UserServiceImpl implements UserService {
     private final JwtTokenProvider jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final Converter<UserRegisterRequestDto, User> converter;
+    private final Converter<UserRegisterRequestDto, User> userRegisterRequestDtoUserConverter;
+
     private final Converter<UserSuggestionResponseDto, User> suggestionFriendConverter;
 
     private final Converter<UserInfoResponseDto, User> userInfoResponseConverter;
 
     private final Converter<UserInfoRequestDto, User> userInfoRequestConverter;
+
+    private final Converter<Oauth2RequestDto, User> oauth2RequestDtoUserConverter;
+
     @Value("${app.friendSuggestionNumber}")
     private Integer friendSuggestionNumber;
 
@@ -60,7 +64,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(UserRegisterRequestDto userRegisterRequestDto) {
-        userRepository.save(converter.convert(userRegisterRequestDto));
+        userRepository.save(userRegisterRequestDtoUserConverter.convert(userRegisterRequestDto));
+    }
+
+    @Override
+    public void save(Oauth2RequestDto oauth2RequestDto) {
+        userRepository.save(oauth2RequestDtoUserConverter.convert(oauth2RequestDto));
     }
 
     @Override
@@ -173,4 +182,28 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
     }
+
+//    @Override
+//    public UserLoginResponseDto oauth2Authenticate(Oauth2RequestDto oauth2RequestDto) {
+//        Authentication authentication = authenticationManager
+//                .authenticate(new UsernamePasswordAuthenticationToken(
+//                        oauth2RequestDto.getEmail(), oauth2RequestDto.getPassword()));
+//
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//        User user = loadUserByEmail(oauth2RequestDto.getEmail());
+//
+//        String token = jwtUtil.generateToken(authentication);
+//        String refreshToken = jwtUtil.generateRefreshToken(authentication);
+//        return UserLoginResponseDto.builder()
+//                .id(user.getId())
+//                .email(user.getEmail())
+//                .firstName(user.getFirstName())
+//                .lastName(user.getLastName())
+//                .avatar(user.getAvatar())
+//                .accessToken(token)
+//                .refreshToken(refreshToken)
+//                .build();
+//
+//    }
 }
