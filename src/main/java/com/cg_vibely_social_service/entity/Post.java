@@ -30,6 +30,6 @@ public class Post {
     private String textContent;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-    private Boolean edited;
+//    private Boolean edited;
 
 }

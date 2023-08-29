@@ -4,6 +4,7 @@ import com.cg_vibely_social_service.configuration.security.JwtTokenProvider;
 import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.entity.Friend;
 import com.cg_vibely_social_service.entity.User;
+import com.cg_vibely_social_service.payload.request.Oauth2RequestDto;
 import com.cg_vibely_social_service.payload.request.UserInfoRequestDto;
 import com.cg_vibely_social_service.payload.request.UserLoginRequestDto;
 import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
@@ -41,13 +42,17 @@ public class UserServiceImpl implements UserService {
     private final JwtTokenProvider jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final Converter<UserRegisterRequestDto, User> converter;
+    private final Converter<UserRegisterRequestDto, User> userRegisterRequestDtoUserConverter;
+
     private final Converter<UserSuggestionResponseDto, User> suggestionFriendConverter;
     private final ImageService imageService;
 
     private final Converter<UserInfoResponseDto, User> userInfoResponseConverter;
 
     private final Converter<UserInfoRequestDto, User> userInfoRequestConverter;
+
+    private final Converter<Oauth2RequestDto, User> oauth2RequestDtoUserConverter;
+
     @Value("${app.friendSuggestionNumber}")
     private Integer friendSuggestionNumber;
 
@@ -65,7 +70,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(UserRegisterRequestDto userRegisterRequestDto) {
-        userRepository.save(converter.convert(userRegisterRequestDto));
+        userRepository.save(userRegisterRequestDtoUserConverter.convert(userRegisterRequestDto));
+    }
+
+    @Override
+    public void save(Oauth2RequestDto oauth2RequestDto) {
+        userRepository.save(oauth2RequestDtoUserConverter.convert(oauth2RequestDto));
     }
 
     @Override
@@ -101,17 +111,24 @@ public class UserServiceImpl implements UserService {
 
         String token = jwtUtil.generateToken(authentication);
         String refreshToken = jwtUtil.generateRefreshToken(authentication);
-        return UserLoginResponseDto.builder()
+
+        UserLoginResponseDto userLoginResponseDto = UserLoginResponseDto.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
-                .avatarUrl(imageService.getImageUrl(user.getAvatar()))
                 .accessToken(token)
                 .refreshToken(refreshToken)
                 .background(imageService.getImageUrl(user.getBackground()))
                 .build();
 
+        if (user.getAvatar() == null && user.getGoogleAvatar() != null) {
+            userLoginResponseDto.setAvatarUrl(user.getGoogleAvatar());
+        } else {
+            userLoginResponseDto.setAvatarUrl(imageService.getImageUrl(user.getAvatar()));
+        }
+
+        return userLoginResponseDto;
     }
 
     @Override
