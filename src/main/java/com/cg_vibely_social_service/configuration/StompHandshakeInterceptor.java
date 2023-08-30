@@ -13,12 +13,12 @@ public class StompHandshakeInterceptor implements HandshakeInterceptor {
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         String token = request.getHeaders().getFirst("Authorization");
         System.out.println(token);
-        attributes.put("token", token);
+//        attributes.put("token", token);
         return true;
     }
 
     @Override
     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {
-        System.out.println("After handshake");
+
     }
 }

@@ -23,12 +23,8 @@ public class StompWebSocketHandler extends TextWebSocketHandler {
     }
 
     @Override
-    public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-
-    }
-
-    @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
+        System.out.println("connection closed!");
         System.out.println(closeStatus.getCode());
     }
 }

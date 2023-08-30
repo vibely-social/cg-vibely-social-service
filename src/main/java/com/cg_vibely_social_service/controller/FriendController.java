@@ -55,9 +55,9 @@ public class FriendController {
         return new ResponseEntity<>(friendRequestList, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<?> getFriendStatus (@RequestBody List<String> requestDto){
-        HashMap<String, Boolean> friendStatus = statusService.getStatus(requestDto);
+    @PostMapping("/status")
+    public ResponseEntity<?> getFriendStatus (@RequestBody List<String> emails){
+        HashMap<String, Boolean> friendStatus = statusService.getStatus(emails);
         return new ResponseEntity<>(friendStatus, HttpStatus.OK);
     }
 }

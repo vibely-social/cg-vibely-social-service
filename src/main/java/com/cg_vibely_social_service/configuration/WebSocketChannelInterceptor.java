@@ -3,8 +3,6 @@ package com.cg_vibely_social_service.configuration;
 import com.cg_vibely_social_service.configuration.security.JwtTokenProvider;
 import com.cg_vibely_social_service.logging.AppLogger;
 import com.cg_vibely_social_service.service.StatusService;
-import com.cg_vibely_social_service.service.UserService;
-import com.cg_vibely_social_service.service.impl.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
@@ -95,7 +93,7 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
                 }
             }
 
-            System.out.println("Some one SUBSCRIBED");
+            System.out.println("Some one SUBSCRIBED at: " + headerAccessor.getDestination());
         }
 
         return message;

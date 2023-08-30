@@ -33,6 +33,8 @@ public class WebSocketController {
         chatMessageDto.setSenderName(senderName);
         String receiver = chatMessageDto.getReceiver();
 
+        if (sender == null || receiver == null) return;
+
         if (!"".equals(chatMessageDto.getContent())) {
             simpMessagingTemplate.convertAndSendToUser(sender, "/queue/messages", chatMessageDto);
             simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/notify", chatMessageDto.getContent());
@@ -43,6 +45,7 @@ public class WebSocketController {
                 chatService.save(chatMessageDto);
             }
         } else {
+            //typing status message
             if (Boolean.TRUE.equals(chatMessageDto.getIsStatusType())) {
                 simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages", chatMessageDto);
             }
