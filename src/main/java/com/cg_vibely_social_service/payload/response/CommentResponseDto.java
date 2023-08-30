@@ -16,4 +16,6 @@ public class CommentResponseDto {
     private UserResponseDto author;
     private String date;
     private List<CommentResponseDto> replyCommentDTOs;
+    private Long likeCount;
+    private boolean isLiked;
 }

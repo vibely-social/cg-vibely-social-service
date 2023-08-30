@@ -4,6 +4,7 @@ import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
 import com.cg_vibely_social_service.payload.response.LikeResponseDto;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
+import com.cg_vibely_social_service.repository.PostRepository;
 import com.cg_vibely_social_service.service.CommentService;
 import com.cg_vibely_social_service.service.ImageService;
 import com.cg_vibely_social_service.service.LikeService;
@@ -32,6 +33,7 @@ public class PostController {
     private final HttpServletRequest request;
     private final ImageService imageService;
     private final LikeService likeService;
+    private final PostRepository postRepository;
 
     @PostMapping
     public ResponseEntity<?> submitPost(@RequestParam(value = "files",required = false) List<MultipartFile> files,
