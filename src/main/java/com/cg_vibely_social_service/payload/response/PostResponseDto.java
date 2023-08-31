@@ -29,5 +29,6 @@ public class PostResponseDto {
     private Long likeCount;
     private Long commentCount;
     private boolean isLiked;
-
+    private List<Long> subscribers;
+    private CommentResponseDto topComment;
 }

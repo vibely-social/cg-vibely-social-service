@@ -1,5 +1,6 @@
 package com.cg_vibely_social_service.controller;
 
+import com.cg_vibely_social_service.payload.request.CommentRequestDto;
 import com.cg_vibely_social_service.payload.response.CommentResponseDto;
 import com.cg_vibely_social_service.payload.response.LikeResponseDto;
 import com.cg_vibely_social_service.service.CommentService;
@@ -31,6 +32,20 @@ public class CommentController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
     }
+
+    @PutMapping("/{postId}/comment")
+    public ResponseEntity<?> editComment(@PathVariable("postId") Long postId,
+                                        @RequestParam(value = "file",required = false) MultipartFile file ,
+                                         @RequestParam(value = "payload") String payload) {
+        try {
+            CommentRequestDto commentRequestDto = new CommentRequestDto().convert(payload);
+            CommentResponseDto commentResponseDto = commentService.editComment(postId,commentRequestDto,file);
+            return new ResponseEntity<>(commentResponseDto,HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
     @PostMapping("/{postId}/reply/{commentId}")
     public ResponseEntity<?> newReply(@PathVariable("postId") Long postId,
                                         @PathVariable("commentId") Long commentId,

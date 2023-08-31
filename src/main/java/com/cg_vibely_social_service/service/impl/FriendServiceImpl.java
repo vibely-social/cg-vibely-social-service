@@ -24,12 +24,18 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public List<FriendResponseDto> findFriendsByUserId(Long userId) {
+        List<Long> allFriends = this.findAllFriends(userId);
+        List<User> friends = userRepository.findAllById(allFriends);
+        return friends.stream().map(converter::revert).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Long> findAllFriends(Long userId) {
         List<Friend> friends1 = friendRepository.findAllByUserId(userId);
         List<Friend> friends2 = friendRepository.findAllByFriendId(userId);
         List<Long> friendsId1 = new ArrayList<>(friends1.stream().map(Friend::getFriendId).toList());
         List<Long> friendsId2 = friends2.stream().map(Friend::getUserId).toList();
         friendsId1.addAll(friendsId2);
-        List<User> friends = userRepository.findAllById(friendsId1);
-        return friends.stream().map(converter::revert).collect(Collectors.toList());
+        return friendsId1;
     }
 }

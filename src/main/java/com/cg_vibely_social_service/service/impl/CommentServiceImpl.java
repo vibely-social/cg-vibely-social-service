@@ -5,21 +5,28 @@ import com.cg_vibely_social_service.converter.IUserMapper;
 import com.cg_vibely_social_service.entity.Feed.Comment;
 import com.cg_vibely_social_service.entity.Feed.Feed;
 import com.cg_vibely_social_service.entity.Feed.FeedItem;
+import com.cg_vibely_social_service.entity.Friend;
 import com.cg_vibely_social_service.entity.User;
+import com.cg_vibely_social_service.payload.request.CommentRequestDto;
 import com.cg_vibely_social_service.payload.response.CommentResponseDto;
 import com.cg_vibely_social_service.payload.response.UserResponseDto;
+import com.cg_vibely_social_service.repository.FriendRepository;
 import com.cg_vibely_social_service.repository.PostRepository;
 import com.cg_vibely_social_service.service.CommentService;
+import com.cg_vibely_social_service.service.FriendService;
 import com.cg_vibely_social_service.service.ImageService;
 import com.cg_vibely_social_service.service.UserService;
+import com.google.api.gax.rpc.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.NotAcceptableStatusException;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -28,33 +35,26 @@ public class CommentServiceImpl implements CommentService {
     private final PostRepository postRepository;
     private final UserService userService;
     private final ImageService imageService;
+    private final FriendService friendService;
     @Override
     public CommentResponseDto newComment(Long postId, String content, MultipartFile source) throws IOException {
             Feed feed = postRepository.findById(postId).orElseThrow();
-            Comment comment = new Comment();
-            comment.setDate(LocalDateTime.now().toString());
-            comment.setContent(content);
             UserImpl user = userService.getCurrentUser();
-            comment.setUserId(user.getId());
+            FeedItem feedItem = feed.getFeedItem();
+            Comment comment = Comment.builder()
+                    .date(LocalDateTime.now().toString())
+                    .content(content)
+                    .userId(user.getId())
+                    .replyComments(new ArrayList<>())
+                    .likes(new ArrayList<>())
+                    .build();
             if(source != null)  {
                 String fileName = imageService.save(source);
                 comment.setGallery(fileName);
             }
-            comment.setReplyComments(new ArrayList<>());
-            comment.setLikes(new ArrayList<>());
-            FeedItem feedItem = feed.getFeedItem();
-            List<Comment> commentList;
-            if(feedItem.getComments() != null){
-                commentList = feedItem.getComments();
-                comment.setCommentId((long) (commentList.size() + 1));
-            }
-            else{
-                commentList = new ArrayList<>();
-                comment.setCommentId(1L);
-            }
-            commentList.add(comment);
-            feedItem.setComments(commentList);
-            feed.setFeedItem(feedItem);
+            FeedItem newFeedItem = this.saveComment(feedItem,comment);
+            feed.setFeedItem(newFeedItem);
+
             postRepository.save(feed);
             CommentResponseDto commentResponseDto =
                          IPostMapper.INSTANCE.commentResponseDto(comment);
@@ -111,17 +111,19 @@ public class CommentServiceImpl implements CommentService {
     public CommentResponseDto replyComment(Long postId, Long commentId, String content, MultipartFile source) throws IOException {
         Feed feed = postRepository.findById(postId).orElseThrow();
         FeedItem feedItem = feed.getFeedItem();
-        Comment comment = new Comment();
-        comment.setDate(LocalDateTime.now().toString());
-        comment.setContent(content);
         UserImpl user = userService.getCurrentUser();
-        comment.setUserId(user.getId());
+        Comment comment = Comment.builder()
+                        .date(LocalDateTime.now().toString())
+                        .content(content)
+                        .userId(user.getId())
+                        .likes(new ArrayList<>())
+                        .build();
+
         if(source != null)  {
             String fileName = imageService.save(source);
             comment.setGallery(fileName);
         }
         List<Comment> reply;
-        comment.setLikes(new ArrayList<>());
         List<Comment> commentList;
         if(feedItem.getComments() != null) {
             commentList = feedItem.getComments();
@@ -152,6 +154,91 @@ public class CommentServiceImpl implements CommentService {
             commentResponseDto.setLikeCount(0L);
             return commentResponseDto;
         }
-        return null;
+        throw new NotAcceptableStatusException("Invalid request");
+    }
+
+    @Override
+    public CommentResponseDto getTopComment(FeedItem feedItem) {
+        Comment topComment = null;
+        UserImpl user = userService.getCurrentUser();
+        List <Long> friends = friendService.findAllFriends(user.getId());
+
+        if(feedItem.getComments() != null){
+            List<Comment> comments = feedItem.getComments();
+            if(!friends.isEmpty()) {
+                comments.sort((comment1, comment2) ->
+                        Math.toIntExact(comment2.getCommentId() - comment1.getCommentId()));
+                for(Comment comment : comments){
+                    if(friends.contains(comment.getCommentId())){
+                        return IPostMapper.INSTANCE.commentResponseDto(comment);
+                    }
+                }
+            }
+            for(Comment comment : comments){
+                long max = 0;
+                if(comment.getLikes() != null){
+                    if(comment.getLikes().size() > max) {
+                        topComment = comment;
+                    }
+                }
+            }
+        }
+        return IPostMapper.INSTANCE.commentResponseDto(topComment);
+    }
+
+    @Override
+    public FeedItem saveComment(FeedItem feedItem, Comment commentRequest) {
+        List<Comment> commentList = feedItem.getComments();
+        if(commentRequest.getCommentId() != null){
+            Comment oldComment = commentList.stream()
+                    .filter(comment -> Objects.equals(comment.getCommentId(), commentRequest.getCommentId()))
+                    .findFirst()
+                    .orElse(null);
+            if(oldComment != null){
+                Comment newComment = oldComment;
+                newComment.setContent(commentRequest.getContent());
+                newComment.setGallery(commentRequest.getGallery());
+                commentList.set(commentList.indexOf(oldComment), newComment);
+            }
+            feedItem.setComments(commentList);
+            return feedItem;
+        }
+        if(feedItem.getComments() != null){
+            commentRequest.setCommentId((long) (commentList.size() + 1));
+        }
+        else{
+            commentList = new ArrayList<>();
+            commentRequest.setCommentId(1L);
+        }
+        commentList.add(commentRequest);
+        feedItem.setComments(commentList);
+        return feedItem;
+    }
+
+    @Override
+    public CommentResponseDto editComment(Long postId,CommentRequestDto commentRequestDto,MultipartFile file) throws IOException {
+        Feed feed = postRepository.findById(postId).orElseThrow();
+        UserImpl user = userService.getCurrentUser();
+        if(!Objects.equals(commentRequestDto.getAuthorId(), user.getId())){
+            throw new NotAcceptableStatusException("Invalid request");
+        }
+        String source = null;
+        if(file != null) {
+            source = imageService.save(file);
+        }
+        FeedItem feedItem = feed.getFeedItem();
+        Comment comment = Comment.builder()
+                            .userId(user.getId())
+                            .commentId(commentRequestDto.getCommentId())
+                            .content(commentRequestDto.getContent())
+                            .gallery(source)
+                            .build();
+        FeedItem newFeedItem = this.saveComment(feedItem,comment);
+        feed.setFeedItem(newFeedItem);
+        postRepository.save(feed);
+        return CommentResponseDto.builder()
+                .content(commentRequestDto.getContent())
+                .gallery(source)
+                .build();
     }
 }
