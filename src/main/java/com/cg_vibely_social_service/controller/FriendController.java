@@ -6,6 +6,7 @@ import com.cg_vibely_social_service.payload.request.ResolveRequestDto;
 import com.cg_vibely_social_service.payload.response.FriendResponseDto;
 import com.cg_vibely_social_service.service.FriendRequestService;
 import com.cg_vibely_social_service.service.FriendService;
+import com.cg_vibely_social_service.service.StatusService;
 import com.cg_vibely_social_service.service.UserService;
 import com.cg_vibely_social_service.service.impl.UserImpl;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -23,6 +25,7 @@ public class FriendController {
     private final UserService userService;
     private final FriendService friendService;
     private final FriendRequestService friendRequestService;
+    private final StatusService statusService;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getFriendList(@PathVariable("id") Long id) {
@@ -59,4 +62,9 @@ public class FriendController {
         return new ResponseEntity<>(friendRequestList, HttpStatus.OK);
     }
 
+    @PostMapping("/status")
+    public ResponseEntity<?> getFriendStatus (@RequestBody List<String> emails){
+        HashMap<String, Boolean> friendStatus = statusService.getStatus(emails);
+        return new ResponseEntity<>(friendStatus, HttpStatus.OK);
+    }
 }

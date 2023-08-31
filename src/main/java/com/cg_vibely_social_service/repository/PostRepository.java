@@ -2,8 +2,6 @@ package com.cg_vibely_social_service.repository;
 
 import com.cg_vibely_social_service.entity.Feed.Comment;
 import com.cg_vibely_social_service.entity.Feed.Feed;
-import com.cg_vibely_social_service.entity.Post;
-import com.cg_vibely_social_service.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,7 +15,6 @@ public interface PostRepository extends JpaRepository<Feed, Long> {
 
     @Query(value = "SELECT * FROM FEED WHERE JSON_EXTRACT(feed_items, '$.authorId' ) = ?1 ORDER BY id DESC", nativeQuery = true)
     List<Feed> findAllByAuthorId(Long authorId);
-
-
-
+    @Query(value = "SELECT JSON_EXTRACT(feed_items, '$.comments' ) FROM FEED where JSON_EXTRACT(feed_items,'$.authorId') = ?1", nativeQuery = true)
+    List<String> findByAuthorId(Long id);
 }

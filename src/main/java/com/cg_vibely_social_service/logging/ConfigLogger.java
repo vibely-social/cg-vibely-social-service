@@ -13,7 +13,7 @@ import java.util.Arrays;
 @Aspect
 @Component
 public class ConfigLogger {
-    private static final Logger LOGGER = LogManager.getLogger(AppLogger.class);
+    private final Logger LOGGER = AppLogger.LOGGER;
 
     @Pointcut("execution(public * com.cg_vibely_social_service.configuration.*.*(..))")
     public void configMethods() {}

@@ -1,6 +1,7 @@
 package com.cg_vibely_social_service.repository;
 
 import com.cg_vibely_social_service.entity.User;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllById(Long id);
 
     User findUserById(Long userId);
-
     @Query(value = "SELECT DISTINCT u FROM User u " +
             "WHERE u.id != :userId " +
             "AND u.id NOT IN (SELECT f.friendId FROM Friend f WHERE f.userId = :userId) " +
@@ -23,4 +23,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     )
     List<User> findFriendSuggestionByUserId(@Param("userId") Long userId, Pageable pageable);
 
+    @Query(value = "SELECT u FROM User u WHERE u.lastName LIKE %:keyword% OR u.firstName LIKE %:keyword%")
+    Page<User> findUsersByLastNameOrFirstName(@Param("keyword") String keyword, Pageable pageable);
 }
