@@ -7,4 +7,5 @@ import java.util.List;
 public interface FriendService {
 
     List<FriendResponseDto> findFriendsByUserId(Long userId);
+    void removeFriend(Long friendId);
 }

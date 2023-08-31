@@ -1,7 +1,17 @@
 package com.cg_vibely_social_service.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "friend_request")
@@ -14,13 +24,11 @@ public class FriendRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(referencedColumnName = "id",nullable = false)
-    private User user;
-
-    @OneToOne
-    @JoinColumn(name = "friend_id")
-    private User friend;
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private User sender;
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
+    private User receiver;
 
 }
