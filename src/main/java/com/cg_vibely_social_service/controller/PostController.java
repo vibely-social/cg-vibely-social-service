@@ -8,6 +8,7 @@ import com.cg_vibely_social_service.repository.PostRepository;
 import com.cg_vibely_social_service.service.CommentService;
 import com.cg_vibely_social_service.service.ImageService;
 import com.cg_vibely_social_service.service.LikeService;
+import com.cg_vibely_social_service.service.NotificationService;
 import com.cg_vibely_social_service.service.PostService;
 
 import com.fasterxml.jackson.databind.JsonMappingException;

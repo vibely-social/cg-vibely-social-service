@@ -51,7 +51,7 @@ public class FriendRequestServiceImpl implements FriendRequestService {
                     .userId((friendRequest.getUser()).getId())
                     .friendId((friendRequest.getFriend()).getId())
                     .name((friendRequest.getFriend()).getFirstName() + friendRequest.getFriend().getLastName())
-                    .avatarUrl("default") // hiện tại chưa có dữ liệu về hình ảnh
+                    .avatarUrl("default")
                     .build();
             friendRequestDtos.add(friendRequestDto);
         }
