@@ -31,4 +31,5 @@ public class FriendServiceImpl implements FriendService {
         List<User> friends = userRepository.findAllById(friendsId1);
         return friends.stream().map(converter::revert).collect(Collectors.toList());
     }
+
 }

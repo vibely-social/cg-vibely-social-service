@@ -39,27 +39,26 @@ public class FriendController {
         }
     }
 
-    @PostMapping("/request")
-    public ResponseEntity<?> saveFriendRequest(@RequestBody FriendRequestRequestDto friendRequestRequestDto) {
-        friendRequestService.saveFriendRequest(friendRequestRequestDto);
+    @PostMapping
+    public ResponseEntity<?> sendFriendRequest(@RequestParam("id") Long friendId) {
+       friendRequestService.saveFriendRequest(friendId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @GetMapping("/accept/{id}")
+    public ResponseEntity<?> acceptFriendRequest(@PathVariable("id") Long friendId) {
+        friendRequestService.acceptFriendRequest(friendId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/requestResolve")
-    public ResponseEntity<?> resolveRequest(@RequestBody ResolveRequestDto resolveRequestDto) {
-        friendRequestService.resolveRequest(resolveRequestDto);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping("/requested")
-    public ResponseEntity<?> getRequestedFriend() {
+    @GetMapping("/requested") //requests from current user
+    public ResponseEntity<?> getRequestedFriend () {
         UserImpl user = userService.getCurrentUser();
-        List<FriendRequestResponseDto> friendRequestResponseDtoList
+        List<FriendRequestDto> friendRequestList
                 = friendRequestService.findAllFriendRequestByUserId(user.getId());
-        return new ResponseEntity<>(friendRequestResponseDtoList, HttpStatus.OK);
+        return new ResponseEntity<>(friendRequestList, HttpStatus.OK);
     }
 
-    @GetMapping("/request")
+    @GetMapping("/request") //requests by other user
     public ResponseEntity<?> getFriendRequest() {
         UserImpl user = userService.getCurrentUser();
         List<FriendRequestResponseDto> friendRequestResponseDtoList =
@@ -72,4 +71,10 @@ public class FriendController {
         HashMap<String, Boolean> friendStatus = statusService.getStatus(emails);
         return new ResponseEntity<>(friendStatus, HttpStatus.OK);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> removeFriend(@PathVariable("id") Long friendId) {
+        friendRequestService.removeFriend(friendId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
