@@ -1,10 +1,12 @@
 package com.cg_vibely_social_service.configuration;
 
 import com.cg_vibely_social_service.configuration.security.JwtTokenProvider;
-import com.cg_vibely_social_service.service.impl.UserPrincipal;
-import com.cg_vibely_social_service.service.UserService;
+import com.cg_vibely_social_service.logging.AppLogger;
+import com.cg_vibely_social_service.service.StatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
@@ -12,6 +14,9 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -19,13 +24,17 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
+@Order(Ordered.HIGHEST_PRECEDENCE + 99)
 public class WebSocketChannelInterceptor implements ChannelInterceptor {
     private final JwtTokenProvider tokenProvider;
-    private final UserService userService;
+    private final StatusService statusService;
+    private final UserDetailsService userDetailsService;
+
     @Value("${websocket.server_heartbeat_delay_ms}")
     private long serverHeartbeatDelay;
     @Value("${websocket.client_heartbeat_require_ms}")
     private long clientHeartbeatRequire;
+
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
 
@@ -39,12 +48,17 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
                     if (tokenProvider.isTokenValid(bearerToken)) {
                         String email = tokenProvider.extractEmail(bearerToken);
                         if (email != null) {
-                            UserPrincipal userPrincipal;
-                            userPrincipal = userService.getUserPrincipal(email);
-                            System.out.println("calling db at interceptor");
-                            headerAccessor.setUser(userPrincipal);
-                            headerAccessor.setHeartbeat(serverHeartbeatDelay,clientHeartbeatRequire);
-                            return message;
+                            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                            if (userDetails != null) {
+                                UsernamePasswordAuthenticationToken authenticationToken =
+                                        new UsernamePasswordAuthenticationToken(
+                                                userDetails,
+                                                null,
+                                                userDetails.getAuthorities());
+                                headerAccessor.setUser(authenticationToken);
+                                headerAccessor.setHeartbeat(serverHeartbeatDelay, clientHeartbeatRequire);
+                                return message;
+                            }
                         } else {
                             return null;
                         }
@@ -59,14 +73,27 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
             }
         }
         if (headerAccessor != null && StompCommand.DISCONNECT.equals(headerAccessor.getCommand())) {
-            return null;
+            try {
+                if (headerAccessor.getUser() != null) {
+                    String userEmail = headerAccessor.getUser().getName();
+                    statusService.deactivate(userEmail);
+                }
+
+            } catch (Exception e) {
+                AppLogger.LOGGER.error(e);
+            }
         }
         if (headerAccessor != null && StompCommand.SUBSCRIBE.equals(headerAccessor.getCommand())) {
-            if (headerAccessor.getUser() == null || headerAccessor.getUser().getName() == null){
+            if (headerAccessor.getUser() == null || headerAccessor.getUser().getName() == null) {
                 return null;
+            } else {
+                String userEmail = headerAccessor.getUser().getName();
+                if ("/users/queue/messages".equals(headerAccessor.getDestination())) {
+                    statusService.activate(userEmail);
+                }
             }
-            System.out.println(headerAccessor.getDestination());
-            System.out.println("Some one SUBSCRIBED");
+
+            System.out.println("Some one SUBSCRIBED at: " + headerAccessor.getDestination());
         }
 
         return message;
@@ -76,7 +103,7 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
     public void afterSendCompletion(Message<?> message, MessageChannel channel, boolean sent, Exception ex) {
         StompHeaderAccessor headerAccessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
         if (headerAccessor != null && StompCommand.SEND.equals(headerAccessor.getCommand())) {
-            if (!sent){
+            if (!sent) {
                 System.err.println("sent failed");
             }
         }

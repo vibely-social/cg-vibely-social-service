@@ -65,27 +65,16 @@ public class SecurityConfig {
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeHttpRequests()
-                .requestMatchers("/api/auth/login")
+                .requestMatchers(
+                        "/api/auth/login",
+                        "/api/users/check_email",
+                        "/api/forgot_password",
+                        "/api/friends/status",
+                        "/ws/**")
                 .permitAll();
 
         http.authorizeHttpRequests()
-                .requestMatchers("/api/users/check_email")
-                .permitAll();
-
-        http.authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/api/users")
-                .permitAll();
-
-        http.authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/api/oauth2/google/**")
-                .permitAll();
-
-        http.authorizeHttpRequests()
-                .requestMatchers("/api/forgot_password")
-                .permitAll();
-
-        http.authorizeHttpRequests()
-                .requestMatchers("/ws/**")
+                .requestMatchers(HttpMethod.POST, "/api/users","/api/oauth2/google/**")
                 .permitAll();
 
         http.authorizeHttpRequests()
