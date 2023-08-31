@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface FriendRequestRepository extends JpaRepository<FriendRequest, Long> {
-    List<FriendRequest> findFriendRequestsByUser_id(Long userId);
+    List<FriendRequest> findFriendRequestsByUserId(Long userId);
 
-    List<FriendRequest> findFriendRequestsByFriend_Id(Long friendId);
+    List<FriendRequest> findFriendRequestsByFriendId(Long friendId);
 }
