@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class FriendServiceImpl implements FriendService {
-
     private final FriendRepository friendRepository;
     private final UserRepository userRepository;
     private final Converter<FriendResponseDto, User> converter;

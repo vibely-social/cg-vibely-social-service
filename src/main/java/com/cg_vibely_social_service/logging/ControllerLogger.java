@@ -12,7 +12,7 @@ import java.util.Arrays;
 @Component
 @Aspect
 public class ControllerLogger {
-    private static final Logger LOGGER = LogManager.getLogger(AppLogger.class);
+    private final Logger LOGGER = AppLogger.LOGGER;
 
     @Pointcut("execution(public * com.cg_vibely_social_service.controller.*.*(..))")
     public void controllerMethods() {}

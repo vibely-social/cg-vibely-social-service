@@ -15,12 +15,8 @@ public class FriendRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(referencedColumnName = "id",nullable = false)
-    private User user;
+    private Long userId;
 
-    @OneToOne
-    @JoinColumn(name = "friend_id")
-    private User friend;
+    private Long friendId;
 
 }
