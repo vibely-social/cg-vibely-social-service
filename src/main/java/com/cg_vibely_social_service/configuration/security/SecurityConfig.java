@@ -54,7 +54,7 @@ public class SecurityConfig {
         CorsConfiguration corsConfig = new CorsConfiguration();
         corsConfig.addAllowedOriginPattern("**");
         corsConfig.addAllowedHeader("*");
-        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT"));
+        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig);
         return source;
@@ -74,7 +74,7 @@ public class SecurityConfig {
                 .permitAll();
 
         http.authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/api/users","/api/oauth2/google/**")
+                .requestMatchers(HttpMethod.POST, "/api/users", "/api/oauth2/google/**")
                 .permitAll();
 
         http.authorizeHttpRequests()

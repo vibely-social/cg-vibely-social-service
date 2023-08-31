@@ -11,10 +11,9 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-public class FriendRequestResponseDto {
-    private Long id;
-    private Long userId;
+public class FriendRequestResponse {
     private Long friendId;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String avatarUrl;
 }

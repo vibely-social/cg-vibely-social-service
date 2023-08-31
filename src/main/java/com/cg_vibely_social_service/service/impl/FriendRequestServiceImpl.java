@@ -1,31 +1,31 @@
 package com.cg_vibely_social_service.service.impl;
 
-import com.cg_vibely_social_service.converter.impl.FriendRequestDtoConverter;
+import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.entity.Friend;
 import com.cg_vibely_social_service.entity.FriendRequest;
 import com.cg_vibely_social_service.entity.User;
-import com.cg_vibely_social_service.payload.request.FriendRequestRequestDto;
-import com.cg_vibely_social_service.payload.response.FriendRequestResponseDto;
+import com.cg_vibely_social_service.payload.response.FriendRequestResponse;
 import com.cg_vibely_social_service.repository.FriendRepository;
 import com.cg_vibely_social_service.repository.FriendRequestRepository;
 import com.cg_vibely_social_service.service.FriendRequestService;
+import com.cg_vibely_social_service.service.ImageService;
 import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class FriendRequestServiceImpl implements FriendRequestService {
-        private final FriendRequestRepository friendRequestRepository;
-        private final FriendRepository friendRepository;
-        private final UserService userService;
-        private  final FriendRequestDtoConverter friendRequestDtoConverter;
-        private final ImageServiceImpl imageService;
+    private final FriendRequestRepository friendRequestRepository;
+    private final FriendRepository friendRepository;
+    private final UserService userService;
+    private final ImageService imageService;
+    private final Converter<FriendRequest, FriendRequestResponse> friendRequestResponseConverter;
 
 
     @Override
@@ -35,22 +35,26 @@ public class FriendRequestServiceImpl implements FriendRequestService {
         User friend = userService.findById(friendId);
 
         FriendRequest friendRequest = FriendRequest.builder()
-//                .user(user)
-//                .friend(friend)
+                .sender(user)
+                .receiver(friend)
                 .build();
         friendRequestRepository.save(friendRequest);
     }
 
     @Override
-    public List<FriendRequestResponseDto> findAllFriendRequestByUserId(Long userId) {
-        List<FriendRequest> friendRequestDtoList = friendRequestRepository.findAllByUserId(userId);
-        return getFriendRequestDtos(friendRequestDtoList);
+    public List<FriendRequestResponse> findAllFriendRequest() {
+        Long userId = userService.getCurrentUser().getId();
+        User user = userService.findById(userId);
+        List<FriendRequest> friendRequestDtoList = friendRequestRepository.findAllByReceiver(user);
+        return friendRequestResponseConverter.convert(friendRequestDtoList);
     }
 
     @Override
-    public List<FriendRequestResponseDto> findAllFriendRequestByFriendId(Long friendId) {
-        List<FriendRequest> friendRequestDtoList = friendRequestRepository.findAllByFriendId(friendId);
-        return getFriendRequestDtos(friendRequestDtoList);
+    public List<FriendRequestResponse> findAllFriendRequestSent() {
+        Long userId = userService.getCurrentUser().getId();
+        User user = userService.findById(userId);
+        List<FriendRequest> friendRequests = friendRequestRepository.findAllBySender(user);
+        return friendRequests.stream().map(this::convertRequestSent).collect(Collectors.toList());
     }
 
     @Override
@@ -59,34 +63,22 @@ public class FriendRequestServiceImpl implements FriendRequestService {
         User user = userService.findById(currentUser.getId());
         User friend = userService.findById(friendId);
         friendRepository.save(new Friend(user.getId(), friend.getId()));
-        friendRequestRepository.deleteAllByUserAndFriendOrUserAndFriend(user,friend,friend,user);
+        friendRequestRepository.deleteAllBySenderAndReceiverOrSenderAndReceiver(user, friend, friend, user);
     }
 
-    @Override
-    public void removeFriend(Long friendId) {
+    public void denyFriendRequest(Long friendId) {
         UserImpl currentUser = userService.getCurrentUser();
         User user = userService.findById(currentUser.getId());
         User friend = userService.findById(friendId);
-        FriendRequest friendRequest = FriendRequest.builder()
-//                .user(user)
-//                .friend(friend)
-                .build();
-        friendRequestRepository.delete(friendRequest);
+        friendRequestRepository.deleteAllBySenderAndReceiverOrSenderAndReceiver(user, friend, friend, user);
     }
 
-
-    private List<FriendRequestResponseDto> getFriendRequestDtos(List<FriendRequest> friendRequestDtoList) {
-        List<FriendRequestResponseDto> friendRequestDtos = new ArrayList<>();
-        for (FriendRequest friendRequest : friendRequestDtoList) {
-            FriendRequestResponseDto friendRequestDto = FriendRequestResponseDto.builder().build();
-//                    .id(friendRequest.getId())
-//                    .userId((friendRequest.getUser()).getId())
-//                    .friendId((friendRequest.getFriend()).getId())
-//                    .name((friendRequest.getUser()).getFirstName() + friendRequest.getUser().getLastName())
-//                    .avatarUrl(imageService.getImageUrl(friendRequest.getUser().getAvatar()))
-//                    .build();
-            friendRequestDtos.add(friendRequestDto);
-        }
-        return friendRequestDtos;
+    private FriendRequestResponse convertRequestSent(FriendRequest source) {
+        return FriendRequestResponse.builder()
+                .friendId(source.getReceiver().getId())
+                .firstName(source.getReceiver().getFirstName())
+                .lastName(source.getReceiver().getLastName())
+                .avatarUrl(imageService.getImageUrl(source.getReceiver().getAvatar()))
+                .build();
     }
 }
