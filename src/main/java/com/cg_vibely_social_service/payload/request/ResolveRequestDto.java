@@ -1,6 +1,10 @@
 package com.cg_vibely_social_service.payload.request;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -8,8 +12,6 @@ import lombok.*;
 @Getter
 @Setter
 public class ResolveRequestDto {
-    private Long id;
-    private Long userId;
-    private Long friendId;
+    private Long friendRequestId;
     private String status;
 }
