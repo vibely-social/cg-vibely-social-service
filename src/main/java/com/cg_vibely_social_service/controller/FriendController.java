@@ -1,8 +1,7 @@
 package com.cg_vibely_social_service.controller;
 
 
-import com.cg_vibely_social_service.payload.request.FriendRequestRequestDto;
-import com.cg_vibely_social_service.payload.request.ResolveRequestDto;
+import com.cg_vibely_social_service.payload.request.FriendRequestDto;
 import com.cg_vibely_social_service.payload.response.FriendRequestResponseDto;
 import com.cg_vibely_social_service.payload.response.FriendResponseDto;
 import com.cg_vibely_social_service.service.FriendRequestService;
@@ -53,7 +52,7 @@ public class FriendController {
     @GetMapping("/requested") //requests from current user
     public ResponseEntity<?> getRequestedFriend () {
         UserImpl user = userService.getCurrentUser();
-        List<FriendRequestDto> friendRequestList
+        List<FriendRequestResponseDto> friendRequestList
                 = friendRequestService.findAllFriendRequestByUserId(user.getId());
         return new ResponseEntity<>(friendRequestList, HttpStatus.OK);
     }

@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-public class FriendRequestRequestDto {
+public class FriendRequestDto {
     private Long id;
     private Long userId;
     private Long friendId;

@@ -1,7 +1,5 @@
 package com.cg_vibely_social_service.service;
 
-import com.cg_vibely_social_service.payload.request.FriendRequestRequestDto;
-import com.cg_vibely_social_service.payload.request.ResolveRequestDto;
 import com.cg_vibely_social_service.payload.response.FriendRequestResponseDto;
 
 import java.util.List;

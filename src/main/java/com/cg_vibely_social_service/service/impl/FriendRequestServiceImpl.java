@@ -4,7 +4,6 @@ import com.cg_vibely_social_service.converter.impl.FriendRequestDtoConverter;
 import com.cg_vibely_social_service.entity.Friend;
 import com.cg_vibely_social_service.entity.FriendRequest;
 import com.cg_vibely_social_service.entity.User;
-import com.cg_vibely_social_service.payload.request.FriendRequestRequestDto;
 import com.cg_vibely_social_service.payload.response.FriendRequestResponseDto;
 import com.cg_vibely_social_service.repository.FriendRepository;
 import com.cg_vibely_social_service.repository.FriendRequestRepository;
