@@ -34,21 +34,36 @@ public class FriendController {
     }
 
     @PostMapping("/request")
-    public ResponseEntity<?> saveFriendRequest(@RequestBody FriendRequestDto friendRequestDto) {
-       friendRequestService.saveFriendRequest(friendRequestDto);
+    public ResponseEntity<?> sendFriendRequest(@RequestParam("id") Long friendId) {
+       friendRequestService.saveFriendRequest(friendId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @GetMapping("/accept/{id}")
+    public ResponseEntity<?> acceptFriendRequest(@PathVariable("id") Long friendId) {
+        friendRequestService.acceptFriendRequest(friendId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/requested/{id}")
-    public ResponseEntity<?> getRequestedFriend (@PathVariable("id") Long id) {
-        List<FriendRequestDto> friendRequestList = friendRequestService.findAllFriendRequestByUserId(id);
+    @GetMapping("/requested") //requests from current user
+    public ResponseEntity<?> getRequestedFriend () {
+        UserImpl user = userService.getCurrentUser();
+        List<FriendRequestDto> friendRequestList
+                = friendRequestService.findAllFriendRequestByUserId(user.getId());
         return new ResponseEntity<>(friendRequestList, HttpStatus.OK);
     }
 
-    @GetMapping("/request/{id}")
-    public ResponseEntity<?> getFriendRequest (@PathVariable("id") Long id) {
-        List<FriendRequestDto> friendRequestList = friendRequestService.findAllFriendRequestByFriendId(id);
+    @GetMapping("/request") //requests by other user
+    public ResponseEntity<?> getFriendRequest () {
+        UserImpl user = userService.getCurrentUser();
+        List<FriendRequestDto> friendRequestList
+                = friendRequestService.findAllFriendRequestByFriendId(user.getId());
         return new ResponseEntity<>(friendRequestList, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> removeFriend(@PathVariable("id") Long friendId) {
+        friendRequestService.removeFriend(friendId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

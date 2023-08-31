@@ -15,8 +15,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT DISTINCT u FROM User u " +
             "WHERE u.id != :userId " +
             "AND u.id NOT IN (SELECT f.friendId FROM Friend f WHERE f.userId = :userId) " +
-            "AND u.id NOT IN (SELECT f.userId FROM Friend f WHERE f.friendId = :userId) " +
-            "ORDER BY RAND()")
+            "AND u.id NOT IN (SELECT f.userId FROM Friend f WHERE f.friendId = :userId) "
+//            + "ORDER BY RAND()"
+    )
     List<User> findFriendSuggestionByUserId(@Param("userId") Long userId, Pageable pageable);
 
 }
