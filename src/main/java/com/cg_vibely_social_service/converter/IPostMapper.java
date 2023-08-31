@@ -1,7 +1,9 @@
 package com.cg_vibely_social_service.converter;
 
+import com.cg_vibely_social_service.entity.Feed.Comment;
 import com.cg_vibely_social_service.entity.Feed.FeedItem;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
+import com.cg_vibely_social_service.payload.response.CommentResponseDto;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -23,4 +25,11 @@ public interface IPostMapper {
     @Mapping(target = "privacy", source="feedItem.privacy")
     @Mapping(target = "createdDate", source="feedItem.createdDate")
     PostResponseDto postResponseDto(FeedItem feedItem);
+
+    @Mapping(target = "commentId", source="comment.commentId")
+    @Mapping(target = "content", source="comment.content")
+    @Mapping(target = "author.id", source="comment.userId")
+    @Mapping(target = "gallery", source="comment.gallery")
+    @Mapping(target = "date", source="comment.date")
+    CommentResponseDto commentResponseDto(Comment comment);
 }

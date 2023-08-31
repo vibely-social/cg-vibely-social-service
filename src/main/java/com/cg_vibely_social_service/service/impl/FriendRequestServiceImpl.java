@@ -4,7 +4,8 @@ import com.cg_vibely_social_service.converter.impl.FriendRequestDtoConverter;
 import com.cg_vibely_social_service.entity.Friend;
 import com.cg_vibely_social_service.entity.FriendRequest;
 import com.cg_vibely_social_service.entity.User;
-import com.cg_vibely_social_service.payload.request.FriendRequestDto;
+import com.cg_vibely_social_service.payload.request.FriendRequestRequestDto;
+import com.cg_vibely_social_service.payload.response.FriendRequestResponseDto;
 import com.cg_vibely_social_service.repository.FriendRepository;
 import com.cg_vibely_social_service.repository.FriendRequestRepository;
 import com.cg_vibely_social_service.service.FriendRequestService;
@@ -21,11 +22,11 @@ import java.util.List;
 @Transactional
 public class FriendRequestServiceImpl implements FriendRequestService {
         private final FriendRequestRepository friendRequestRepository;
+        private final FriendRepository friendRepository;
         private final UserService userService;
         private  final FriendRequestDtoConverter friendRequestDtoConverter;
         private final ImageServiceImpl imageService;
 
-        private final FriendRepository friendRepository;
 
     @Override
     public void saveFriendRequest(Long friendId) {
@@ -34,21 +35,21 @@ public class FriendRequestServiceImpl implements FriendRequestService {
         User friend = userService.findById(friendId);
 
         FriendRequest friendRequest = FriendRequest.builder()
-                .user(user)
-                .friend(friend)
+//                .user(user)
+//                .friend(friend)
                 .build();
         friendRequestRepository.save(friendRequest);
     }
 
     @Override
-    public List<FriendRequestDto> findAllFriendRequestByUserId(Long userId) {
-        List<FriendRequest> friendRequestDtoList = friendRequestRepository.findFriendRequestsByUser_id(userId);
+    public List<FriendRequestResponseDto> findAllFriendRequestByUserId(Long userId) {
+        List<FriendRequest> friendRequestDtoList = friendRequestRepository.findAllByUserId(userId);
         return getFriendRequestDtos(friendRequestDtoList);
     }
 
     @Override
-    public List<FriendRequestDto> findAllFriendRequestByFriendId(Long friendId) {
-        List<FriendRequest> friendRequestDtoList = friendRequestRepository.findFriendRequestsByFriend_Id(friendId);
+    public List<FriendRequestResponseDto> findAllFriendRequestByFriendId(Long friendId) {
+        List<FriendRequest> friendRequestDtoList = friendRequestRepository.findAllByFriendId(friendId);
         return getFriendRequestDtos(friendRequestDtoList);
     }
 
@@ -67,23 +68,23 @@ public class FriendRequestServiceImpl implements FriendRequestService {
         User user = userService.findById(currentUser.getId());
         User friend = userService.findById(friendId);
         FriendRequest friendRequest = FriendRequest.builder()
-                .user(user)
-                .friend(friend)
+//                .user(user)
+//                .friend(friend)
                 .build();
         friendRequestRepository.delete(friendRequest);
     }
 
 
-    private List<FriendRequestDto> getFriendRequestDtos(List<FriendRequest> friendRequestDtoList) {
-        List<FriendRequestDto> friendRequestDtos = new ArrayList<>();
+    private List<FriendRequestResponseDto> getFriendRequestDtos(List<FriendRequest> friendRequestDtoList) {
+        List<FriendRequestResponseDto> friendRequestDtos = new ArrayList<>();
         for (FriendRequest friendRequest : friendRequestDtoList) {
-            FriendRequestDto friendRequestDto = FriendRequestDto.builder()
-                    .id(friendRequest.getId())
-                    .userId((friendRequest.getUser()).getId())
-                    .friendId((friendRequest.getFriend()).getId())
-                    .name((friendRequest.getUser()).getFirstName() + friendRequest.getUser().getLastName())
-                    .avatarUrl(imageService.getImageUrl(friendRequest.getUser().getAvatar()))
-                    .build();
+            FriendRequestResponseDto friendRequestDto = FriendRequestResponseDto.builder().build();
+//                    .id(friendRequest.getId())
+//                    .userId((friendRequest.getUser()).getId())
+//                    .friendId((friendRequest.getFriend()).getId())
+//                    .name((friendRequest.getUser()).getFirstName() + friendRequest.getUser().getLastName())
+//                    .avatarUrl(imageService.getImageUrl(friendRequest.getUser().getAvatar()))
+//                    .build();
             friendRequestDtos.add(friendRequestDto);
         }
         return friendRequestDtos;

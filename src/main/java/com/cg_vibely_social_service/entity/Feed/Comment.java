@@ -14,6 +14,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Comment {
 
     private Long commentId;
@@ -22,6 +23,5 @@ public class Comment {
     private String gallery;
     private String date;
     private List<Long> likes;
-    private List<ReplyComment> replyComment;
-
+    private List<Comment> replyComments;
 }

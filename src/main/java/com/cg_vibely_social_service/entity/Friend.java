@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
+import lombok.Builder;
 
 @Entity
 @Table(name = "friend")
@@ -14,6 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Friend {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
