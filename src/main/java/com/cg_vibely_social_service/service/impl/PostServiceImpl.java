@@ -155,7 +155,12 @@ public class PostServiceImpl implements PostService {
             dto.setUsersTag(newUserTags);
         }
         CommentResponseDto topComment = commentService.getTopComment(feedItem);
-        dto.setTopComment(topComment);
+
+        if(Objects.nonNull(topComment)){
+            User user = userService.findById(topComment.getAuthor().getId());
+            topComment.setAuthor(IUserMapper.INSTANCE.userResponseDTOConvert(user));
+            dto.setTopComment(topComment);
+        }
         return dto;
     }
 }

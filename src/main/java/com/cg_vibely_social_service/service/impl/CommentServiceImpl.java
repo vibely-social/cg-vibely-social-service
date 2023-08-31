@@ -1,5 +1,6 @@
 package com.cg_vibely_social_service.service.impl;
 
+import com.cg_vibely_social_service.converter.ICommentMapper;
 import com.cg_vibely_social_service.converter.IPostMapper;
 import com.cg_vibely_social_service.converter.IUserMapper;
 import com.cg_vibely_social_service.entity.Feed.Comment;
@@ -57,12 +58,10 @@ public class CommentServiceImpl implements CommentService {
 
             postRepository.save(feed);
             CommentResponseDto commentResponseDto =
-                         IPostMapper.INSTANCE.commentResponseDto(comment);
+                         ICommentMapper.INSTANCE.commentResponseDto(comment, user.getId());
             User user1 = userService.findById(user.getId());
             UserResponseDto userResponseDto = IUserMapper.INSTANCE.userResponseDTOConvert(user1);
             commentResponseDto.setAuthor(userResponseDto);
-            commentResponseDto.setLiked(false);
-            commentResponseDto.setLikeCount(0L);
             return commentResponseDto;
     }
 
@@ -70,14 +69,15 @@ public class CommentServiceImpl implements CommentService {
     public List<CommentResponseDto> getComments(Long postId) {
         Feed feed = postRepository.findById(postId).orElseThrow();
         FeedItem feedItem = feed.getFeedItem();
+        UserImpl user1 = userService.getCurrentUser();
         List <CommentResponseDto> commentResponseDTOs = new ArrayList<>();
-        if(feedItem.getComments() != null) {
+        if(Objects.nonNull(feedItem.getComments())) {
             for(Comment comment : feedItem.getComments()) {
                 List<CommentResponseDto> replyComments = new ArrayList<>();
-                if(comment.getReplyComments() != null) {
+                if(Objects.nonNull(comment.getReplyComments())) {
                     for (Comment reply : comment.getReplyComments()){
                         CommentResponseDto replyDto =
-                                IPostMapper.INSTANCE.commentResponseDto(reply);
+                                ICommentMapper.INSTANCE.commentResponseDto(reply, user1.getId());
                         User user = userService.findById(reply.getUserId());
                         UserResponseDto userResponseDto =
                                 IUserMapper.INSTANCE.userResponseDTOConvert(user);
@@ -90,13 +90,13 @@ public class CommentServiceImpl implements CommentService {
                     }
                 }
                 CommentResponseDto commentResponseDto =
-                        IPostMapper.INSTANCE.commentResponseDto(comment);
+                        ICommentMapper.INSTANCE.commentResponseDto(comment,user1.getId());
                 User user = userService.findById(comment.getUserId());
                 UserResponseDto userResponseDto =
                         IUserMapper.INSTANCE.userResponseDTOConvert(user);
                 commentResponseDto.setAuthor(userResponseDto);
                 commentResponseDto.setReplyCommentDTOs(replyComments);
-                if(comment.getLikes() != null){
+                if(Objects.nonNull(comment.getLikes())){
                     commentResponseDto.setLiked(comment.getLikes().contains(user.getId()));
                     commentResponseDto.setLikeCount((long) comment.getLikes().size());
                 }
@@ -124,37 +124,28 @@ public class CommentServiceImpl implements CommentService {
             comment.setGallery(fileName);
         }
         List<Comment> reply;
-        List<Comment> commentList;
-        if(feedItem.getComments() != null) {
-            commentList = feedItem.getComments();
-            for(Comment cmt :  commentList){
-                if(commentId.equals(cmt.getCommentId())){
-                    if(cmt.getReplyComments() != null) {
-                        reply = cmt.getReplyComments();
-                        comment.setCommentId((long) (reply.size() + 1));
-                    }
-                    else{
-                        comment.setCommentId(1L);
-                        reply = new ArrayList<>();
-                    }
-                    reply.add(comment);
-                    cmt.setReplyComments(reply);
-                    break;
-                }
-            }
-            feedItem.setComments(commentList);
-            feed.setFeedItem(feedItem);
-            postRepository.save(feed);
-            CommentResponseDto commentResponseDto =
-                    IPostMapper.INSTANCE.commentResponseDto(comment);
-            User user1 = userService.findById(user.getId());
-            UserResponseDto userResponseDto = IUserMapper.INSTANCE.userResponseDTOConvert(user1);
-            commentResponseDto.setAuthor(userResponseDto);
-            commentResponseDto.setLiked(false);
-            commentResponseDto.setLikeCount(0L);
-            return commentResponseDto;
+        Comment cmt =  Objects.requireNonNull(feedItem.getComments())
+                            .stream()
+                            .filter(com -> Objects.equals(com.getCommentId(), commentId))
+                            .findFirst().orElseThrow();
+        if(Objects.nonNull(cmt.getReplyComments())) {
+            reply = cmt.getReplyComments();
+            comment.setCommentId((long) (reply.size() + 1));
         }
-        throw new NotAcceptableStatusException("Invalid request");
+        else{
+            comment.setCommentId(1L);
+            reply = new ArrayList<>();
+        }
+        reply.add(comment);
+        cmt.setReplyComments(reply);
+        feed.setFeedItem(feedItem);
+        postRepository.save(feed);
+        CommentResponseDto commentResponseDto =
+                    ICommentMapper.INSTANCE.commentResponseDto(comment, user.getId());
+        User user1 = userService.findById(user.getId());
+        UserResponseDto userResponseDto = IUserMapper.INSTANCE.userResponseDTOConvert(user1);
+        commentResponseDto.setAuthor(userResponseDto);
+        return commentResponseDto;
     }
 
     @Override
@@ -170,7 +161,7 @@ public class CommentServiceImpl implements CommentService {
                         Math.toIntExact(comment2.getCommentId() - comment1.getCommentId()));
                 for(Comment comment : comments){
                     if(friends.contains(comment.getCommentId())){
-                        return IPostMapper.INSTANCE.commentResponseDto(comment);
+                        return ICommentMapper.INSTANCE.commentResponseDto(comment, user.getId());
                     }
                 }
             }
@@ -182,8 +173,9 @@ public class CommentServiceImpl implements CommentService {
                     }
                 }
             }
+            return ICommentMapper.INSTANCE.commentResponseDto(topComment, user.getId());
         }
-        return IPostMapper.INSTANCE.commentResponseDto(topComment);
+        return null;
     }
 
     @Override
@@ -195,22 +187,15 @@ public class CommentServiceImpl implements CommentService {
                     .findFirst()
                     .orElse(null);
             if(oldComment != null){
-                Comment newComment = oldComment;
-                newComment.setContent(commentRequest.getContent());
-                newComment.setGallery(commentRequest.getGallery());
-                commentList.set(commentList.indexOf(oldComment), newComment);
+                oldComment.setContent(commentRequest.getContent());
+                oldComment.setGallery(commentRequest.getGallery());
+                commentList.set(commentList.indexOf(oldComment), oldComment);
             }
             feedItem.setComments(commentList);
             return feedItem;
         }
-        if(feedItem.getComments() != null){
-            commentRequest.setCommentId((long) (commentList.size() + 1));
-        }
-        else{
-            commentList = new ArrayList<>();
-            commentRequest.setCommentId(1L);
-        }
-        commentList.add(commentRequest);
+        commentRequest.setCommentId(feedItem.getComments() != null ? commentList.size() + 1 : 1L);
+        Objects.requireNonNull(commentList).add(commentRequest);
         feedItem.setComments(commentList);
         return feedItem;
     }
