@@ -18,11 +18,11 @@ public interface ICommentMapper {
     @Mapping(target = "author.id", source="source.userId")
     @Mapping(target = "gallery", source="source.gallery")
     @Mapping(target = "date", source="source.date")
-    @Mapping(target = "likeCount", expression = "java(convertLikesCount(source))")
+    @Mapping(target = "likeCount", expression = "java(countLikes(source))")
     @Mapping(target = "isLiked", expression = "java(checkLiked(source,userId))")
     CommentResponseDto commentResponseDto(Comment source, Long userId);
 
-    default Long convertLikesCount(Comment source) {
+    default Long countLikes(Comment source) {
         if(source.getLikes() != null){
             return (long) source.getLikes().size();
         }

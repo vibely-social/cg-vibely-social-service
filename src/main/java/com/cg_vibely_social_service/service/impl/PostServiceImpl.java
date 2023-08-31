@@ -112,7 +112,8 @@ public class PostServiceImpl implements PostService {
     public PostResponseDto findById(Long postId) {
         Feed feed = postRepository.findById(postId).orElseThrow();
         FeedItem feedItem = feed.getFeedItem();
-        PostResponseDto dto = IPostMapper.INSTANCE.postResponseDto(feedItem);
+        UserImpl user1 = userService.getCurrentUser();
+        PostResponseDto dto = IPostMapper.INSTANCE.convertToDTO(feedItem,user1.getId());
         dto.setId(feed.getId());
         Optional<User> author = userRepository.findById(feedItem.getAuthorId());
         author.ifPresent(data -> {
@@ -124,23 +125,6 @@ public class PostServiceImpl implements PostService {
 
         if(feedItem.getGallery() != null){
             dto.setGallery(imageService.getImageUrls(feedItem.getGallery()));
-        }
-        if(feedItem.getLikes() != null ){
-            if(feedItem.getLikes().size() != 0) {
-                UserImpl user = userService.getCurrentUser();
-                for(Long id : feedItem.getLikes()){
-                    if(Objects.equals(id, user.getId())){
-                        dto.setLiked(true);
-                        break;
-                    }
-                }
-                dto.setLikeCount((long) feedItem.getLikes().size());
-            }
-        }
-        if(feedItem.getComments() != null ){
-            if(feedItem.getComments().size() != 0) {
-                dto.setCommentCount((long) feedItem.getComments().size());
-            }
         }
         List<UserResponseDto> newUserTags = new ArrayList<>();
         if(feedItem.getTags() != null) {

@@ -195,7 +195,10 @@ public class CommentServiceImpl implements CommentService {
             return feedItem;
         }
         commentRequest.setCommentId(feedItem.getComments() != null ? commentList.size() + 1 : 1L);
-        Objects.requireNonNull(commentList).add(commentRequest);
+        if(!Objects.nonNull(commentList)){
+            commentList = new ArrayList<>();
+        }
+        commentList.add(commentRequest);
         feedItem.setComments(commentList);
         return feedItem;
     }
