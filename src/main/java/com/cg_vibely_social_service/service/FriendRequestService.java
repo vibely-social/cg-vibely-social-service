@@ -7,11 +7,15 @@ import com.cg_vibely_social_service.payload.response.FriendRequestResponseDto;
 import java.util.List;
 
 public interface FriendRequestService {
-    void saveFriendRequest(FriendRequestRequestDto friendRequestRequestDto);
+    void saveFriendRequest(Long friendId);
 
     List<FriendRequestResponseDto> findAllFriendRequestByUserId(Long userId);
-
     List<FriendRequestResponseDto> findAllFriendRequestByFriendId(Long friendId);
 
-    void resolveRequest(ResolveRequestDto resolveRequestDto);
+//    List<FriendRequestDto> findAllFriendRequestByFriendId(Long friendId);
+
+    void acceptFriendRequest(Long friendId);
+    void removeFriend(Long friendId);
+
+//    void resolveRequest(ResolveRequestDto resolveRequestDto);
 }

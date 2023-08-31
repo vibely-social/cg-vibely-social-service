@@ -37,4 +37,5 @@ public class FriendServiceImpl implements FriendService {
         friendsId1.addAll(friendsId2);
         return friendsId1;
     }
+
 }
