@@ -2,6 +2,7 @@ package com.cg_vibely_social_service.service;
 
 import com.cg_vibely_social_service.payload.response.FriendRequestResponse;
 
+
 import java.util.List;
 
 public interface FriendRequestService {

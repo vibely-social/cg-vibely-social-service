@@ -7,11 +7,13 @@ import com.cg_vibely_social_service.entity.Feed.Feed;
 import com.cg_vibely_social_service.entity.Feed.FeedItem;
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
+import com.cg_vibely_social_service.payload.response.CommentResponseDto;
 import com.cg_vibely_social_service.payload.response.LikeResponseDto;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
 import com.cg_vibely_social_service.payload.response.UserResponseDto;
 import com.cg_vibely_social_service.repository.PostRepository;
 import com.cg_vibely_social_service.repository.UserRepository;
+import com.cg_vibely_social_service.service.CommentService;
 import com.cg_vibely_social_service.service.ImageService;
 import com.cg_vibely_social_service.service.PostService;
 import com.cg_vibely_social_service.service.UserService;
@@ -34,6 +36,7 @@ public class PostServiceImpl implements PostService {
     private final UserRepository userRepository;
     private final ImageService imageService;
     private final UserService userService;
+    private final CommentService commentService;
 
     @Override
     public List<PostResponseDto> findByAuthorId(Long authorId) {
@@ -73,6 +76,9 @@ public class PostServiceImpl implements PostService {
         feedItem.setGallery(files);
         feedItem.setCreatedDate(LocalDateTime.now().toString());
         Feed feed = new Feed();
+        List<Long> subscribers = new ArrayList<>();
+        subscribers.add(user.getId());
+        feedItem.setSubscribers(subscribers);
         feed.setFeedItem(feedItem);
         Feed newFeed = postRepository.save(feed);
         return this.findById(newFeed.getId());
@@ -85,6 +91,9 @@ public class PostServiceImpl implements PostService {
         UserImpl user = userService.getCurrentUser();
         feedItem.setAuthorId(user.getId());
         feedItem.setCreatedDate(LocalDateTime.now().toString());
+        List<Long> subscribers = new ArrayList<>();
+        subscribers.add(user.getId());
+        feedItem.setSubscribers(subscribers);
         Feed feed = new Feed();
         feed.setFeedItem(feedItem);
         Feed newFeed = postRepository.save(feed);
@@ -103,7 +112,8 @@ public class PostServiceImpl implements PostService {
     public PostResponseDto findById(Long postId) {
         Feed feed = postRepository.findById(postId).orElseThrow();
         FeedItem feedItem = feed.getFeedItem();
-        PostResponseDto dto = IPostMapper.INSTANCE.postResponseDto(feedItem);
+        UserImpl user1 = userService.getCurrentUser();
+        PostResponseDto dto = IPostMapper.INSTANCE.convertToDTO(feedItem,user1.getId());
         dto.setId(feed.getId());
         Optional<User> author = userRepository.findById(feedItem.getAuthorId());
         author.ifPresent(data -> {
@@ -116,23 +126,6 @@ public class PostServiceImpl implements PostService {
         if(feedItem.getGallery() != null){
             dto.setGallery(imageService.getImageUrls(feedItem.getGallery()));
         }
-        if(feedItem.getLikes() != null ){
-            if(feedItem.getLikes().size() != 0) {
-                UserImpl user = userService.getCurrentUser();
-                for(Long id : feedItem.getLikes()){
-                    if(Objects.equals(id, user.getId())){
-                        dto.setLiked(true);
-                        break;
-                    }
-                }
-                dto.setLikeCount((long) feedItem.getLikes().size());
-            }
-        }
-        if(feedItem.getComments() != null ){
-            if(feedItem.getComments().size() != 0) {
-                dto.setCommentCount((long) feedItem.getComments().size());
-            }
-        }
         List<UserResponseDto> newUserTags = new ArrayList<>();
         if(feedItem.getTags() != null) {
             for (Long userid : feedItem.getTags()) {
@@ -144,6 +137,13 @@ public class PostServiceImpl implements PostService {
                 });
             }
             dto.setUsersTag(newUserTags);
+        }
+        CommentResponseDto topComment = commentService.getTopComment(feedItem);
+
+        if(Objects.nonNull(topComment)){
+            User user = userService.findById(topComment.getAuthor().getId());
+            topComment.setAuthor(IUserMapper.INSTANCE.userResponseDTOConvert(user));
+            dto.setTopComment(topComment);
         }
         return dto;
     }

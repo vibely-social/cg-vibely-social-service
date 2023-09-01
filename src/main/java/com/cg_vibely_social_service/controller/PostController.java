@@ -34,7 +34,6 @@ public class PostController {
     private final HttpServletRequest request;
     private final ImageService imageService;
     private final LikeService likeService;
-    private final PostRepository postRepository;
 
     @PostMapping
     public ResponseEntity<?> submitPost(@RequestParam(value = "files",required = false) List<MultipartFile> files,

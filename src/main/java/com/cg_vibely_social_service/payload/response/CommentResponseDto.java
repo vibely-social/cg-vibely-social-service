@@ -9,6 +9,7 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
+@ToString
 public class CommentResponseDto {
     private Long commentId;
     private String content;
