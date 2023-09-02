@@ -2,6 +2,8 @@ package com.cg_vibely_social_service.converter;
 
 import com.cg_vibely_social_service.entity.Feed.Comment;
 import com.cg_vibely_social_service.payload.response.CommentResponseDto;
+import com.cg_vibely_social_service.service.ImageService;
+import com.cg_vibely_social_service.service.impl.ImageServiceImpl;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -9,7 +11,7 @@ import org.mapstruct.factory.Mappers;
 import java.util.Objects;
 
 @Mapper
-public interface ICommentMapper {
+public interface ICommentMapper{
 
     ICommentMapper INSTANCE = Mappers.getMapper(ICommentMapper.class);
 
@@ -23,14 +25,15 @@ public interface ICommentMapper {
     CommentResponseDto commentResponseDto(Comment source, Long userId);
 
     default Long countLikes(Comment source) {
-        if(source.getLikes() != null){
+        if(Objects.nonNull(source.getLikes())){
             return (long) source.getLikes().size();
         }
         return 0L;
     }
+
     default boolean checkLiked(Comment source,Long userId) {
         boolean isLiked = false;
-        if(source.getLikes() != null){
+        if(Objects.nonNull(source.getLikes())){
             isLiked = source.getLikes().stream()
                     .anyMatch(id -> Objects.equals(id, userId));
         }

@@ -10,9 +10,7 @@ import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -25,21 +23,8 @@ public class LikeServiceImpl implements LikeService {
         Feed feed = postRepository.findById(postId).orElseThrow();
         UserImpl user = userService.getCurrentUser();
         FeedItem feedItem = feed.getFeedItem();
-        List<Long> likes;
         LikeResponseDto likeResponseDto = new LikeResponseDto();
-        if(Objects.nonNull(feedItem.getLikes())){
-            likes = feedItem.getLikes();
-            if(!likes.contains(user.getId())){
-                likes.add(user.getId());
-            }
-            else{
-                likes.remove(user.getId());
-            }
-        }
-        else{
-            likes = new ArrayList<>();
-            likes.add(user.getId());
-        }
+        Set<Long> likes = likeRequest(feedItem.getLikes(),user.getId());
         likeResponseDto.setLikeCount((long) likes.size());
         likeResponseDto.setIsLiked(likes.contains(user.getId()));
         feedItem.setLikes(likes);
@@ -53,31 +38,17 @@ public class LikeServiceImpl implements LikeService {
         Feed feed = postRepository.findById(postId).orElseThrow();
         FeedItem feedItem = feed.getFeedItem();
         UserImpl user = userService.getCurrentUser();
-        List<Long> likes;
+
         LikeResponseDto likeResponseDto = new LikeResponseDto();
-        if(feedItem.getComments() != null){
-            for(Comment comment : feedItem.getComments()){
-                if(comment.getCommentId().equals(commentId)){
-                    if(comment.getLikes() != null) {
-                        likes = comment.getLikes();
-                        if(!likes.contains(user.getId())){
-                            likes.add(user.getId());
-                        }
-                        else{
-                            likes.remove(user.getId());
-                        }
-                    }
-                    else{
-                        likes = new ArrayList<>();
-                        likes.add(user.getId());
-                    }
-                    likeResponseDto.setLikeCount((long) likes.size());
-                    likeResponseDto.setIsLiked(likes.contains(user.getId()));
-                    comment.setLikes(likes);
-                    break;
-                }
-            }
-        }
+        Comment comment = Objects.requireNonNull(feedItem.getComments())
+                .stream()
+                .filter(cmt -> Objects.equals(cmt.getCommentId(), commentId))
+                .findFirst()
+                .orElseThrow();
+        Set<Long> likes = likeRequest(comment.getLikes(), user.getId());
+        likeResponseDto.setLikeCount((long) likes.size());
+        likeResponseDto.setIsLiked( likes.contains(user.getId()));
+        comment.setLikes(likes);
         feed.setFeedItem(feedItem);
         postRepository.save(feed);
         return likeResponseDto;
@@ -88,7 +59,6 @@ public class LikeServiceImpl implements LikeService {
         Feed feed = postRepository.findById(postId).orElseThrow();
         FeedItem feedItem = feed.getFeedItem();
         UserImpl user = userService.getCurrentUser();
-        List<Long> likes;
         LikeResponseDto likeResponseDto = new LikeResponseDto();
         Comment comment = Objects.requireNonNull(feedItem.getComments())
                 .stream()
@@ -100,24 +70,29 @@ public class LikeServiceImpl implements LikeService {
                         .stream()
                         .filter(rep -> Objects.equals(rep.getCommentId(), replyId))
                         .findFirst().orElseThrow();
-        if(reply.getLikes() != null){
-            likes = reply.getLikes();
-            if(reply.getLikes().contains(user.getId())){
-                likes.remove(user.getId());
-            }
-            else{
-                likes.add(user.getId());
-            }
-        }
-        else{
-            likes = new ArrayList<>();
-            likes.add(user.getId());
-        }
+        Set<Long> likes = likeRequest(reply.getLikes(),user.getId());
         reply.setLikes(likes);
         likeResponseDto.setLikeCount((long) likes.size());
         likeResponseDto.setIsLiked(likes.contains(user.getId()));
         feed.setFeedItem(feedItem);
         postRepository.save(feed);
         return likeResponseDto;
+    }
+
+    @Override
+    public Set<Long> likeRequest(Set<Long> source, Long userId) {
+        if(Objects.nonNull(source)) {
+            if(source.contains(userId)){
+                source.remove(userId);
+            }
+            else{
+                source.add(userId);
+            }
+        }
+        else{
+            source = new HashSet<>();
+            source.add(userId);
+        }
+        return source;
     }
 }
