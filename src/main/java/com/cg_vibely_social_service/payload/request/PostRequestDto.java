@@ -17,6 +17,4 @@ public class PostRequestDto {
     private String content;
     private String privacy;
     private List<Long> tags;
-    private List<Long> subscribers;
-
 }

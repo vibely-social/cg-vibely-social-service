@@ -11,9 +11,9 @@ import java.util.List;
 public class FriendRequestDtoConverter implements Converter<FriendRequest, FriendRequestDto> {
     @Override
     public FriendRequestDto convert(FriendRequest source) {
-        FriendRequestDto friendRequestDto = new FriendRequestDto();
-        BeanUtils.copyProperties(source, friendRequestDto);
-        return friendRequestDto;
+        FriendRequestDto friendRequestRequestDto = new FriendRequestDto();
+        BeanUtils.copyProperties(source, friendRequestRequestDto);
+        return friendRequestRequestDto;
     }
 
     @Override

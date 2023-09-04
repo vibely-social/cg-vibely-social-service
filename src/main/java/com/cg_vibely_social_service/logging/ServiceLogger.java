@@ -15,7 +15,7 @@ import java.util.Arrays;
 @Aspect
 @Component
 public class ServiceLogger {
-    private static final Logger LOGGER = LogManager.getLogger(AppLogger.class);
+    private final Logger LOGGER = AppLogger.LOGGER;
 
     @Pointcut("execution(public * com.cg_vibely_social_service.service.*.*(..))")
     public void serviceMethods() {

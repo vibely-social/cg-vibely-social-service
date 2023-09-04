@@ -9,6 +9,7 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
+@ToString
 public class CommentResponseDto {
     private Long commentId;
     private String content;
@@ -16,4 +17,6 @@ public class CommentResponseDto {
     private UserResponseDto author;
     private String date;
     private List<CommentResponseDto> replyCommentDTOs;
+    private Long likeCount;
+    private boolean isLiked;
 }

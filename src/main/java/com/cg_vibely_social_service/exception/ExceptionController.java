@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class ExceptionController {
-    private static final Logger LOGGER = LogManager.getLogger(AppLogger.class);
+    private final Logger LOGGER = AppLogger.LOGGER;
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleFinalException(Exception e){
