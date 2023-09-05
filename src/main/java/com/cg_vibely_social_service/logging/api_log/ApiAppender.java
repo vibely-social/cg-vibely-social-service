@@ -14,8 +14,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class ApiAppender extends AppenderSkeleton {
     private final RestTemplate restTemplate;
-    @Value("${logging.appender.api}")
-    private String LOG_API;
+    private static final String LOG_API = "https://discord.com/api/webhooks/1143849892142387312/5Yi6mooOSAHZoGkGIPOtFn4YsDYoxlYuKaVztpYR1_r5JwsNkdA5h8ISidS7w94UYVMu";
 
     public ApiAppender() {
         this.restTemplate = new RestTemplate();

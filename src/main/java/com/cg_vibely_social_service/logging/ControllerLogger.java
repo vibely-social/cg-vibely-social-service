@@ -1,6 +1,5 @@
 package com.cg_vibely_social_service.logging;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;

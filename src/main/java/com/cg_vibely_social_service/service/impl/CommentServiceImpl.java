@@ -165,7 +165,13 @@ public class CommentServiceImpl implements CommentService {
                 }
             }
             topComment = comments.stream()
-                    .max(Comparator.comparing(comment -> comment.getLikes().size()))
+                    .max(Comparator.comparing(comment -> {
+                        if (comment.getLikes() != null) {
+                            return comment.getLikes().size();
+                        }else {
+                            return 0;
+                        }
+                    }))
                     .orElse(null);
             if(Objects.nonNull(topComment)){
                 return ICommentMapper.INSTANCE.commentResponseDto(topComment, user.getId());
