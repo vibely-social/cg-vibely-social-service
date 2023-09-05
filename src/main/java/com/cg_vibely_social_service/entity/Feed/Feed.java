@@ -31,11 +31,4 @@ public class Feed {
         this.feedItem = new Gson().toJson(feedItem);
     }
 
-//        public String getAuthorId() {
-//        if (feedItem != null) {
-//            JsonObject jsonObject = JsonParser.parseString(feedItem).getAsJsonObject();
-//            return jsonObject.get("authorId").getAsString();
-//        }
-//        return null;
-//    }
 }

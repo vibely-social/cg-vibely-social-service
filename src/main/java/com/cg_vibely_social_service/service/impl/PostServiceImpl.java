@@ -13,20 +13,14 @@ import com.cg_vibely_social_service.payload.response.PostResponseDto;
 import com.cg_vibely_social_service.payload.response.UserResponseDto;
 import com.cg_vibely_social_service.repository.PostRepository;
 import com.cg_vibely_social_service.repository.UserRepository;
-import com.cg_vibely_social_service.service.CommentService;
-import com.cg_vibely_social_service.service.ImageService;
-import com.cg_vibely_social_service.service.PostService;
-import com.cg_vibely_social_service.service.UserService;
+import com.cg_vibely_social_service.service.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +31,7 @@ public class PostServiceImpl implements PostService {
     private final ImageService imageService;
     private final UserService userService;
     private final CommentService commentService;
+    private final SubscribeService subscribeService;
 
     @Override
     public List<PostResponseDto> findByAuthorId(Long authorId) {
@@ -44,11 +39,6 @@ public class PostServiceImpl implements PostService {
         return feeds.stream()
                 .map(source -> this.findById(source.getId()))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<PostResponseDto> findAll() {
-        return null;
     }
 
     @Override
@@ -76,8 +66,11 @@ public class PostServiceImpl implements PostService {
         feedItem.setGallery(files);
         feedItem.setCreatedDate(LocalDateTime.now().toString());
         Feed feed = new Feed();
-        List<Long> subscribers = new ArrayList<>();
+        Set<Long> subscribers = new HashSet<>();
         subscribers.add(user.getId());
+        if(Objects.nonNull(feedItem.getTags())){
+            subscribers.addAll(feedItem.getTags());
+        }
         feedItem.setSubscribers(subscribers);
         feed.setFeedItem(feedItem);
         Feed newFeed = postRepository.save(feed);
@@ -91,9 +84,14 @@ public class PostServiceImpl implements PostService {
         UserImpl user = userService.getCurrentUser();
         feedItem.setAuthorId(user.getId());
         feedItem.setCreatedDate(LocalDateTime.now().toString());
-        List<Long> subscribers = new ArrayList<>();
+
+        Set<Long> subscribers = new HashSet<>();
         subscribers.add(user.getId());
+        if(Objects.nonNull(feedItem.getTags())){
+            subscribers.addAll(feedItem.getTags());
+        }
         feedItem.setSubscribers(subscribers);
+
         Feed feed = new Feed();
         feed.setFeedItem(feedItem);
         Feed newFeed = postRepository.save(feed);
@@ -126,7 +124,7 @@ public class PostServiceImpl implements PostService {
         if(feedItem.getGallery() != null){
             dto.setGallery(imageService.getImageUrls(feedItem.getGallery()));
         }
-        List<UserResponseDto> newUserTags = new ArrayList<>();
+        Set<UserResponseDto> newUserTags = new HashSet<>();
         if(feedItem.getTags() != null) {
             for (Long userid : feedItem.getTags()) {
                 Optional<User> user = userRepository.findById(userid);
@@ -143,6 +141,9 @@ public class PostServiceImpl implements PostService {
         if(Objects.nonNull(topComment)){
             User user = userService.findById(topComment.getAuthor().getId());
             topComment.setAuthor(IUserMapper.INSTANCE.userResponseDTOConvert(user));
+            if(Objects.nonNull(topComment.getGallery())){
+                topComment.setGallery(imageService.getImageUrl(topComment.getGallery()));
+            }
             dto.setTopComment(topComment);
         }
         return dto;

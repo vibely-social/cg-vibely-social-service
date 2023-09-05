@@ -1,7 +1,7 @@
 package com.cg_vibely_social_service.utils;
 
-public enum PrivacyName {
+public enum Privacy {
     PUBLIC,
-    FRIEND,
+    FRIENDS,
     PRIVATE,
 }
