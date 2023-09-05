@@ -8,13 +8,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class UserInfoResponseDtoConverter implements Converter<UserInfoResponseDto, User> {
     private final ImageService imageService;
+
     @Override
     public User convert(UserInfoResponseDto source) {
         return null;
@@ -30,7 +30,11 @@ public class UserInfoResponseDtoConverter implements Converter<UserInfoResponseD
         UserInfoResponseDto result = new UserInfoResponseDto();
         BeanUtils.copyProperties(target, result);
         result.setBirthday(target.getDayOfBirth());
-        result.setBackground(imageService.getImageUrl(target.getBackground()));
+        result.setAvatarUrl(imageService.getImageUrl(target.getAvatar()));
+        result.setBackground(imageService.getImageUrl(target.getBackground()
+                == null
+                ? "null.jpg"
+                : target.getBackground()));
         return result;
     }
 
