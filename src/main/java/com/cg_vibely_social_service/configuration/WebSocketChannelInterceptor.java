@@ -109,8 +109,4 @@ public class WebSocketChannelInterceptor implements ChannelInterceptor {
         }
     }
 
-    @Override
-    public void afterReceiveCompletion(Message<?> message, MessageChannel channel, Exception ex) {
-        System.out.println(message.getPayload());
-    }
 }

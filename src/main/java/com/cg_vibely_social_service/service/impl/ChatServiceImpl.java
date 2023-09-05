@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +33,7 @@ public class ChatServiceImpl implements ChatService {
     private static final int MESSAGE_PAGE_SIZE = 20;
     private static final int MAX_CACHE_PAGES = 5;
     private static final int CACHED_MESSAGES_MAX_SIZE = 20;
+
     private final ChatMessageRepository messageRepository;
     private final Comparator<ChatMessage> chatMessageComparator;
     private final Converter<ChatMessageDto, ChatMessage> chatMessageConverter;

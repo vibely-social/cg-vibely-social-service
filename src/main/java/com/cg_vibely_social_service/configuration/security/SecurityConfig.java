@@ -4,6 +4,7 @@ import com.cg_vibely_social_service.service.impl.UserDetailsServiceImpl;
 import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,6 +29,8 @@ public class SecurityConfig {
     private final AuthenticationEntryPoint authenticationEntryPoint;
     private final UserDetailsServiceImpl userDetailsService;
     private final Filter jwtFilter;
+    @Value("${app.cors.allowedOrigins}")
+    private String allowedOrigin;
 
     public SecurityConfig(AuthenticationEntryPoint authenticationEntryPoint,
                           UserDetailsServiceImpl userDetailsService,

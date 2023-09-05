@@ -17,6 +17,7 @@ public class FriendRequestResponseConverter implements Converter<FriendRequest, 
     @Override
     public FriendRequestResponse convert(FriendRequest source) {
         return FriendRequestResponse.builder()
+                .id(source.getId())
                 .friendId(source.getSender().getId())
                 .firstName(source.getSender().getFirstName())
                 .lastName(source.getSender().getLastName())
