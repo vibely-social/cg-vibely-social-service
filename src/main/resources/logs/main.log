@@ -1,0 +1,75 @@
+2023-08-28 15:30:35,714 +0700 [http-nio-8080-exec-10] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.authenticate() !ARGS: [com.cg_vibely_social_service.payload.request.UserLoginRequestDto@1e7b2422]!```
+2023-08-28 15:30:36,563 +0700 [http-nio-8080-exec-10] ERROR (ServiceLogger.java:34) - ||[org.springframework.security.authentication.BadCredentialsException: Bad credentials]||
+2023-08-28 15:31:18,044 +0700 [http-nio-8080-exec-1] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.authenticate() !ARGS: [com.cg_vibely_social_service.payload.request.UserLoginRequestDto@1255aefc]!```
+2023-08-28 15:31:18,472 +0700 [http-nio-8080-exec-1] ERROR (ServiceLogger.java:34) - ||[org.springframework.security.authentication.BadCredentialsException: Bad credentials]||
+2023-08-29 10:32:22,572 +0700 [http-nio-8080-exec-6] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findById() !ARGS: [11111]!```
+2023-08-29 10:32:23,653 +0700 [http-nio-8080-exec-6] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-08-29 10:32:24,208 +0700 [http-nio-8080-exec-6] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.checkEmail() !ARGS: [11111]!```
+2023-08-29 10:32:24,655 +0700 [http-nio-8080-exec-6] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
+2023-09-04 10:58:10,742 +0700 [http-nio-8080-exec-5] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -1]!```
+2023-09-04 10:58:11,327 +0700 [http-nio-8080-exec-5] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 10:58:11,670 +0700 [http-nio-8080-exec-5] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -1]!```
+2023-09-04 10:58:12,132 +0700 [http-nio-8080-exec-5] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 10:58:51,393 +0700 [http-nio-8080-exec-8] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -1]!```
+2023-09-04 10:58:51,931 +0700 [http-nio-8080-exec-8] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 10:58:52,340 +0700 [http-nio-8080-exec-8] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -1]!```
+2023-09-04 10:58:52,681 +0700 [http-nio-8080-exec-8] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 11:00:42,712 +0700 [http-nio-8080-exec-3] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -1]!```
+2023-09-04 11:00:43,204 +0700 [http-nio-8080-exec-3] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 11:00:43,682 +0700 [http-nio-8080-exec-3] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -1]!```
+2023-09-04 11:00:44,154 +0700 [http-nio-8080-exec-3] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 11:05:07,211 +0700 [http-nio-8080-exec-5] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -1]!```
+2023-09-04 11:05:07,880 +0700 [http-nio-8080-exec-5] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 11:05:08,201 +0700 [http-nio-8080-exec-5] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -1]!```
+2023-09-04 11:05:09,075 +0700 [http-nio-8080-exec-5] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 11:15:38,285 +0700 [http-nio-8080-exec-10] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -1]!```
+2023-09-04 11:15:39,058 +0700 [http-nio-8080-exec-10] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 11:15:38,934 +0700 [http-nio-8080-exec-9] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -3]!```
+2023-09-04 11:15:39,909 +0700 [http-nio-8080-exec-9] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 11:15:38,726 +0700 [http-nio-8080-exec-3] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -2]!```
+2023-09-04 11:15:40,534 +0700 [http-nio-8080-exec-9] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -3]!```
+2023-09-04 11:15:41,314 +0700 [http-nio-8080-exec-9] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 11:15:39,554 +0700 [http-nio-8080-exec-10] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -1]!```
+2023-09-04 11:15:42,025 +0700 [http-nio-8080-exec-10] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 11:15:39,157 +0700 [http-nio-8080-exec-6] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -4]!```
+2023-09-04 11:15:40,969 +0700 [http-nio-8080-exec-3] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 11:15:42,921 +0700 [http-nio-8080-exec-6] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 11:15:43,315 +0700 [http-nio-8080-exec-3] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -2]!```
+2023-09-04 11:15:44,014 +0700 [http-nio-8080-exec-3] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 11:15:43,666 +0700 [http-nio-8080-exec-6] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -4]!```
+2023-09-04 11:15:44,847 +0700 [http-nio-8080-exec-6] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 11:34:31,549 +0700 [http-nio-8080-exec-2] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -1]!```
+2023-09-04 11:34:31,998 +0700 [http-nio-8080-exec-2] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 11:34:32,333 +0700 [http-nio-8080-exec-2] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -1]!```
+2023-09-04 11:34:32,836 +0700 [http-nio-8080-exec-2] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 11:34:32,650 +0700 [http-nio-8080-exec-4] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -2]!```
+2023-09-04 11:34:33,603 +0700 [http-nio-8080-exec-4] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 11:34:33,962 +0700 [http-nio-8080-exec-4] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -2]!```
+2023-09-04 11:34:34,390 +0700 [http-nio-8080-exec-4] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
+2023-09-04 18:34:10,932 +0700 [clientInboundChannel-19] WARN  (ControllerLogger.java:22) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.WebSocketController.handlePrivateMessage() !ARGS: [GenericMessage [payload=com.cg_vibely_social_service.payload.message.ChatMessageDto@34faf473, headers={simpMessageType=MESSAGE, stompCommand=SEND, nativeHeaders={destination=[/app/ws], content-length=[55]}, simpSessionAttributes={org.springframework.messaging.simp.SimpAttributes.COMPLETED=true}, simpHeartbeat=[J@1cd93db1, simpUser=com.cg_vibely_social_service.service.impl.UserPrincipal@6b0f8d19, lookupDestination=/ws, simpSessionId=e965e851-dff4-503e-df52-d2c1abcb0646, simpDestination=/app/ws}], StompHeaderAccessor [headers={simpMessageType=MESSAGE, stompCommand=SEND, nativeHeaders={destination=[/app/ws], content-length=[55]}, simpSessionAttributes={org.springframework.messaging.simp.SimpAttributes.COMPLETED=true}, simpHeartbeat=[J@1cd93db1, simpUser=com.cg_vibely_social_service.service.impl.UserPrincipal@6b0f8d19, lookupDestination=/ws, simpSessionId=e965e851-dff4-503e-df52-d2c1abcb0646, simpDestination=/app/ws}]]!```
+2023-09-04 18:34:11,670 +0700 [clientInboundChannel-19] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: User must not be null]||
