@@ -62,7 +62,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/{id}/suggestionFriends")
+    @GetMapping("/{id}/suggestion_friends")
     public ResponseEntity<?> showSuggestionFriends(@PathVariable("id") Long id) {
         List<UserSuggestionResponseDto> userSuggestion = userService.findFriendSuggestionByUserId(id);
         if (!userSuggestion.isEmpty()){
