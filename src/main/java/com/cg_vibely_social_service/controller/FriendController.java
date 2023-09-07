@@ -5,7 +5,6 @@ import com.cg_vibely_social_service.payload.response.FriendRequestResponse;
 import com.cg_vibely_social_service.payload.response.FriendResponseDto;
 import com.cg_vibely_social_service.service.FriendRequestService;
 import com.cg_vibely_social_service.service.FriendService;
-import com.cg_vibely_social_service.service.NotificationService;
 import com.cg_vibely_social_service.service.StatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,6 @@ public class FriendController {
     private final FriendService friendService;
     private final FriendRequestService friendRequestService;
     private final StatusService statusService;
-    private final NotificationService notificationService;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getFriendList(@PathVariable("id") Long id) {

@@ -3,6 +3,7 @@ package com.cg_vibely_social_service.logging.api_log;
 import com.cg_vibely_social_service.payload.log.LogData;
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.spi.LoggingEvent;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -13,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class ApiAppender extends AppenderSkeleton {
     private final RestTemplate restTemplate;
-    private final String LOG_API = "https://discord.com/api/webhooks/1143849892142387312/5Yi6mooOSAHZoGkGIPOtFn4YsDYoxlYuKaVztpYR1_r5JwsNkdA5h8ISidS7w94UYVMu";
+    private static final String LOG_API = "https://discord.com/api/webhooks/1143849892142387312/5Yi6mooOSAHZoGkGIPOtFn4YsDYoxlYuKaVztpYR1_r5JwsNkdA5h8ISidS7w94UYVMu";
 
     public ApiAppender() {
         this.restTemplate = new RestTemplate();
