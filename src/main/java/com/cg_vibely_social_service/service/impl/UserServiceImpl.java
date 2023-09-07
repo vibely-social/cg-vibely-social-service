@@ -5,6 +5,7 @@ import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.entity.Friend;
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.Oauth2RequestDto;
+import com.cg_vibely_social_service.payload.request.UpdateAvatarRequest;
 import com.cg_vibely_social_service.payload.request.UserInfoRequestDto;
 import com.cg_vibely_social_service.payload.request.UserLoginRequestDto;
 import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
@@ -29,7 +30,9 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -179,6 +182,24 @@ public class UserServiceImpl implements UserService {
         String hashedPassword = passwordEncoder.encode(tempPassword);
         user.setPassword(hashedPassword);
         userRepository.save(user);
+    }
+
+    @Override
+    public String updateAvatar(UpdateAvatarRequest avatarRequest) throws IOException {
+        MultipartFile file = avatarRequest.getFile();
+        String fileName = avatarRequest.getFileName();
+        User user = findById(getCurrentUser().getId());
+        if (fileName != null) {
+            user.setAvatar(fileName);
+            userRepository.save(user);
+            return imageService.getImageUrl(fileName);
+        } else if (file != null) {
+            String fileNameUpload = imageService.save(file);
+            user.setAvatar(fileNameUpload);
+            userRepository.save(user);
+            return imageService.getImageUrl(fileNameUpload);
+        }
+        return null;
     }
 
     private boolean checkPassword(User user, String password) {

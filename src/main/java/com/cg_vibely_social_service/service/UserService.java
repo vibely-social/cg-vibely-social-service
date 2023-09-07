@@ -2,6 +2,7 @@ package com.cg_vibely_social_service.service;
 
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.Oauth2RequestDto;
+import com.cg_vibely_social_service.payload.request.UpdateAvatarRequest;
 import com.cg_vibely_social_service.payload.request.UserInfoRequestDto;
 import com.cg_vibely_social_service.payload.request.UserLoginRequestDto;
 import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
@@ -12,6 +13,7 @@ import com.cg_vibely_social_service.payload.response.UserSuggestionResponseDto;
 import com.cg_vibely_social_service.service.impl.UserImpl;
 import com.cg_vibely_social_service.service.impl.UserPrincipal;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -39,6 +41,8 @@ public interface UserService{
 
     List<UserSearchResponseDto> findUsersByLastNameOrFirstName(String keyword, Integer pageNumber);
     void updateUserPassword(String email, String tempPassword);
+
+    String updateAvatar(UpdateAvatarRequest avatarRequest) throws IOException;
 
 //    UserLoginResponseDto oauth2Authenticate(Oauth2RequestDto oauth2RequestDto);
 }

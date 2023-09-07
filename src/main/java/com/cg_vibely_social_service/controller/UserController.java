@@ -1,5 +1,6 @@
 package com.cg_vibely_social_service.controller;
 
+import com.cg_vibely_social_service.payload.request.UpdateAvatarRequest;
 import com.cg_vibely_social_service.payload.request.UserInfoRequestDto;
 import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
 import com.cg_vibely_social_service.payload.response.UserInfoResponseDto;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +70,7 @@ public class UserController {
     public ResponseEntity<?> showSuggestionFriends() {
         Long userId = userService.getCurrentUser().getId();
         List<UserSuggestionResponseDto> userSuggestion = userService.findFriendSuggestionByUserId(userId);
-        if (!userSuggestion.isEmpty()){
+        if (!userSuggestion.isEmpty()) {
             return new ResponseEntity<>(userSuggestion, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -112,6 +116,17 @@ public class UserController {
             return new ResponseEntity<>(users, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @PostMapping("/avatar")
+    public ResponseEntity<?> updateAvatar(@ModelAttribute UpdateAvatarRequest avatarRequest) throws IOException {
+
+        String fileName = userService.updateAvatar(avatarRequest);
+        if (fileName == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(fileName, HttpStatus.OK);
         }
     }
 }
