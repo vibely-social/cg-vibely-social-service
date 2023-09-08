@@ -3,6 +3,7 @@ plugins {
     id 'war'
     id 'org.springframework.boot' version '3.0.9'
     id 'io.spring.dependency-management' version '1.1.2'
+    id "com.microsoft.azure.azurewebapp" version "1.1.0"
 }
 
 group = 'com'
@@ -77,4 +78,17 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+azurewebapp {
+    subscription = '78e75ac0-e347-40fa-ab86-eadb04e0cf21'
+    resourceGroup = 'Java-webservice-group'
+    appName = 'vibelysocial'
+    pricingTier = 'P1v2' 
+    region = 'Australia East' 
+    runtime {
+        os = 'Linux' 
+        webContainer = 'Tomcat 10.0'
+        javaVersion = 'Java 17'
+    }
 }
