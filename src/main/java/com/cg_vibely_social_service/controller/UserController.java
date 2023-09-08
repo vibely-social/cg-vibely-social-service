@@ -116,8 +116,8 @@ public class UserController {
         }
     }
 
-
-    @GetMapping("/{id}/suggestionFriends")
+    
+    @GetMapping("/suggestion_friends")
     @Operation(
             summary = "Get suggested friends for user",
             parameters = {
@@ -144,9 +144,10 @@ public class UserController {
                     )
             }
     )
-    public ResponseEntity<?> showSuggestionFriends(@PathVariable("id") Long id) {
-        List<UserSuggestionResponseDto> userSuggestion = userService.findFriendSuggestionByUserId(id);
-        if (!userSuggestion.isEmpty()) {
+    public ResponseEntity<?> showSuggestionFriends() {
+        Long userId = userService.getCurrentUser().getId();
+        List<UserSuggestionResponseDto> userSuggestion = userService.findFriendSuggestionByUserId(userId);
+        if (!userSuggestion.isEmpty()){
             return new ResponseEntity<>(userSuggestion, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

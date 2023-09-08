@@ -28,5 +28,6 @@ public class UserInfoResponseDto {
     private String position;
     private String bio;
     private String hobbies;
+    private String avatarUrl;
     private String background;
 }

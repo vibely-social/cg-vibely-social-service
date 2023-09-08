@@ -16,8 +16,8 @@ import com.cg_vibely_social_service.repository.UserRepository;
 import com.cg_vibely_social_service.service.ImageService;
 import com.cg_vibely_social_service.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -52,17 +52,15 @@ public class UserServiceImpl implements UserService {
     private final Converter<UserInfoRequestDto, User> userInfoRequestConverter;
 
     private final Converter<Oauth2RequestDto, User> oauth2RequestDtoUserConverter;
-
+    private final Converter<UserSearchResponseDto, User> userSearchResponseConverter;
     @Value("${app.friendSuggestionNumber}")
     private Integer friendSuggestionNumber;
-
-    private final Converter<UserSearchResponseDto, User> userSearchResponseConverter;
 
     @Override
     public UserImpl getCurrentUser() {
         try {
             return (UserImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        }catch (ClassCastException e){
+        } catch (ClassCastException e) {
             e.printStackTrace();
             return null;
         }
@@ -119,7 +117,11 @@ public class UserServiceImpl implements UserService {
                 .lastName(user.getLastName())
                 .accessToken(token)
                 .refreshToken(refreshToken)
-                .background(imageService.getImageUrl(user.getBackground()))
+                .background(imageService
+                        .getImageUrl(user.getBackground()
+                                == null
+                                ? "null.jpg"
+                                : user.getBackground()))
                 .build();
 
         if (user.getAvatar() == null && user.getGoogleAvatar() != null) {

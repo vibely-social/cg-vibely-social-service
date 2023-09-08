@@ -1,6 +1,7 @@
 package com.cg_vibely_social_service.controller;
 
 import com.cg_vibely_social_service.payload.request.CommentRequestDto;
+import com.cg_vibely_social_service.payload.request.ReplyRequestDto;
 import com.cg_vibely_social_service.payload.response.CommentResponseDto;
 import com.cg_vibely_social_service.payload.response.LikeResponseDto;
 import com.cg_vibely_social_service.service.CommentService;
@@ -106,6 +107,18 @@ public class CommentController {
         }
     }
 
+    @DeleteMapping("/{postId}/comment/{commentId}")
+    public ResponseEntity<?> deleteComment(@PathVariable("postId") Long postId,
+                                           @PathVariable("commentId") Long commentId) {
+        try {
+            commentService.deleteComment(postId,commentId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+
     @PostMapping("/{postId}/reply/{commentId}")
     @Operation(
             summary = "Reply a comment on the post",
@@ -148,8 +161,21 @@ public class CommentController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
     }
+    @PutMapping("/{postId}/reply")
+    public ResponseEntity<?> editReply(@PathVariable("postId") Long postId,
+                                       @RequestParam(value = "file",required = false) MultipartFile file,
+                                       String payload) {
+        try {
+            ReplyRequestDto replyRequestDto = new ReplyRequestDto().convert(payload);
+            CommentResponseDto commentResponseDto = commentService.editReply(postId,replyRequestDto,file);
+            return new ResponseEntity<>(commentResponseDto,HttpStatus.ACCEPTED);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
 
-    @GetMapping("/{postId}/comments")
+    
+    @GetMapping("/{postId}/comments/{sortBy}")
     @Operation(
             summary = "Get all comments of a post",
             parameters = {
@@ -158,6 +184,12 @@ public class CommentController {
                             description = "ID of the post",
                             in = ParameterIn.PATH,
                             required = true
+                    ),
+                    @Parameter(
+                            name = "sortBy",
+                            description = "sort option",
+                            in = ParameterIn.PATH,
+                            required = false
                     )
             },
             responses = {
@@ -176,7 +208,8 @@ public class CommentController {
                     )
             }
     )
-    public ResponseEntity<?> getComment(@PathVariable("postId") Long postId) {
+    public ResponseEntity<?> getComment(@PathVariable("postId") Long postId,
+                                        @PathVariable(value = "sortBy", required = false) String sortBy) {
         try {
             List<CommentResponseDto> commentResponseDTOs = commentService.getComments(postId);
             return new ResponseEntity<>(commentResponseDTOs,HttpStatus.OK);
@@ -269,6 +302,18 @@ public class CommentController {
         try {
             LikeResponseDto likeResponseDto = likeService.likeReply(replyId,commentId,postId);
             return new ResponseEntity<>(likeResponseDto,HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @DeleteMapping("/{postId}/comment/{commentId}/{replyId}")
+    public ResponseEntity<?> deleteReply(@PathVariable("postId") Long postId,
+                                           @PathVariable("commentId") Long commentId,
+                                         @PathVariable("replyId") Long replyId) {
+        try {
+            commentService.deleteReply(postId,commentId,replyId);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
