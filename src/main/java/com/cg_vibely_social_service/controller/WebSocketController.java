@@ -50,7 +50,6 @@ public class WebSocketController {
                 simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages", chatMessageDto);
             }
         }
-
     }
 
     @MessageMapping("/comment/{channelId}")

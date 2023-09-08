@@ -30,18 +30,18 @@ public class TestUploadController {
             return new ResponseEntity<>(imageService.getImageUrls(fileNames), HttpStatus.CREATED);
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(exception.getMessage(),HttpStatus.PAYMENT_REQUIRED);
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.PAYMENT_REQUIRED);
         }
     }
 
     @DeleteMapping("/{fileName}")
-    public ResponseEntity<?> delete(@PathVariable String fileName){
+    public ResponseEntity<?> delete(@PathVariable String fileName) {
         try {
             imageService.delete(fileName);
             return new ResponseEntity<>("success", HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();
-            return new ResponseEntity<>(exception.getMessage(),HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_ACCEPTABLE);
         }
     }
 }

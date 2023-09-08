@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS vibely_social_webapp;
+# CREATE DATABASE IF NOT EXISTS vibely_social_webapp;
 USE vibely_social_webapp;
 
 CREATE TABLE IF NOT EXISTS user
