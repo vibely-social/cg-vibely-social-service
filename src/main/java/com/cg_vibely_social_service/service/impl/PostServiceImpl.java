@@ -5,12 +5,14 @@ import com.cg_vibely_social_service.converter.IPostMapper;
 import com.cg_vibely_social_service.converter.IUserMapper;
 import com.cg_vibely_social_service.entity.Feed.Feed;
 import com.cg_vibely_social_service.entity.Feed.FeedItem;
+import com.cg_vibely_social_service.entity.Media;
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.PostRequestDto;
 import com.cg_vibely_social_service.payload.response.CommentResponseDto;
 import com.cg_vibely_social_service.payload.response.LikeResponseDto;
 import com.cg_vibely_social_service.payload.response.PostResponseDto;
 import com.cg_vibely_social_service.payload.response.UserResponseDto;
+import com.cg_vibely_social_service.repository.MediaRepository;
 import com.cg_vibely_social_service.repository.PostRepository;
 import com.cg_vibely_social_service.repository.UserRepository;
 import com.cg_vibely_social_service.service.CommentService;
@@ -37,6 +39,7 @@ public class PostServiceImpl implements PostService {
     private final ImageService imageService;
     private final UserService userService;
     private final CommentService commentService;
+    private final MediaRepository mediaRepository;
 
     @Override
     public List<PostResponseDto> findByAuthorId(Long authorId) {
@@ -81,6 +84,18 @@ public class PostServiceImpl implements PostService {
         feedItem.setSubscribers(subscribers);
         feed.setFeedItem(feedItem);
         Feed newFeed = postRepository.save(feed);
+
+        //Save to Media Table
+        for (String file : files) {
+            Media media = Media.builder()
+                    .userId(user.getId())
+                    .postID(newFeed.getId())
+                    .fileName(file)
+                    .createdAt(LocalDateTime.now())
+                    .build();
+            mediaRepository.save(media);
+        }
+
         return this.findById(newFeed.getId());
     }
 
@@ -152,5 +167,13 @@ public class PostServiceImpl implements PostService {
             dto.setTopComment(topComment);
         }
         return dto;
+    }
+
+    @Override
+    public List<PostResponseDto> getPostPagingByAuthor(Long authorId, int page) {
+        List<Feed> feeds = postRepository.findPagingFeedByAuthorId(authorId, 5 * (page - 1));
+        return feeds.stream()
+                .map(source -> this.findById(source.getId()))
+                .collect(Collectors.toList());
     }
 }

@@ -27,4 +27,5 @@ public interface PostService {
 
     List<PostResponseDto> getNewestPost(int page);
 
+    List<PostResponseDto> getPostPagingByAuthor(Long authorId, int page);
 }

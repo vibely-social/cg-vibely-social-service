@@ -105,7 +105,4 @@ public class User  {
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Post> posts;
-
-    @OneToMany(mappedBy = "user")
-    private List<Media> media;
 }
