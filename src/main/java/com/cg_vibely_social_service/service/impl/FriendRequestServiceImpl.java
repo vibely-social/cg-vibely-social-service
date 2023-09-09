@@ -83,6 +83,18 @@ public class FriendRequestServiceImpl implements FriendRequestService {
         User friend = userService.findById(friendId);
         friendRepository.save(new Friend(user.getId(), friend.getId()));
         friendRequestRepository.deleteAllBySenderAndReceiverOrSenderAndReceiver(user, friend, friend, user);
+
+        Notification notification = new Notification(
+                NotificationType.FRIEND_REQUEST,
+                friend.getId(),
+                user.getId(),
+                String.format(NotifyMessageFormat.FRIEND_REQUEST_ACCEPTED, user.getFirstName()));
+
+        notificationService.saveNotify(notification);
+        NotificationDto notificationDto = new NotificationDto();
+        BeanUtils.copyProperties(notification, notificationDto);
+        notificationDto.setAvatarUrl(imageService.getImageUrl(user.getAvatar()));
+        notificationService.sendNotify(friend.getEmail(), notificationDto);
     }
 
     public void denyFriendRequest(Long friendId) {

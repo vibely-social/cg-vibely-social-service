@@ -1,6 +1,6 @@
 package com.cg_vibely_social_service.controller;
 
-import com.cg_vibely_social_service.payload.request.UpdateAvatarRequest;
+import com.cg_vibely_social_service.payload.request.UpdateVisualizeRequest;
 import com.cg_vibely_social_service.payload.request.UserInfoRequestDto;
 import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
 import com.cg_vibely_social_service.payload.response.UserInfoResponseDto;
@@ -120,9 +120,20 @@ public class UserController {
     }
 
     @PostMapping("/avatar")
-    public ResponseEntity<?> updateAvatar(@ModelAttribute UpdateAvatarRequest avatarRequest) throws IOException {
+    public ResponseEntity<?> updateAvatar(@ModelAttribute UpdateVisualizeRequest visualizeRequest) throws IOException {
 
-        String fileName = userService.updateAvatar(avatarRequest);
+        String fileName = userService.updateAvatar(visualizeRequest);
+        if (fileName == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(fileName, HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/background")
+    public ResponseEntity<?> updateBackground(@ModelAttribute UpdateVisualizeRequest visualizeRequest) throws IOException {
+
+        String fileName = userService.updateBackground(visualizeRequest);
         if (fileName == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {

@@ -17,4 +17,5 @@ public class FriendRequestResponse {
     private String firstName;
     private String lastName;
     private String avatarUrl;
+    private Integer mutualFriends;
 }

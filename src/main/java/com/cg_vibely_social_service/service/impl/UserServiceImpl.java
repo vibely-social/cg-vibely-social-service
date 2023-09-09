@@ -5,7 +5,7 @@ import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.entity.Friend;
 import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.request.Oauth2RequestDto;
-import com.cg_vibely_social_service.payload.request.UpdateAvatarRequest;
+import com.cg_vibely_social_service.payload.request.UpdateVisualizeRequest;
 import com.cg_vibely_social_service.payload.request.UserInfoRequestDto;
 import com.cg_vibely_social_service.payload.request.UserLoginRequestDto;
 import com.cg_vibely_social_service.payload.request.UserRegisterRequestDto;
@@ -185,9 +185,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String updateAvatar(UpdateAvatarRequest avatarRequest) throws IOException {
-        MultipartFile file = avatarRequest.getFile();
-        String fileName = avatarRequest.getFileName();
+    public String updateAvatar(UpdateVisualizeRequest visualizeRequest) throws IOException {
+        MultipartFile file = visualizeRequest.getFile();
+        String fileName = visualizeRequest.getFileName();
         User user = findById(getCurrentUser().getId());
         if (fileName != null) {
             user.setAvatar(fileName);
@@ -196,6 +196,24 @@ public class UserServiceImpl implements UserService {
         } else if (file != null) {
             String fileNameUpload = imageService.save(file);
             user.setAvatar(fileNameUpload);
+            userRepository.save(user);
+            return imageService.getImageUrl(fileNameUpload);
+        }
+        return null;
+    }
+
+    @Override
+    public String updateBackground(UpdateVisualizeRequest visualizeRequest ) throws IOException {
+        MultipartFile file = visualizeRequest.getFile();
+        String fileName = visualizeRequest.getFileName();
+        User user = findById(getCurrentUser().getId());
+        if (fileName != null) {
+            user.setBackground(fileName);
+            userRepository.save(user);
+            return imageService.getImageUrl(fileName);
+        } else if (file != null) {
+            String fileNameUpload = imageService.save(file);
+            user.setBackground(fileNameUpload);
             userRepository.save(user);
             return imageService.getImageUrl(fileNameUpload);
         }

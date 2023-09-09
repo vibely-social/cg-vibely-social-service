@@ -37,7 +37,6 @@ public class WebSocketController {
 
         if (!"".equals(chatMessageDto.getContent())) {
             simpMessagingTemplate.convertAndSendToUser(sender, "/queue/messages", chatMessageDto);
-            simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/notify", chatMessageDto.getContent());
             if (!sender.equals(receiver)) {
                 simpMessagingTemplate.convertAndSendToUser(receiver, "/queue/messages", chatMessageDto);
             }
