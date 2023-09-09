@@ -13,6 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MediaResponseDto {
     private Long id;
+    private Long userId;
     private Long postId;
-    private String fileName;
+    private String imageUrl;
 }

@@ -103,6 +103,6 @@ public class User  {
             inverseJoinColumns = @JoinColumn(name = "id"))
     private List<Friend> friendList;
 
-    @OneToMany(mappedBy = "user")
-    private List<Media> media;
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private List<Post> posts;
 }

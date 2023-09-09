@@ -7,5 +7,5 @@ import com.cg_vibely_social_service.payload.response.MediaResponseDto;
 import java.util.List;
 
 public interface MediaService {
-    List<MediaResponseDto> getMediaForUser(Long id);
+    List<MediaResponseDto> getMediaForUser(Long id, int page);
 }
