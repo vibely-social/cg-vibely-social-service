@@ -2,6 +2,7 @@ package com.cg_vibely_social_service.controller;
 
 import com.cg_vibely_social_service.payload.request.TestUploadContent;
 import com.cg_vibely_social_service.service.ImageService;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/upload")
 @RequiredArgsConstructor
+@Hidden
 public class TestUploadController {
     private final ImageService imageService;
 
