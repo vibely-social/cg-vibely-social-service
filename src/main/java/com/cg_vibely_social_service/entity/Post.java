@@ -1,6 +1,6 @@
 package com.cg_vibely_social_service.entity;
 
-import com.cg_vibely_social_service.utils.PrivacyName;
+import com.cg_vibely_social_service.utils.Privacy;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
@@ -25,11 +25,10 @@ public class Post {
     @Enumerated(EnumType.STRING)
     @NaturalId
     @Column(name ="privacy")
-    private PrivacyName privacy;
+    private Privacy privacy;
     @Column(name = "text_content")
     private String textContent;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-    private Boolean edited;
 
 }

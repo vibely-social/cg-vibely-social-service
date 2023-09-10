@@ -1,75 +1,348 @@
-2023-08-28 15:30:35,714 +0700 [http-nio-8080-exec-10] WARN  (ServiceLogger.java:30) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.authenticate() !ARGS: [com.cg_vibely_social_service.payload.request.UserLoginRequestDto@1e7b2422]!```
-2023-08-28 15:30:36,563 +0700 [http-nio-8080-exec-10] ERROR (ServiceLogger.java:34) - ||[org.springframework.security.authentication.BadCredentialsException: Bad credentials]||
-2023-08-28 15:31:18,044 +0700 [http-nio-8080-exec-1] WARN  (ServiceLogger.java:30) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.authenticate() !ARGS: [com.cg_vibely_social_service.payload.request.UserLoginRequestDto@1255aefc]!```
-2023-08-28 15:31:18,472 +0700 [http-nio-8080-exec-1] ERROR (ServiceLogger.java:34) - ||[org.springframework.security.authentication.BadCredentialsException: Bad credentials]||
-2023-08-29 10:32:22,572 +0700 [http-nio-8080-exec-6] WARN  (ServiceLogger.java:30) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findById() !ARGS: [11111]!```
-2023-08-29 10:32:23,653 +0700 [http-nio-8080-exec-6] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
-2023-08-29 10:32:24,208 +0700 [http-nio-8080-exec-6] WARN  (ControllerLogger.java:22) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.checkEmail() !ARGS: [11111]!```
-2023-08-29 10:32:24,655 +0700 [http-nio-8080-exec-6] ERROR (ControllerLogger.java:26) - ||[java.util.NoSuchElementException: No value present]||
-2023-09-04 10:58:10,742 +0700 [http-nio-8080-exec-5] WARN  (ServiceLogger.java:30) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -1]!```
-2023-09-04 10:58:11,327 +0700 [http-nio-8080-exec-5] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 10:58:11,670 +0700 [http-nio-8080-exec-5] WARN  (ControllerLogger.java:22) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -1]!```
-2023-09-04 10:58:12,132 +0700 [http-nio-8080-exec-5] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 10:58:51,393 +0700 [http-nio-8080-exec-8] WARN  (ServiceLogger.java:30) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -1]!```
-2023-09-04 10:58:51,931 +0700 [http-nio-8080-exec-8] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 10:58:52,340 +0700 [http-nio-8080-exec-8] WARN  (ControllerLogger.java:22) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -1]!```
-2023-09-04 10:58:52,681 +0700 [http-nio-8080-exec-8] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 11:00:42,712 +0700 [http-nio-8080-exec-3] WARN  (ServiceLogger.java:30) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -1]!```
-2023-09-04 11:00:43,204 +0700 [http-nio-8080-exec-3] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 11:00:43,682 +0700 [http-nio-8080-exec-3] WARN  (ControllerLogger.java:22) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -1]!```
-2023-09-04 11:00:44,154 +0700 [http-nio-8080-exec-3] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 11:05:07,211 +0700 [http-nio-8080-exec-5] WARN  (ServiceLogger.java:30) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -1]!```
-2023-09-04 11:05:07,880 +0700 [http-nio-8080-exec-5] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 11:05:08,201 +0700 [http-nio-8080-exec-5] WARN  (ControllerLogger.java:22) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -1]!```
-2023-09-04 11:05:09,075 +0700 [http-nio-8080-exec-5] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 11:15:38,285 +0700 [http-nio-8080-exec-10] WARN  (ServiceLogger.java:30) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -1]!```
-2023-09-04 11:15:39,058 +0700 [http-nio-8080-exec-10] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 11:15:38,934 +0700 [http-nio-8080-exec-9] WARN  (ServiceLogger.java:30) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -3]!```
-2023-09-04 11:15:39,909 +0700 [http-nio-8080-exec-9] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 11:15:38,726 +0700 [http-nio-8080-exec-3] WARN  (ServiceLogger.java:30) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -2]!```
-2023-09-04 11:15:40,534 +0700 [http-nio-8080-exec-9] WARN  (ControllerLogger.java:22) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -3]!```
-2023-09-04 11:15:41,314 +0700 [http-nio-8080-exec-9] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 11:15:39,554 +0700 [http-nio-8080-exec-10] WARN  (ControllerLogger.java:22) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -1]!```
-2023-09-04 11:15:42,025 +0700 [http-nio-8080-exec-10] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 11:15:39,157 +0700 [http-nio-8080-exec-6] WARN  (ServiceLogger.java:30) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -4]!```
-2023-09-04 11:15:40,969 +0700 [http-nio-8080-exec-3] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 11:15:42,921 +0700 [http-nio-8080-exec-6] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 11:15:43,315 +0700 [http-nio-8080-exec-3] WARN  (ControllerLogger.java:22) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -2]!```
-2023-09-04 11:15:44,014 +0700 [http-nio-8080-exec-3] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 11:15:43,666 +0700 [http-nio-8080-exec-6] WARN  (ControllerLogger.java:22) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -4]!```
-2023-09-04 11:15:44,847 +0700 [http-nio-8080-exec-6] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 11:34:31,549 +0700 [http-nio-8080-exec-2] WARN  (ServiceLogger.java:30) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -1]!```
-2023-09-04 11:34:31,998 +0700 [http-nio-8080-exec-2] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 11:34:32,333 +0700 [http-nio-8080-exec-2] WARN  (ControllerLogger.java:22) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -1]!```
-2023-09-04 11:34:32,836 +0700 [http-nio-8080-exec-2] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 11:34:32,650 +0700 [http-nio-8080-exec-4] WARN  (ServiceLogger.java:30) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.findUsersByLastNameOrFirstName() !ARGS: [a, -2]!```
-2023-09-04 11:34:33,603 +0700 [http-nio-8080-exec-4] ERROR (ServiceLogger.java:34) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 11:34:33,962 +0700 [http-nio-8080-exec-4] WARN  (ControllerLogger.java:22) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.controller.UserController.searchUser() !ARGS: [a, -2]!```
-2023-09-04 11:34:34,390 +0700 [http-nio-8080-exec-4] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: Page index must not be less than zero]||
-2023-09-04 18:34:10,932 +0700 [clientInboundChannel-19] WARN  (ControllerLogger.java:22) - ```yaml
-!##EXCEPTION: com.cg_vibely_social_service.controller.WebSocketController.handlePrivateMessage() !ARGS: [GenericMessage [payload=com.cg_vibely_social_service.payload.message.ChatMessageDto@34faf473, headers={simpMessageType=MESSAGE, stompCommand=SEND, nativeHeaders={destination=[/app/ws], content-length=[55]}, simpSessionAttributes={org.springframework.messaging.simp.SimpAttributes.COMPLETED=true}, simpHeartbeat=[J@1cd93db1, simpUser=com.cg_vibely_social_service.service.impl.UserPrincipal@6b0f8d19, lookupDestination=/ws, simpSessionId=e965e851-dff4-503e-df52-d2c1abcb0646, simpDestination=/app/ws}], StompHeaderAccessor [headers={simpMessageType=MESSAGE, stompCommand=SEND, nativeHeaders={destination=[/app/ws], content-length=[55]}, simpSessionAttributes={org.springframework.messaging.simp.SimpAttributes.COMPLETED=true}, simpHeartbeat=[J@1cd93db1, simpUser=com.cg_vibely_social_service.service.impl.UserPrincipal@6b0f8d19, lookupDestination=/ws, simpSessionId=e965e851-dff4-503e-df52-d2c1abcb0646, simpDestination=/app/ws}]]!```
-2023-09-04 18:34:11,670 +0700 [clientInboundChannel-19] ERROR (ControllerLogger.java:26) - ||[java.lang.IllegalArgumentException: User must not be null]||
+2023-09-07 08:29:50,970 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:29:56,254 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:30:06,257 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:30:12,627 +0700 [http-nio-8080-exec-7] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.authenticate() !ARGS: [com.cg_vibely_social_service.payload.request.UserLoginRequestDto@45138535]!```
+2023-09-07 08:30:13,077 +0700 [http-nio-8080-exec-7] ERROR (ServiceLogger.java:34) - ||[org.springframework.security.authentication.BadCredentialsException: Bad credentials]||
+2023-09-07 08:30:16,243 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:30:26,254 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:30:33,829 +0700 [http-nio-8080-exec-2] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.authenticate() !ARGS: [com.cg_vibely_social_service.payload.request.UserLoginRequestDto@477bcd97]!```
+2023-09-07 08:30:34,288 +0700 [http-nio-8080-exec-2] ERROR (ServiceLogger.java:34) - ||[org.springframework.security.authentication.BadCredentialsException: Bad credentials]||
+2023-09-07 08:30:36,242 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:30:36,617 +0700 [http-nio-8080-exec-9] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.authenticate() !ARGS: [com.cg_vibely_social_service.payload.request.UserLoginRequestDto@24a0e090]!```
+2023-09-07 08:30:37,084 +0700 [http-nio-8080-exec-9] ERROR (ServiceLogger.java:34) - ||[org.springframework.security.authentication.BadCredentialsException: Bad credentials]||
+2023-09-07 08:30:37,948 +0700 [http-nio-8080-exec-4] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.authenticate() !ARGS: [com.cg_vibely_social_service.payload.request.UserLoginRequestDto@7b475f63]!```
+2023-09-07 08:30:39,373 +0700 [http-nio-8080-exec-4] ERROR (ServiceLogger.java:34) - ||[org.springframework.security.authentication.BadCredentialsException: Bad credentials]||
+2023-09-07 08:30:37,792 +0700 [http-nio-8080-exec-10] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.authenticate() !ARGS: [com.cg_vibely_social_service.payload.request.UserLoginRequestDto@4dd8f5b7]!```
+2023-09-07 08:30:40,177 +0700 [http-nio-8080-exec-10] ERROR (ServiceLogger.java:34) - ||[org.springframework.security.authentication.BadCredentialsException: Bad credentials]||
+2023-09-07 08:30:37,499 +0700 [http-nio-8080-exec-5] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.UserServiceImpl.authenticate() !ARGS: [com.cg_vibely_social_service.payload.request.UserLoginRequestDto@4fe73ef9]!```
+2023-09-07 08:30:40,986 +0700 [http-nio-8080-exec-5] ERROR (ServiceLogger.java:34) - ||[org.springframework.security.authentication.BadCredentialsException: Bad credentials]||
+2023-09-07 08:30:46,243 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:30:56,284 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:31:06,278 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:31:16,286 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:31:26,280 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:31:36,280 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:31:46,251 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:31:51,137 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:32:01,138 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:32:11,134 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:32:21,289 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:32:31,144 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:32:41,133 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:32:51,136 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:33:01,135 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:33:11,137 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:33:21,140 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:33:31,146 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:33:41,138 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:33:51,136 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:33:57,156 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:34:00,904 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:34:10,907 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:34:20,905 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:34:30,905 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:34:40,911 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:34:50,911 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:35:00,917 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:35:10,910 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:35:20,904 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:35:30,908 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:35:40,913 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:35:50,909 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:36:00,909 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:36:10,911 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:36:20,909 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:36:30,905 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:36:40,915 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:36:50,913 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:37:00,906 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:37:10,911 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:37:20,913 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:37:30,908 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:37:40,920 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:37:50,925 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:38:00,907 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:38:10,905 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:38:20,918 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:38:31,281 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:38:41,283 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:38:51,289 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:39:01,289 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:39:11,280 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:39:21,284 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:40:30,290 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:41:02,975 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:41:11,280 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:41:21,282 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:41:31,276 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:41:41,281 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:41:50,912 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:42:00,909 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:42:10,917 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:42:20,906 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:42:30,904 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:42:41,226 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:42:50,908 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:43:00,911 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:43:11,284 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:43:21,275 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:43:31,286 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:43:41,281 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:43:51,281 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:44:01,277 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:44:10,913 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:44:15,260 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:44:16,205 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:44:26,210 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:44:36,219 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:44:46,209 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:44:50,829 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:45:00,837 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:45:10,870 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:45:20,845 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:45:30,830 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:45:40,834 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:45:50,829 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:46:00,831 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:46:11,339 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:46:21,293 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:46:30,836 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:46:40,832 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:46:50,833 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:47:00,833 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:47:11,289 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:47:21,289 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:47:30,830 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:47:40,838 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:47:50,856 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:48:00,832 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:48:10,841 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:48:20,838 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:48:30,833 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:48:40,837 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:48:50,840 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:49:00,836 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:49:11,287 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:49:21,514 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:49:31,290 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:49:41,528 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:49:51,382 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:50:01,562 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:50:12,116 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:50:20,474 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:50:21,423 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:50:31,427 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:50:41,433 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:50:53,047 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:51:02,280 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:51:12,279 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:51:21,432 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:51:32,393 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:51:34,136 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:51:44,146 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:51:54,571 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:52:04,278 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:52:14,384 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:52:24,277 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:52:34,279 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:52:44,278 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:52:54,294 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:53:04,291 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:53:14,307 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:53:24,396 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:53:34,290 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:53:44,145 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:53:54,277 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:54:04,138 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:54:09,558 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:54:19,558 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:54:30,280 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:54:40,275 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:54:50,276 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:54:59,896 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:55:10,286 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:55:20,284 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:55:30,291 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:55:51,075 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:56:01,328 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:56:10,294 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:56:20,285 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:56:30,087 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:56:40,285 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:56:50,309 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:57:00,293 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:57:09,703 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:57:11,371 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:57:21,376 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:57:31,375 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:57:42,282 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:57:52,277 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:58:02,280 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:58:12,279 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:58:21,375 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:58:31,378 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:58:41,380 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:58:51,400 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:59:01,389 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:59:11,385 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:59:21,378 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:59:31,377 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 08:59:41,378 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:29:56,700 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:30:01,844 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:30:11,813 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:30:21,824 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:30:31,809 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:30:42,139 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:30:52,139 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:31:02,174 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:31:12,255 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:31:22,141 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:31:31,824 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:31:41,817 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:31:51,809 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:32:01,809 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:32:11,810 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:32:21,820 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:32:30,200 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:32:38,176 +0700 [http-nio-8080-exec-4] WARN  (ServiceLogger.java:30) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.service.impl.PostServiceImpl.findById() !ARGS: [2]!```
+2023-09-07 09:32:39,098 +0700 [http-nio-8080-exec-4] ERROR (ServiceLogger.java:34) - ||[java.util.NoSuchElementException: No value present]||
+2023-09-07 09:32:39,476 +0700 [http-nio-8080-exec-4] WARN  (ControllerLogger.java:21) - ```yaml
+!##EXCEPTION: com.cg_vibely_social_service.controller.PostController.getPost() !ARGS: [2]!```
+2023-09-07 09:32:39,823 +0700 [http-nio-8080-exec-4] ERROR (ControllerLogger.java:25) - ||[java.util.NoSuchElementException: No value present]||
+2023-09-07 09:32:46,377 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:32:47,156 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:32:58,150 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:33:07,164 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:33:17,160 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:33:27,164 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:33:37,162 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:33:47,164 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:33:57,158 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:34:07,163 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:34:17,159 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:34:27,156 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:34:37,172 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:34:47,159 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:34:57,159 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:35:07,158 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:35:17,160 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:35:27,164 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:35:37,158 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:35:47,159 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:35:57,157 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:36:07,169 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:36:17,165 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:36:27,156 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:36:37,156 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:36:47,156 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:36:57,156 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:37:07,158 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:37:17,155 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:37:27,156 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:37:37,156 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:37:47,166 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:37:57,162 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:38:08,144 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:38:18,148 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:38:28,139 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:38:38,135 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:38:48,144 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:38:58,139 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:39:24,561 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:39:27,175 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:39:32,608 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:39:33,466 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:39:43,464 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:39:53,463 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:40:03,464 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:40:13,477 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:40:23,463 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:40:33,463 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:40:43,479 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:40:54,141 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:41:04,140 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:41:13,473 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:41:23,463 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:41:33,462 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:41:38,454 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:41:48,457 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:41:58,464 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:42:09,146 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:42:19,135 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:42:29,148 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:42:39,141 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:42:48,920 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:42:58,461 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:43:09,142 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:43:19,139 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:43:28,603 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:43:38,451 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:43:48,466 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:43:58,452 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:44:08,453 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:44:18,461 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:44:28,453 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:44:38,452 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:44:48,454 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:44:58,456 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:45:08,453 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:45:18,457 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:45:28,461 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:45:38,455 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:45:48,465 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:45:58,455 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:46:08,458 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:46:18,452 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:46:28,464 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:46:38,460 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:46:48,472 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:46:58,456 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:47:08,459 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:47:18,469 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:47:29,136 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:47:39,148 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:47:49,138 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:47:59,138 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:48:09,144 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:48:26,145 +0700 [http-nio-8080-exec-9] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:49:26,139 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:50:26,137 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:51:26,146 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:52:26,145 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:53:26,148 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:54:26,136 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:55:26,146 +0700 [http-nio-8080-exec-1] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:56:26,140 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:57:26,146 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:58:26,136 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 09:59:26,146 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:00:26,149 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:01:26,138 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:02:26,143 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:03:26,152 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:04:26,139 +0700 [http-nio-8080-exec-2] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:05:26,135 +0700 [http-nio-8080-exec-4] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:06:26,140 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:07:26,137 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:08:26,141 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:09:26,143 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:10:26,146 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:11:26,141 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:12:26,134 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:13:26,150 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:13:36,948 +0700 [http-nio-8080-exec-5] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:13:39,140 +0700 [http-nio-8080-exec-10] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:13:49,145 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:13:59,147 +0700 [http-nio-8080-exec-6] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:14:08,461 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:14:18,456 +0700 [http-nio-8080-exec-3] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:14:28,463 +0700 [http-nio-8080-exec-7] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+2023-09-07 10:14:38,476 +0700 [http-nio-8080-exec-8] ERROR (StatusServiceImpl.java:37) - org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis

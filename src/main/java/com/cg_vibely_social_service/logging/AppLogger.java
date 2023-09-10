@@ -10,5 +10,5 @@ public class AppLogger {
     static {
         PropertyConfigurator.configure("src/main/resources/log4j.properties");
     }
-    private static final Logger LOGGER = LogManager.getLogger(AppLogger.class);
+    public static final Logger LOGGER = LogManager.getLogger(AppLogger.class);
 }

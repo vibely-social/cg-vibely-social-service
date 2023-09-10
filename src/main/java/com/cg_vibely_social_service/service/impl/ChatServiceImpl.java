@@ -14,10 +14,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -26,29 +28,30 @@ import java.util.concurrent.TimeUnit;
 @Transactional
 @RequiredArgsConstructor
 public class ChatServiceImpl implements ChatService {
+    private static final String PAGE_MESSAGE_BY_USER_FORMAT = "chatMessagesOf%sAnd%sWithPage%d";
+    private static final String MESSAGES_BY_USER_FORMAT = "liveChatMessagesOf%sAnd%s";
+    private static final int MESSAGE_PAGE_SIZE = 20;
+    private static final int MAX_CACHE_PAGES = 5;
+    private static final int CACHED_MESSAGES_MAX_SIZE = 20;
+
     private final ChatMessageRepository messageRepository;
     private final Comparator<ChatMessage> chatMessageComparator;
     private final Converter<ChatMessageDto, ChatMessage> chatMessageConverter;
     private final GsonUtils<ChatMessagesResponse> gsonUtils;
     private final ValueOperations<String, String> cachedData;
     private final RedisTemplate<String, String> redisTemplate;
-    private final String PAGE_MESSAGE_BYUSER_FORMAT = "chatMessagesOf%sAnd%sWithPage%d";
-    private final String MESSAGES_BYUSER_FORMAT = "liveChatMessagesOf%sAnd%s";
-    private final int MESSAGE_PAGE_SIZE = 20;
-    private final int MAX_CACHE_PAGES = 5;
-    private final int CACHED_MESSAGES_MAX_SIZE = 20;
 
     @Override
     public void save(ChatMessageDto messageDto) {
         String sender = messageDto.getSender();
         String receiver = messageDto.getReceiver();
-        String liveChatCacheKey = String.format(MESSAGES_BYUSER_FORMAT, sender, receiver);
-        String rv_liveChatCacheKey = String.format(MESSAGES_BYUSER_FORMAT, receiver, sender);
+        String liveChatCacheKey = String.format(MESSAGES_BY_USER_FORMAT, sender, receiver);
+        String reverseLiveChatCacheKey = String.format(MESSAGES_BY_USER_FORMAT, receiver, sender);
         try {
             if (Boolean.TRUE.equals(redisTemplate.hasKey(liveChatCacheKey))) {
                 saveIfKeyExist(messageDto, sender, receiver, liveChatCacheKey);
-            } else if (Boolean.TRUE.equals(redisTemplate.hasKey(rv_liveChatCacheKey))) {
-                saveIfKeyExist(messageDto, sender, receiver, rv_liveChatCacheKey);
+            } else if (Boolean.TRUE.equals(redisTemplate.hasKey(reverseLiveChatCacheKey))) {
+                saveIfKeyExist(messageDto, sender, receiver, reverseLiveChatCacheKey);
             } else {
                 List<ChatMessageDto> chatMessageDtoList = new ArrayList<>();
                 chatMessageDtoList.add(messageDto);
@@ -75,7 +78,7 @@ public class ChatServiceImpl implements ChatService {
 
             List<String> cachedKeys = new ArrayList<>();
             for (int page = 0; page <= MAX_CACHE_PAGES; page++) {
-                cachedKeys.add(String.format(PAGE_MESSAGE_BYUSER_FORMAT, sender, receiver, page));
+                cachedKeys.add(String.format(PAGE_MESSAGE_BY_USER_FORMAT, sender, receiver, page));
             }
             redisTemplate.delete(cachedKeys);
             redisTemplate.delete(liveChatCacheKey);
@@ -102,15 +105,16 @@ public class ChatServiceImpl implements ChatService {
     public ChatMessagesResponse findAllWithCacheActive(String senderEmail, String receiverEmail, Pageable pageable) {
         Pageable newPageable = PageRequest.of(pageable.getPageNumber(), MESSAGE_PAGE_SIZE);
 
-        String chatPageCacheKey = String.format(PAGE_MESSAGE_BYUSER_FORMAT, senderEmail, receiverEmail, newPageable.getPageNumber());
-        String rv_chatPageCacheKey = String.format(PAGE_MESSAGE_BYUSER_FORMAT, receiverEmail, senderEmail, newPageable.getPageNumber());
+        String chatPageCacheKey = String.format(PAGE_MESSAGE_BY_USER_FORMAT, senderEmail, receiverEmail, newPageable.getPageNumber());
+        String reverseChatPageCacheKey = String.format(PAGE_MESSAGE_BY_USER_FORMAT, receiverEmail, senderEmail, newPageable.getPageNumber());
 
-        String liveChatCacheKey = String.format(MESSAGES_BYUSER_FORMAT, senderEmail, receiverEmail);
-        String rv_liveChatCacheKey = String.format(MESSAGES_BYUSER_FORMAT, receiverEmail, senderEmail);
+        String liveChatCacheKey = String.format(MESSAGES_BY_USER_FORMAT, senderEmail, receiverEmail);
+        String reverseLiveChatCacheKey = String.format(MESSAGES_BY_USER_FORMAT, receiverEmail, senderEmail);
 
         try {
             List<ChatMessageDto> chatMessageDtoList = new ArrayList<>();
-            chatMessageDtoList = getLiveChatMessages(liveChatCacheKey, rv_liveChatCacheKey, chatMessageDtoList);
+            chatMessageDtoList = getLiveChatMessages(liveChatCacheKey, reverseLiveChatCacheKey, chatMessageDtoList);
+            Collections.reverse(chatMessageDtoList);
 
             if (Boolean.TRUE.equals(redisTemplate.hasKey(chatPageCacheKey))) {
 
@@ -121,9 +125,9 @@ public class ChatServiceImpl implements ChatService {
                 chatMessageDtoList.addAll(chatMessageDtoPageCached);
                 return new ChatMessagesResponse(chatMessagesWithPageResponse.getTotalPage(), chatMessageDtoList);
 
-            } else if (Boolean.TRUE.equals(redisTemplate.hasKey(rv_chatPageCacheKey))) {
+            } else if (Boolean.TRUE.equals(redisTemplate.hasKey(reverseChatPageCacheKey))) {
 
-                String stringOfCachedCategories = cachedData.get(rv_chatPageCacheKey);
+                String stringOfCachedCategories = cachedData.get(reverseChatPageCacheKey);
                 ChatMessagesResponse chatMessagesWithPageResponse = gsonUtils
                         .parseToObject(stringOfCachedCategories, ChatMessagesResponse.class);
                 List<ChatMessageDto> chatMessageDtoPageCached = chatMessagesWithPageResponse.getMessageList();
@@ -151,14 +155,14 @@ public class ChatServiceImpl implements ChatService {
         }
     }
 
-    private List<ChatMessageDto> getLiveChatMessages(String liveChatCacheKey, String rv_liveChatCacheKey, List<ChatMessageDto> chatMessageDtoList) {
+    private List<ChatMessageDto> getLiveChatMessages(String liveChatCacheKey, String reverseLiveChatCacheKey, List<ChatMessageDto> chatMessageDtoList) {
         if (Boolean.TRUE.equals(redisTemplate.hasKey(liveChatCacheKey))) {
             String stringOfCachedCategories = cachedData.get(liveChatCacheKey);
             chatMessageDtoList = gsonUtils
                     .parseToObject(stringOfCachedCategories, ChatMessagesResponse.class)
                     .getMessageList();
-        } else if (Boolean.TRUE.equals(redisTemplate.hasKey(rv_liveChatCacheKey))) {
-            String stringOfCachedCategories = cachedData.get(rv_liveChatCacheKey);
+        } else if (Boolean.TRUE.equals(redisTemplate.hasKey(reverseLiveChatCacheKey))) {
+            String stringOfCachedCategories = cachedData.get(reverseLiveChatCacheKey);
             chatMessageDtoList = gsonUtils
                     .parseToObject(stringOfCachedCategories, ChatMessagesResponse.class)
                     .getMessageList();

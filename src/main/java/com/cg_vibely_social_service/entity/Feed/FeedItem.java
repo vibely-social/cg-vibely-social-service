@@ -1,8 +1,12 @@
 package com.cg_vibely_social_service.entity.Feed;
 
+
+import com.cg_vibely_social_service.utils.Privacy;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
+
 @Getter
 @Data
 @Setter
@@ -12,11 +16,11 @@ public class FeedItem {
 
     private Long authorId;
     private String content;
-    private String privacy;
-    private List<Long> tags;
+    private Privacy privacy;
+    private Set<Long> tags;
     private List<String> gallery;
     private String createdDate;
-    private List<Long> likes;
+    private Set<Long> likes;
     private List<Comment> comments;
-    private List<Long> subscribers;
+    private Set<Long> subscribers;
 }

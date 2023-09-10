@@ -4,6 +4,7 @@ import com.cg_vibely_social_service.service.impl.UserDetailsServiceImpl;
 import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,6 +29,8 @@ public class SecurityConfig {
     private final AuthenticationEntryPoint authenticationEntryPoint;
     private final UserDetailsServiceImpl userDetailsService;
     private final Filter jwtFilter;
+    @Value("${app.cors.allowedOrigins}")
+    private String allowedOrigin;
 
     public SecurityConfig(AuthenticationEntryPoint authenticationEntryPoint,
                           UserDetailsServiceImpl userDetailsService,
@@ -54,7 +57,7 @@ public class SecurityConfig {
         CorsConfiguration corsConfig = new CorsConfiguration();
         corsConfig.addAllowedOriginPattern("**");
         corsConfig.addAllowedHeader("*");
-        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT"));
+        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig);
         return source;
@@ -65,23 +68,16 @@ public class SecurityConfig {
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeHttpRequests()
-                .requestMatchers("/api/auth/login")
+                .requestMatchers(
+                        "/api/auth/login",
+                        "/api/users/check_email",
+                        "/api/forgot_password",
+                        "/api/friends/status",
+                        "/ws/**")
                 .permitAll();
 
         http.authorizeHttpRequests()
-                .requestMatchers("/api/users/check_email")
-                .permitAll();
-
-        http.authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/api/users")
-                .permitAll();
-
-        http.authorizeHttpRequests()
-                .requestMatchers("/api/forgot_password")
-                .permitAll();
-
-        http.authorizeHttpRequests()
-                .requestMatchers("/ws/**")
+                .requestMatchers(HttpMethod.POST, "/api/users", "/api/oauth2/google/**")
                 .permitAll();
 
         http.authorizeHttpRequests()
