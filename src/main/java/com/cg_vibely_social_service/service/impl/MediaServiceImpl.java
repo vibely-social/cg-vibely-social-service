@@ -2,7 +2,6 @@ package com.cg_vibely_social_service.service.impl;
 
 import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.entity.Media;
-import com.cg_vibely_social_service.entity.User;
 import com.cg_vibely_social_service.payload.response.MediaResponseDto;
 import com.cg_vibely_social_service.repository.MediaRepository;
 import com.cg_vibely_social_service.repository.UserRepository;
@@ -11,9 +10,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Pageable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,11 +24,34 @@ public class MediaServiceImpl implements MediaService {
     private final UserRepository userRepository;
     private final Converter<MediaResponseDto, Media> converter;
 
+    private final RedisTemplate<String, List<MediaResponseDto>> redisTemplate;
+
     @Override
     public List<MediaResponseDto> getMediaForUser(Long id, int page) {
-        PageRequest pageRequest = PageRequest.of(page, 60, Sort.by("createdAt").descending());
-        Page<Media> mediaPage = mediaRepository.findAllByUserId(id, pageRequest);
-        List<Media> media = mediaPage.getContent();
-        return converter.revert(media);
+        String requestedPage = "user_" + id + "_" + page;
+        List<MediaResponseDto> mediaResponseDtoList = new ArrayList<>();
+
+        if (redisTemplate.hasKey(requestedPage)) {
+            mediaResponseDtoList = redisTemplate.opsForValue().get(requestedPage);
+        } else {
+            if (page <= 9) {
+                for (int currentPage = 0; currentPage <= 9; currentPage++) {
+                    String currentPageKey = "user_" + id + "_" + currentPage;
+                    PageRequest pageRequest = PageRequest.of(page, 30, Sort.by("createdAt").descending());
+                    Page<Media> mediaPage = mediaRepository.findAllByUserId(id, pageRequest);
+                    List<Media> media = mediaPage.getContent();
+                    List<MediaResponseDto> dtoList = converter.revert(media);
+                    redisTemplate.opsForValue().set(requestedPage, dtoList);
+                }
+                mediaResponseDtoList = redisTemplate.opsForValue().get(requestedPage);
+            } else {
+                PageRequest pageRequest = PageRequest.of(page, 30, Sort.by("createdAt").descending());
+                Page<Media> mediaPage = mediaRepository.findAllByUserId(id, pageRequest);
+                List<Media> media = mediaPage.getContent();
+                mediaResponseDtoList = converter.revert(media);
+            }
+        }
+
+        return mediaResponseDtoList;
     }
 }
