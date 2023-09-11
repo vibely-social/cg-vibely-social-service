@@ -66,7 +66,7 @@ public class MediaController {
     )
     public ResponseEntity<?> getMedia(@PathVariable("id") Long id,
                                       @RequestParam(name = "page", defaultValue = "0") int page) {
-        String mediaList = mediaService.getMediaForUser(id, page);
+        List<MediaResponseDto> mediaList = mediaService.getMediaForUser(id, page);
         if (!mediaList.isEmpty()) {
             return new ResponseEntity<>(mediaList, HttpStatus.OK);
         } else {

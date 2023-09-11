@@ -15,11 +15,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -33,38 +30,54 @@ public class MediaServiceImpl implements MediaService {
     private final ValueOperations<String, String> cachedData;
 
     @Override
-    public String getMediaForUser(Long id, int page) {
+    public List<MediaResponseDto> getMediaForUser(Long id, int page) {
         String requestedPage = "user_" + id + "_" + page;
-//        List<MediaResponseDto> mediaResponseDtoList = new ArrayList<>();
-        String mediaResponseDtoList;
+        List<MediaResponseDto> mediaResponseDtoList;
 
         if (redisTemplate.hasKey(requestedPage)) {
-            mediaResponseDtoList = cachedData.get(requestedPage);
+            String dtoString = cachedData.get(requestedPage);
+            mediaResponseDtoList = gsonUtils.parseToObject(dtoString, MediaStringResponse.class).getListString();
+
         } else {
             if (page <= 9) {
                 for (int currentPage = 0; currentPage <= 9; currentPage++) {
                     String currentPageKey = "user_" + id + "_" + currentPage;
-                    PageRequest pageRequest = PageRequest.of(page, 30, Sort.by("createdAt").descending());
+                    PageRequest pageRequest = PageRequest.of(currentPage, 30, Sort.by("createdAt").descending());
                     Page<Media> mediaPage = mediaRepository.findAllByUserId(id, pageRequest);
+                    if (mediaPage.isEmpty()) {
+                        break;
+                    }
                     List<Media> media = mediaPage.getContent();
                     List<MediaResponseDto> dtoList = converter.revert(media);
                     MediaStringResponse mediaStringResponse = MediaStringResponse.builder()
                             .listString(dtoList).build();
                     String dtoString = gsonUtils.parseToString(mediaStringResponse);
-                    cachedData.set(requestedPage, dtoString);
+                    cachedData.set(currentPageKey, dtoString);
                 }
-                mediaResponseDtoList = cachedData.get(requestedPage);
+
+                String dtoString = cachedData.get(requestedPage);
+                mediaResponseDtoList = gsonUtils.parseToObject(dtoString, MediaStringResponse.class).getListString();
+
             } else {
                 PageRequest pageRequest = PageRequest.of(page, 30, Sort.by("createdAt").descending());
                 Page<Media> mediaPage = mediaRepository.findAllByUserId(id, pageRequest);
                 List<Media> media = mediaPage.getContent();
                 List<MediaResponseDto> dtoList = converter.revert(media);
-                MediaStringResponse mediaStringResponse = MediaStringResponse.builder()
-                        .listString(dtoList).build();
-                mediaResponseDtoList = gsonUtils.parseToString(mediaStringResponse);
+
+                mediaResponseDtoList = dtoList;
             }
         }
 
         return mediaResponseDtoList;
+    }
+
+    @Override
+    public void resetMediaCache(Long id) {
+        String userKey = "user_" + id + "_";
+        for (int index = 0; index <= 9; index++) {
+            if (redisTemplate.hasKey(userKey + index)) {
+                redisTemplate.delete(userKey + index);
+            }
+        }
     }
 }
