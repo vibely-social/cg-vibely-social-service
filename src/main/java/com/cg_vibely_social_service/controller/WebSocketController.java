@@ -3,6 +3,7 @@ package com.cg_vibely_social_service.controller;
 import com.cg_vibely_social_service.payload.message.ChatMessageDto;
 import com.cg_vibely_social_service.service.ChatService;
 import com.cg_vibely_social_service.service.impl.UserImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.DestinationVariable;

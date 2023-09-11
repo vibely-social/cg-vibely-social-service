@@ -73,7 +73,8 @@ public class SecurityConfig {
                         "/api/users/check_email",
                         "/api/forgot_password",
                         "/api/friends/status",
-                        "/ws/**")
+                        "/ws/**",
+                        "/docs/**")
                 .permitAll();
 
         http.authorizeHttpRequests()
