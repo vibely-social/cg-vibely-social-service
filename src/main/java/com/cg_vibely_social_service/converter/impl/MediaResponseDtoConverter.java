@@ -3,13 +3,18 @@ package com.cg_vibely_social_service.converter.impl;
 import com.cg_vibely_social_service.converter.Converter;
 import com.cg_vibely_social_service.entity.Media;
 import com.cg_vibely_social_service.payload.response.MediaResponseDto;
+import com.cg_vibely_social_service.service.ImageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class MediaResponseDtoConverter implements Converter<MediaResponseDto, Media> {
+    private final ImageService imageService;
+
     @Override
     public Media convert(MediaResponseDto source) {
         return null;
@@ -19,8 +24,9 @@ public class MediaResponseDtoConverter implements Converter<MediaResponseDto, Me
     public MediaResponseDto revert(Media target) {
         return MediaResponseDto.builder()
                 .id(target.getId())
+                .userId(target.getUserId())
                 .postId(target.getPostID())
-                .fileName(target.getFileName())
+                .imageUrl(target.getFileName())
                 .build();
     }
 
@@ -32,13 +38,15 @@ public class MediaResponseDtoConverter implements Converter<MediaResponseDto, Me
     @Override
     public List<MediaResponseDto> revert(List<Media> targets) {
         List<MediaResponseDto> mediaResponseDtoList = new ArrayList<>();
-        for (Media media: targets) {
+        for (Media media : targets) {
             mediaResponseDtoList.add(MediaResponseDto.builder()
                     .id(media.getId())
+                    .userId(media.getUserId())
                     .postId(media.getPostID())
-                    .fileName(media.getFileName())
+                    .imageUrl(imageService.getImageUrl(media.getFileName()))
                     .build());
-        };
+        }
+        ;
         return mediaResponseDtoList;
     }
 }
