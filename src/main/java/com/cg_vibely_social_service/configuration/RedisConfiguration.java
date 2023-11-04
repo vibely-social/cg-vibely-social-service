@@ -1,5 +1,6 @@
 package com.cg_vibely_social_service.configuration;
 
+import com.cg_vibely_social_service.payload.response.MediaResponseDto;
 import com.cg_vibely_social_service.utils.LocalDateTimeTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,6 +24,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Configuration
 @EnableCaching
@@ -89,6 +91,16 @@ public class RedisConfiguration extends CachingConfigurerSupport {
     public RedisTemplate<String, String> redisTemplate(
             RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, String> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory);
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        return template;
+    }
+
+    @Bean
+    public RedisTemplate<String, List<MediaResponseDto>> redisMediaTemplate(
+            RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, List<MediaResponseDto>> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());

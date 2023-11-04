@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 
 @Component
 @RequiredArgsConstructor
@@ -18,4 +20,7 @@ public class GsonUtils<DTO> {
         return gson.fromJson(string, dtoClass);
     }
 
+    public String parseToString(List<DTO> object) {
+        return gson.toJson(object);
+    }
 }

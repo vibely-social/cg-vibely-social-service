@@ -8,9 +8,11 @@ import com.cg_vibely_social_service.repository.PostRepository;
 import com.cg_vibely_social_service.service.CommentService;
 import com.cg_vibely_social_service.service.ImageService;
 import com.cg_vibely_social_service.service.LikeService;
+import com.cg_vibely_social_service.service.MediaService;
 import com.cg_vibely_social_service.service.NotificationService;
 import com.cg_vibely_social_service.service.PostService;
 
+import com.cg_vibely_social_service.service.UserService;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -23,6 +25,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -46,6 +49,9 @@ public class PostController {
     private final HttpServletRequest request;
     private final ImageService imageService;
     private final LikeService likeService;
+
+    private final UserService userService;
+    private final MediaService mediaService;
 
     @PostMapping
     @Operation(
@@ -86,6 +92,10 @@ public class PostController {
                     return new ResponseEntity<>("Can't create empty post", HttpStatus.NOT_ACCEPTABLE);
                 List<String> fileNames = imageService.save(files);
                 postResponseDto = postService.newPost(newPostDTO, fileNames);
+
+                //reset cache after user post new media
+                Long user_id = userService.getCurrentUser().getId();
+                mediaService.resetMediaCache(user_id);
             } else {
                 postResponseDto = postService.newPost(newPostDTO);
             }

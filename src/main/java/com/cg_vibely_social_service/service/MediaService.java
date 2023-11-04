@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface MediaService {
     List<MediaResponseDto> getMediaForUser(Long id, int page);
+
+    void resetMediaCache(Long id);
 }
